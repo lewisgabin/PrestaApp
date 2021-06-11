@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StarterKitController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,13 @@ use App\Http\Controllers\LanguageController;
 |
 */
 
+
+//
+Route::apiResource('/C-usuarios', UsuarioController::class);
+
+
+
 Route::get('/{optional?}', function () {
     return view('pages.layout');
-});
+})->name('basepath')->where('optional', '.*');
+

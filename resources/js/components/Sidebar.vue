@@ -53,7 +53,7 @@
               <router-link :to="'/rol'"><i class="bx bx-folder"></i><span class="menu-title text-truncate" data-i18n="Rol">Rol</span></router-link >
         </li>
         <li class="nav-item">
-              <router-link :to="'/permiso'"><i class="bx bx-folder"></i><span class="menu-title text-truncate" data-i18n="Permisos">Permisos</span></router-link >
+              <router-link :to="'/usuario'"><i class="bx bx-folder"></i><span class="menu-title text-truncate" data-i18n="usuarios">Usuarios</span></router-link >
         </li>
          
       </ul>

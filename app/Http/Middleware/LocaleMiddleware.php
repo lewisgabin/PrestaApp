@@ -24,7 +24,7 @@ class LocaleMiddleware
       // Set the Laravel locale
       app()->setLocale(session()->get('locale'));
     }
-
+   
     return $next($request);
   }
 }

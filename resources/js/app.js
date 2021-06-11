@@ -7,7 +7,13 @@
 require('./bootstrap');
  
 window.Vue = require('vue').default;
+import Vue from 'vue'
+import VTooltip from 'v-tooltip'
+import vSelect from 'vue-select'
 
+
+Vue.component('v-select', vSelect)
+Vue.use(VTooltip)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -28,7 +34,7 @@ Vue.component('sidebar', require('./components/Sidebar.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import router from './routes'
-
+import 'vue-select/dist/vue-select.css';
 const app = new Vue({ 
     el: '#app',
     router,

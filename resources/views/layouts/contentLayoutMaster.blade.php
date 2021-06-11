@@ -33,6 +33,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <title>@yield('title') - Frest - Bootstrap HTML admin template</title>
     <link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/ico/favicon.ico')}}">
+    <!-- CSRF Token -->
+   <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Include core + vendor Styles --}}
     @include('panels.styles')

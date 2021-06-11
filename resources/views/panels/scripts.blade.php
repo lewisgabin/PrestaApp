@@ -26,6 +26,8 @@
     <script src="{{asset('js/scripts/footer.js')}}"></script>
     <script src="{{asset('js/scripts/customizer.js')}}"></script>
     <script src="{{asset('assets/js/scripts.js')}}"></script>
+  
+  
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
