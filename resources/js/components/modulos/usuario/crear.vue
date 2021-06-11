@@ -21,7 +21,7 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-header">
         <div class="col-md-4">
-          <h2 class="card-title">Crear Usuario</h2>
+          <h2 class="card-title">Crear Usuarios</h2>
         </div>
       </div>
       <div class="card-body">
