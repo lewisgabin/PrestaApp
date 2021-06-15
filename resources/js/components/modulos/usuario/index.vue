@@ -56,20 +56,61 @@
               <tr role="row" class="bg-primary">
                 <th>Fotografia</th>
                 <th>Nombre</th>
-                <th>Apellido</th>
+
                 <th>Usuario</th>
                 <th>Rol</th>
                 <th>Estado</th>
+                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in listUsuario" :key="item.id">
-                <td>prube</td>
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.apellido }}</td>
+                <td>
+                  <img
+                    v-if="item.image == 'sin.png' || item.image == null"
+                    class="media-object rounded-circle"
+                    :src="'/images/sin.png'"
+                    height="64"
+                    width="64"
+                  />
+
+                  <img
+                    v-else
+                    class="media-object rounded-circle"
+                    :src="'storage/img/users/' + item.image"
+                    height="64"
+                    width="64"
+                  />
+                </td>
+                <td>{{ item.nombre }} {{ item.apellido }}</td>
+
                 <td>{{ item.usuario }}</td>
                 <td>{{ item.rol }}</td>
-                <td>{{ item.estado }}</td>
+
+                <td>
+                  <div v-if="!item.estado" class="badge badge-light-danger">
+                    Desact
+                  </div>
+                  <div v-else class="badge badge-light-success">Activo</div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <button
+                      type="button"
+                      v-tooltip.top="'Editar Usuario.'"
+                      class="btn btn-icon btn-light-warning glow mr-1"
+                    >
+                      <i class="bx bxs-edit-alt"></i>
+                    </button>
+                    <button
+                      type="button"
+                      v-tooltip.top="'Desactivar Usuario.'"
+                      class="btn btn-icon btn-light-danger glow"
+                    >
+                      <i class="bx bxs-trash"></i>
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -101,7 +142,6 @@ export default {
       listUsuario: [],
       filtroBusquedad: "nombre",
       valorBusquedad: "",
-
       listEstado: [
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
@@ -110,6 +150,26 @@ export default {
   },
   mounted() {
     this.getListUsuarios();
+
+    console.log(this.$route.params);
+    if (this.$route.params.estado == 1) {
+      this.$toast.open({
+        message: "Usuario creado con exito!",
+        type: "success",
+        duration: 4000,
+        dismissible: true,
+        position: "top-right",
+      });
+    }
+    if (this.$route.params.estado == 2) {
+      this.$toast.open({
+        message: "Problema para guardar el usuario",
+        type: "error",
+        duration: 4000,
+        dismissible: true,
+        position: "top-right",
+      });
+    }
   },
   methods: {
     //limpiar busquedad
@@ -136,8 +196,19 @@ export default {
 };
 </script>
 
-<style>
+<style  scoped>
+.btn-light-warning {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
+
+.btn-light-danger {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
 #vs1__combobox {
   height: 37px;
 }
 </style>
+
+

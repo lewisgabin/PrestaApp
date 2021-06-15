@@ -10,10 +10,32 @@ window.Vue = require('vue').default;
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 import vSelect from 'vue-select'
+import VueLoading from 'vuejs-loading-plugin'
+import VueToast from 'vue-toast-notification';
+// Import one of the available themes
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+Vue.use(VueToast);
+
+
+// using default options
+Vue.use(VueLoading)
+
+
+// overwrite defaults
+Vue.use(VueLoading, {
+  dark: true, // default false
+  text: 'Ladataan', // default 'Loading'
+  loading: true, // default false
+  background: 'rgb(255,255,255)', // set custom background
+  classes: ['myclass'] // array, object or string
+})
 
 
 Vue.component('v-select', vSelect)
 Vue.use(VTooltip)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -38,4 +60,5 @@ import 'vue-select/dist/vue-select.css';
 const app = new Vue({ 
     el: '#app',
     router,
+    
 });

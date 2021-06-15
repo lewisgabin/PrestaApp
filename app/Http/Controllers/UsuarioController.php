@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Usuario;
 
+use App\Models\Usuario;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -17,29 +20,27 @@ class UsuarioController extends Controller
         //if(!$request->ajax()) return redirect('/');
         $filtro = $request->filtro;
         $busquedad = $request->busquedad;
-       $usuarios = "";
-     
+        $usuarios = "";
+
         //Si no hay un criterio establecido ni se ha aplicado algun filtro
-        if($filtro == '' ||  $busquedad == ''){
-           
-            $usuarios = Usuario::orderBy('id','desc')->get();            
-        }        
-       //Si se desea filtrar por los registros activos, sin importar que el criterio este lleno o vacio
-        if($filtro == 'estado'){
-            $usuarios = Usuario::where($filtro,'=',$busquedad)->orderBy('id','desc')->get();    
+        if ($filtro == '' ||  $busquedad == '') {
+
+            $usuarios = Usuario::orderBy('id', 'desc')->get();
+        }
+        //Si se desea filtrar por los registros activos, sin importar que el criterio este lleno o vacio
+        if ($filtro == 'estado') {
+            $usuarios = Usuario::where($filtro, '=', $busquedad)->orderBy('id', 'desc')->get();
         }
         // Busquedad por nombre
-        if(strlen($filtro) >= 1 || strlen($busquedad) >= 1){
-          
-            $usuarios = Usuario::where($filtro,'LIKE','%'.$busquedad.'%')->orderBy('id','desc')->get(); 
-           
+        if (strlen($filtro) >= 1 || strlen($busquedad) >= 1) {
+
+            $usuarios = Usuario::where($filtro, 'LIKE', '%' . $busquedad . '%')->orderBy('id', 'desc')->get();
         }
 
-        return ['usuarios'=> $usuarios];
-    
+        return ['usuarios' => $usuarios];
     }
 
-  
+
     /**
      * Store a newly created resource in storage.
      *
@@ -48,7 +49,28 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $file = $request->file;
+        $usuario = new Usuario();
+        $usuario->nombre = $request->nombre;
+        $usuario->email = $request->email;
+        $usuario->apellido = $request->apellido;
+        $usuario->usuario = $request->usuario;
+        $usuario->password = Hash::make($request->password);
+        $usuario->estado = 1;
+        $usuario->rol = $request->rol;
+        $usuario->image = 'sin.png';
+        if ($file) {
+            $subNombre = Str::random(10);
+            $fileName = $file->getClientOriginalName();
+            $fileServer = $subNombre.'_'.$fileName;
+            Storage::putFileAs('public/img/users',$file, $fileServer);
+            $usuario->image = $fileServer;
+         }
+      
+      //  $usuario->creado_por = 1;
+      //  $usuario->actualizado_por = 1;
+        $usuario->created_at = now();
+        $usuario->save();
     }
 
     /**
