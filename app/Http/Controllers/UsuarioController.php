@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -62,14 +63,16 @@ class UsuarioController extends Controller
         if ($file) {
             $subNombre = Str::random(10);
             $fileName = $file->getClientOriginalName();
-            $fileServer = $subNombre.'_'.$fileName;
-            Storage::putFileAs('public/img/users',$file, $fileServer);
+            $fileServer = $subNombre . '_' . $fileName;
+            Storage::putFileAs('public/img/users', $file, $fileServer);
             $usuario->image = $fileServer;
-         }
-      
-      //  $usuario->creado_por = 1;
-      //  $usuario->actualizado_por = 1;
+        }
+
+        //  $usuario->creado_por = 1;
+        //  $usuario->actualizado_por = 1;
         $usuario->created_at = now();
+
+
         $usuario->save();
     }
 
@@ -81,7 +84,9 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $usuario =  Usuario::findOrFail($id);
+        return ['usuario' => $usuario];
     }
 
     /**
@@ -91,9 +96,40 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function editar(Request $request)
+    {
+        $file = $request->file;
+        $usuario =  Usuario::findOrFail($request->id);
+        $usuario->nombre = $request->nombre;
+        $usuario->email = $request->email;
+        $usuario->apellido = $request->apellido;
+        $usuario->usuario = $request->usuario;
+        if (!empty($request->password)) {
+            $usuario->password = Hash::make($request->password);
+        }
+
+        $usuario->rol = $request->rol;
+
+        if ($file != "false") {
+            $subNombre = Str::random(10);
+            $fileName = $file->getClientOriginalName();
+            $fileServer = $subNombre . '_' . $fileName;
+            Storage::putFileAs('public/img/users', $file, $fileServer);
+            $usuario->image = $fileServer;
+        }
+
+        //  $usuario->creado_por = 1;
+        //  $usuario->actualizado_por = 1;
+        //$usuario->created_at = now();
+
+
+        $usuario->update();
+    }
+
+
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

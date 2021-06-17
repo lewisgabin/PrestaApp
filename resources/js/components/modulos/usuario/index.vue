@@ -99,6 +99,7 @@
                       type="button"
                       v-tooltip.top="'Editar Usuario.'"
                       class="btn btn-icon btn-light-warning glow mr-1"
+                      @click="editar(item.id)"
                     >
                       <i class="bx bxs-edit-alt"></i>
                     </button>
@@ -151,7 +152,6 @@ export default {
   mounted() {
     this.getListUsuarios();
 
-    console.log(this.$route.params);
     if (this.$route.params.estado == 1) {
       this.$toast.open({
         message: "Usuario creado con exito!",
@@ -162,6 +162,15 @@ export default {
       });
     }
     if (this.$route.params.estado == 2) {
+      this.$toast.open({
+        message: "Usuario editado con exito!",
+        type: "success",
+        duration: 4000,
+        dismissible: true,
+        position: "top-right",
+      });
+    }
+    if (this.$route.params.estado == 3) {
       this.$toast.open({
         message: "Problema para guardar el usuario",
         type: "error",
@@ -180,6 +189,7 @@ export default {
     //Obtener lista de usuario
     getListUsuarios() {
       let me = this;
+   
       var url = "/C-usuarios";
       axios
         .get(url, {
@@ -190,7 +200,15 @@ export default {
         })
         .then((response) => {
           me.listUsuario = response.data.usuarios;
+          me.$loading(false);
         });
+    },
+    // navegar hacia editar
+    editar(id) {
+      this.$router.push({
+        name: "usuarioCrear",
+        params: { idUsuario: id, metodo: "editar" },
+      });
     },
   },
 };

@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="content-header row">
       <div class="content-header-left col-12 mb-1 mt-1">
         <div class="breadcrumbs-top">
@@ -26,7 +27,7 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-header">
         <div class="col-md-4">
-          <h2 class="card-title">{{ textoComponet }}</h2>
+          <h2 class="card-title">Editar Usuario</h2>
         </div>
       </div>
       <div class="card-body">
@@ -145,11 +146,7 @@
           </div>
 
           <div class="col-12 d-flex justify-content-end">
-            <button
-              type="reset"
-              @click="limpiaCampo"
-              class="btn btn-light-secondary mr-1"
-            >
+            <button type="reset" class="btn btn-light-secondary mr-1">
               Reset
             </button>
             <button
@@ -250,20 +247,19 @@ export default {
         addRemoveLinks: true,
       },
       usuario: {
-        nombre: "",
-        apellido: "",
+        nombre: "dsdsd",
+        apellido: "sdds",
         estado: 1,
-        email: "",
-        usuario: "",
+        email: "sdsdsd",
+        usuario: "dsds",
         image: "",
-        rol: "",
-        password: "",
+        rol: "dsdsd",
+        password: "sdsd",
       },
       mensajeError: [],
       error: 0,
-      textoComponet: "Crear Usuario",
       modalShow: false,
-      isLoading: false,
+      isLoading:false,
       fullPage: true,
       mostrarModal: {
         display: "block",
@@ -273,19 +269,10 @@ export default {
         display: "none",
       },
       form: new FormData(),
-      usuarioId: 0,
-      metodo: "crear",
     };
   },
-  components: {},
-  mounted() {
-    if (this.$route.params.metodo == "editar") {
-      this.$loading(true);
-      this.textoComponet = "Editar Usuario";
-      this.metodo = this.$route.params.metodo;
-     
-      this.obtenerUsuario(this.$route.params.idUsuario);
-    }
+  components: {
+   
   },
   methods: {
     //presenta la imagen en image input
@@ -304,6 +291,7 @@ export default {
     },
     //metodo validar envio de datosnpm uninstall
     validarRegistrarUsuario() {
+     
       this.error = 0;
       this.mensajeError = [];
       if (!this.usuario.nombre) {
@@ -315,7 +303,7 @@ export default {
       if (!this.usuario.usuario) {
         this.mensajeError.push("El Usuario es un campo obligatorio");
       }
-      if (!this.usuario.password && this.metodo == 'crear') {
+      if (!this.usuario.password) {
         this.mensajeError.push("La Contraseña es un campo obligatorio");
       }
       if (!this.usuario.rol) {
@@ -339,19 +327,9 @@ export default {
     abrirCerrarModal() {
       this.modalShow = !this.modalShow;
     },
-    //limiar campos
-    limpiaCampo() {
-      this.usuario.nombre = "";
-      this.usuario.apellido = "";
-      this.usuario.email = "";
-      this.usuario.usuario = "";
-      this.usuario.image = "";
-      this.usuario.rol = "";
-      this.usuario.password = "";
-    },
-    //guarda y editar el usuario
+    //guarda el registo
     guardarUsuario() {
-      this.$loading(true);
+       this.$loading(true);
       this.form.append("usuario", this.usuario.usuario);
       this.form.append("apellido", this.usuario.apellido);
       this.form.append("rol", this.usuario.rol);
@@ -360,58 +338,21 @@ export default {
       this.form.append("email", this.usuario.email);
       this.form.append("estado", this.usuario.estado);
       this.form.append("file", this.usuario.image);
-      this.form.append("id",this.$route.params.idUsuario);
 
       const config = { headers: { "Content-Type": "multipart/form-data" } };
-      var url = "/C-usuarios/editar";
-      let me = this;
-      if (this.metodo == "crear") {
-        axios
-          .post(url, this.form, config)
-          .then((response) => {
-            //
-          
-            me.$router.push({ name: "usuarioIndex", params: { estado: 1 } });
-          })
-          .catch((error) => {
-            console.log(error);
-            me.$loading(false);
-          });
-      }
-      if (this.metodo == "editar") {
-        axios
-          .post(url,this.form, config)
-          .then((response) => {
-            //
-       
-            me.$router.push({ name: "usuarioIndex", params: { estado: 2 } });
-           
-          })
-          .catch((error) => {
-            console.log(error);
-            me.$loading(false);
-
-          });
-      }
-    },
-    // buscar el usuario que se va a editar
-    obtenerUsuario(idU) {
-      var url = "/C-usuarios/" + idU;
+      var url = "/C-usuarios";
       let me = this;
       axios
-        .get(url)
+        .post(url, this.form, config)
         .then((response) => {
-          me.usuario = response.data.usuario;
-          $("#imagePreview").css(
-            "background-image",
-            "url('" + "../storage/img/users/" + me.usuario.image + "')"
-          );
-          me.usuario.password = "";
-          me.$loading(false);
-          me.usuario.image = false;
+       //
+           me.$loading(false);
+           me.$router.push({name:'usuarioIndex',params:{ estado: 1}});
         })
         .catch((error) => {
           console.log(error);
+          me.$loading(false);
+          // me.$router.push({name:'usuarioIndex',params:{ estado: 2}});
         });
     },
   },
