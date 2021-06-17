@@ -104,11 +104,22 @@
                       <i class="bx bxs-edit-alt"></i>
                     </button>
                     <button
+                      v-if="item.estado"
+                      @click="activarDesactivar(item.id,'Desactivar','Desactivarado')"
                       type="button"
                       v-tooltip.top="'Desactivar Usuario.'"
                       class="btn btn-icon btn-light-danger glow"
                     >
                       <i class="bx bxs-trash"></i>
+                    </button>
+                    <button
+                      v-else
+                      type="button"
+                      @click="activarDesactivar(item.id, 'Activar','Activado')"
+                      v-tooltip.top="'Activar Usuario.'"
+                      class="btn btn-icon btn-light-success glow"
+                    >
+                      <i class="bx bx-power-off"></i>
                     </button>
                   </div>
                 </td>
@@ -189,7 +200,7 @@ export default {
     //Obtener lista de usuario
     getListUsuarios() {
       let me = this;
-   
+
       var url = "/C-usuarios";
       axios
         .get(url, {
@@ -210,6 +221,28 @@ export default {
         params: { idUsuario: id, metodo: "editar" },
       });
     },
+    //activar o desactivar
+    activarDesactivar(id,metodo, metodo2) {
+    let me = this;
+      this.$swal({
+        title: "Esta seguro?",
+        text: "Que desea '"+metodo+"' el usuario!",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#ff5b5c",
+        confirmButtonColor: "#5a8dee",
+        confirmButtonText: "Si, "+metodo+"!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete("/C-usuarios/" + id).then(response =>{
+             me.$swal(""+metodo2+"!", "El usuario a sido "+metodo2+".", "success");
+             me.getListUsuarios();
+          });
+
+         
+        }
+      });
+    },
   },
 };
 </script>
@@ -221,6 +254,10 @@ export default {
 }
 
 .btn-light-danger {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
+.btn-light-success {
   background-color: #f2f4f4;
   color: #9797a6;
 }

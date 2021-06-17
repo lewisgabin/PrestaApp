@@ -12,12 +12,14 @@ import VTooltip from 'v-tooltip'
 import vSelect from 'vue-select'
 import VueLoading from 'vuejs-loading-plugin'
 import VueToast from 'vue-toast-notification';
+import VueSweetalert2 from 'vue-sweetalert2';
 // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(VueToast);
-
+Vue.use(VueSweetalert2);
 
 // using default options
 Vue.use(VueLoading)

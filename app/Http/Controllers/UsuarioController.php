@@ -126,6 +126,8 @@ class UsuarioController extends Controller
         $usuario->update();
     }
 
+   
+
 
     public function update(Request $request, $id)
     {
@@ -140,6 +142,8 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $usuario =  Usuario::findOrFail($id);
+      $usuario->estado =  !$usuario->estado ;
+      $usuario->update();
     }
 }

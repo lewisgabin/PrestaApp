@@ -283,7 +283,6 @@ export default {
       this.$loading(true);
       this.textoComponet = "Editar Usuario";
       this.metodo = this.$route.params.metodo;
-     
       this.obtenerUsuario(this.$route.params.idUsuario);
     }
   },

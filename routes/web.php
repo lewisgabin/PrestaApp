@@ -18,6 +18,7 @@ use App\Http\Controllers\LanguageController;
 //
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
+Route::post('/C-usuarios/activar', [UsuarioController::class,'activar']);
 
 
 
