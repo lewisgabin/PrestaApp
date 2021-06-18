@@ -19,6 +19,7 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         //if(!$request->ajax()) return redirect('/');
+        $per_page = $request->per_page;
         $filtro = $request->filtro;
         $busquedad = $request->busquedad;
         $usuarios = "";
@@ -26,16 +27,16 @@ class UsuarioController extends Controller
         //Si no hay un criterio establecido ni se ha aplicado algun filtro
         if ($filtro == '' ||  $busquedad == '') {
 
-            $usuarios = Usuario::orderBy('id', 'desc')->get();
+            $usuarios = Usuario::orderBy('id', 'desc')->paginate($per_page);
         }
         //Si se desea filtrar por los registros activos, sin importar que el criterio este lleno o vacio
         if ($filtro == 'estado') {
-            $usuarios = Usuario::where($filtro, '=', $busquedad)->orderBy('id', 'desc')->get();
+            $usuarios = Usuario::where($filtro, '=', $busquedad)->orderBy('id', 'desc')->paginate($per_page);
         }
         // Busquedad por nombre
         if (strlen($filtro) >= 1 || strlen($busquedad) >= 1) {
 
-            $usuarios = Usuario::where($filtro, 'LIKE', '%' . $busquedad . '%')->orderBy('id', 'desc')->get();
+            $usuarios = Usuario::where($filtro, 'LIKE', '%' . $busquedad . '%')->orderBy('id', 'desc')->paginate($per_page);
         }
 
         return ['usuarios' => $usuarios];
@@ -126,7 +127,7 @@ class UsuarioController extends Controller
         $usuario->update();
     }
 
-   
+
 
 
     public function update(Request $request, $id)
@@ -142,8 +143,8 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-      $usuario =  Usuario::findOrFail($id);
-      $usuario->estado =  !$usuario->estado ;
-      $usuario->update();
+        $usuario =  Usuario::findOrFail($id);
+        $usuario->estado =  !$usuario->estado;
+        $usuario->update();
     }
 }

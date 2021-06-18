@@ -25,6 +25,7 @@
           <fieldset class="form-group shadow">
             <v-select
               v-model="filtroBusquedad"
+              @input="getListUsuarios"
               :options="['nombre', 'usuario', 'email', 'estado']"
             ></v-select>
           </fieldset>
@@ -40,6 +41,7 @@
                   type="search"
                   class="form-control rounded-right form-control shadow pl-2"
                   id="searchbar"
+                  @click="inicializarPage"
                   v-model="valorBusquedad"
                   placeholder="Buscar"
                   v-on:keyup="getListUsuarios"
@@ -51,9 +53,10 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-hover table-striped">
+          <table class="table table-hover table-striped" id="table">
             <thead>
               <tr role="row" class="bg-primary">
+                <th>id</th>
                 <th>Fotografia</th>
                 <th>Nombre</th>
 
@@ -64,7 +67,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in listUsuario" :key="item.id">
+              <tr v-for="item in listUsuario.data" :key="item.id">
+                <td>{{ item.id }}</td>
                 <td>
                   <img
                     v-if="item.image == 'sin.png' || item.image == null"
@@ -105,7 +109,13 @@
                     </button>
                     <button
                       v-if="item.estado"
-                      @click="activarDesactivar(item.id,'Desactivar','Desactivarado')"
+                      @click="
+                        activarDesactivar(
+                          item.id,
+                          'Desactivar',
+                          'Desactivarado'
+                        )
+                      "
                       type="button"
                       v-tooltip.top="'Desactivar Usuario.'"
                       class="btn btn-icon btn-light-danger glow"
@@ -115,7 +125,7 @@
                     <button
                       v-else
                       type="button"
-                      @click="activarDesactivar(item.id, 'Activar','Activado')"
+                      @click="activarDesactivar(item.id, 'Activar', 'Activado')"
                       v-tooltip.top="'Activar Usuario.'"
                       class="btn btn-icon btn-light-success glow"
                     >
@@ -126,6 +136,90 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <div
+              class="dataTables_info"
+              id="users-list-datatable_info"
+              role="status"
+              aria-live="polite"
+            >
+              Mostrando {{ listUsuario.from }} a {{ listUsuario.to }} en
+              {{ listUsuario.total }} usuarios.
+            </div>
+          </div>
+          <div class="col-md-8">
+            <input
+              type="text"
+              v-model="pagination.per_page"
+              class="form-control"
+              id="basicInput"
+              style="
+                float: right;
+                width: 15%;
+                width: 49px;
+                height: 30px;
+                color: #5a8dee;
+              "
+              placeholder=""
+              @change="getListUsuarios()"
+            />
+            <span for="" class="dataTables_info mr-1" style="float: right">
+              Cant por pagina</span
+            >
+          </div>
+          <nav class="col-md-12" aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+              <li
+                class="page-item previous"
+                :class="{ disabled: pagination.page == 1 }"
+              >
+                <a
+                  class="page-link"
+                  href="javascript:void(0);"
+                  @click="
+                    pagination.page--;
+                    getListUsuarios();
+                  "
+                >
+                  <i class="bx bx-chevron-left"></i>
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                :class="{ active: n == pagination.page }"
+                v-for="n in arrayPageN"
+                :key="n"
+              >
+                <a
+                  class="page-link"
+                  href="javascript:void(0);"
+                  @click="
+                    pagination.page = n;
+                    getListUsuarios();
+                  "
+                  >{{ n }}</a
+                >
+              </li>
+              <li
+                class="page-item next"
+                :class="{ disabled: pagination.page == listUsuario.last_page }"
+              >
+                <a
+                  class="page-link"
+                  href="javascript:void(0);"
+                  @click="
+                    pagination.page++;
+                    getListUsuarios();
+                  "
+                >
+                  <i class="bx bx-chevron-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
@@ -154,6 +248,11 @@ export default {
       listUsuario: [],
       filtroBusquedad: "nombre",
       valorBusquedad: "",
+      pagination: {
+        per_page: 10,
+        page: 1,
+      },
+      arrayPageN: [],
       listEstado: [
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
@@ -192,6 +291,33 @@ export default {
     }
   },
   methods: {
+    // metodo para paginar
+    paginacion() {
+      let n = 3;
+      let arrayN = [];
+      let number = this.pagination.page;
+      let ini = number - n;
+      if (ini <= 1) {
+        ini = 1;
+      }
+
+      let fin = this.pagination.page + n;
+      if (fin > this.listUsuario.last_page) {
+        fin = this.listUsuario.last_page;
+      }
+      console.log(ini);
+      console.log(fin);
+
+      for (let i = ini; i <= fin; i++) {
+        arrayN.push(i);
+      }
+
+      this.arrayPageN = arrayN;
+    },
+    // inicializa a zero la variable page
+    inicializarPage() {
+      this.pagination.page = 1;
+    },
     //limpiar busquedad
     LimpiarBusquedad() {
       this.valorBusquedad == "";
@@ -200,18 +326,22 @@ export default {
     //Obtener lista de usuario
     getListUsuarios() {
       let me = this;
-
+      this.$loading(true);
       var url = "/C-usuarios";
       axios
         .get(url, {
           params: {
             filtro: this.filtroBusquedad,
             busquedad: this.valorBusquedad,
+            per_page: this.pagination.per_page,
+            page: this.pagination.page,
           },
         })
         .then((response) => {
           me.listUsuario = response.data.usuarios;
+          me.paginacion();
           me.$loading(false);
+          $("#table").scrollTop(100);
         });
     },
     // navegar hacia editar
@@ -222,24 +352,26 @@ export default {
       });
     },
     //activar o desactivar
-    activarDesactivar(id,metodo, metodo2) {
-    let me = this;
+    activarDesactivar(id, metodo, metodo2) {
+      let me = this;
       this.$swal({
         title: "Esta seguro?",
-        text: "Que desea '"+metodo+"' el usuario!",
+        text: "Que desea '" + metodo + "' el usuario!",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#ff5b5c",
         confirmButtonColor: "#5a8dee",
-        confirmButtonText: "Si, "+metodo+"!",
+        confirmButtonText: "Si, " + metodo + "!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete("/C-usuarios/" + id).then(response =>{
-             me.$swal(""+metodo2+"!", "El usuario a sido "+metodo2+".", "success");
-             me.getListUsuarios();
+          axios.delete("/C-usuarios/" + id).then((response) => {
+            me.$swal(
+              "" + metodo2 + "!",
+              "El usuario a sido " + metodo2 + ".",
+              "success"
+            );
+            me.getListUsuarios();
           });
-
-         
         }
       });
     },
