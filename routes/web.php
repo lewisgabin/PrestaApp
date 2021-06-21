@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,11 @@ Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
 //Rols
 Route::apiResource('/C-rols', RolController::class);
 Route::post('/C-rols/editar', [RolController::class,'editar']);
+
+//permiso
+Route::apiResource('/C-permiso', PermisoController::class);
+Route::post('/C-permiso/editar', [PermisoController::class,'editar']);
+
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');

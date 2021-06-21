@@ -10,7 +10,9 @@ export default new Router({
         { path: '/permiso', component:require('./components/modulos/permisos/index.vue').default},
         { path: '/crear/usuario', component:require('./components/modulos/usuario/crear.vue').default, name:'usuarioCrear'},
         { path: '/editar/usuario', component:require('./components/modulos/usuario/editar.vue').default, name:'usuarioEditar',},
+        {path: '/permiso', component:require('./components/modulos/permisos/index.vue').default, name:'permisoIndex'},
         {path: '/rol', component:require('./components/modulos/rol/index.vue').default, name:'rolIndex'},
+        {path: '/crear/rol', component:require('./components/modulos/rol/crear.vue').default, name:'rolCrear'},
     ],
     mode:'history',
     linkActiveClass: 'active'

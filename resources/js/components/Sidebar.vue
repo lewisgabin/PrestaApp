@@ -49,6 +49,9 @@
                  
               </ul>
           </li>
+            <li class="nav-item">
+              <router-link :to="'/permiso'"><i class="bx bx-folder"></i><span class="menu-title text-truncate" data-i18n="Rol">Permisos</span></router-link >
+        </li>
           <li class="nav-item">
               <router-link :to="'/rol'"><i class="bx bx-folder"></i><span class="menu-title text-truncate" data-i18n="Rol">Rol</span></router-link >
         </li>

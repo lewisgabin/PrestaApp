@@ -58,14 +58,14 @@
               <tr role="row" class="bg-primary">
                 <th>#</th>
                 <th>Nombre</th>
-                <th>Slug</th>
+                <th>Url Amigable</th>
                 <th>Estado</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item,numero in listRol.data" :key="item.id">
-                <td>{{numero+1}}</td>
+              <tr v-for="(item, numero) in listRol.data" :key="item.id">
+                <td>{{ numero + 1 }}</td>
                 <td>{{ item.nombre }} {{ item.apellido }}</td>
                 <td>{{ item.slug }}</td>
                 <td>
@@ -92,7 +92,7 @@
                         activarDesactivar(
                           item.id,
                           'Desactivar',
-                          'Desactivarado'
+                          'Desactivado'
                         )
                       "
                       type="button"
@@ -203,7 +203,8 @@
       </div>
     </div>
 
-    <button
+    <router-link
+      :to="'/crear/rol'"
       class="
         btn btn-warning btn-icon
         floatBotton
@@ -211,99 +212,10 @@
         glow
         tooltip-light
       "
-      @click="abrirCerrarModal('Crear rol', 'primary', 0)"
       v-tooltip.left="'Crear Rol.'"
     >
-      <i class="bx bx-plus" style="font-size: 1.9rem"></i>
-    </button>
-
-    <!-- modal de crear y editar -->
-    <div
-      class="modal fade text-left"
-      id="danger "
-      tabindex="-1"
-      :class="{ show: modalShow }"
-      :style="modalShow ? mostrarModal : ocultarModal"
-      aria-labelledby="myModalLabel120"
-      style="display: none"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-        id="modalError"
-      >
-        <div class="modal-content">
-          <div :class="'modal-header bg-' + metodo">
-            <h5 class="modal-title white" id="myModalLabel120">
-              {{ this.titleModal }}
-            </h5>
-            <button
-              type="button"
-              class="close"
-              aria-label="Close"
-              @click="modalShow = 0"
-            >
-              <i class="bx bx-x"></i>
-            </button>
-          </div>
-          <div class="modal-body" id="form">
-            <div class="row">
-              <div class="col-md-12 col-12">
-                <label for="first-name-icon">NOMBRE</label>
-                <div class="form-label-group has-icon-left">
-                  <input
-                    v-model="rol.nombre"
-                    type="text"
-                    :class="{error:typeof errorArray.nombre !== 'undefined'}"
-                    placeholder="Nombre"
-                    class="form-control"
-                  />
-                  <span class="error" v-if=" errorArray.nombre">{{ errorArray.nombre[0]}}</span>
-                  <div class="form-control-position">
-                    <i class="bx bx-data"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 col-12">
-                <label for="first-name-icon">SLUG</label>
-                <div class="form-label-group has-icon-left">
-                  <input
-                    v-model="rol.slug"
-                    type="text"
-                    placeholder="Slug"
-                     :class="{error:typeof  errorArray.slug !== 'undefined'}"
-                    class="form-control"
-                  />
-                  <span class="error" v-if=" errorArray.slug">{{ errorArray.slug[0]}}.</span>
-                  <div class="form-control-position">
-                    <i class="bx bx-code-block"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-light-secondary"
-              data-dismiss="modal"
-              @click="modalShow = 0"
-            >
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cerrar</span>
-            </button>
-            <button
-              type="button"
-              :class="'btn btn-' + metodo + ' ml-1'"
-              @click="guardarEditarRol()"
-            >
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Guardar</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <i class="bx bx-plus" style="font-size: 1.9rem; top: 6px"></i>
+    </router-link>
   </div>
 </template>
 
@@ -318,7 +230,7 @@ export default {
       },
       listRol: [],
       metodo: "",
-      idRol: 0,
+     idRol: 0,
       filtroBusquedad: "nombre",
       valorBusquedad: "",
       pagination: {
@@ -326,7 +238,7 @@ export default {
         page: 1,
       },
       arrayPageN: [],
-       errorArray:[],
+      errorArray: [],
       listEstado: [
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
@@ -341,7 +253,6 @@ export default {
       ocultarModal: {
         display: "none",
       },
-    
     };
   },
   mounted() {
@@ -422,83 +333,21 @@ export default {
         }
       });
     },
-    //abrir y cerrar modal
-    abrirCerrarModal(titulo, metodo, idRol) {
-      let me = this;
-      this.errorArray = [];
-      this.titleModal = titulo;
-      this.metodo = metodo;
-      this.idRol = idRol;
-      this.modalShow = !this.modalShow;
-
-      if (metodo == "primary") {
-        this.rol.nombre = "";
-        this.rol.slug = "";
-        this.rol.id = 0;
-      }
-      if (metodo == "warning") {
-        axios
-          .get("C-rols/" + idRol)
-          .then((response) => {
-            me.rol = response.data.rol;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    },
-    //guardar 0 editar
-    guardarEditarRol() {
-      let me = this;
-      this.errorArray = [];
-      this.form.append("nombre", this.rol.nombre);
-      this.form.append("slug", this.rol.slug);
-      this.form.append("id", this.rol.id);
-      if (this.metodo == "primary" && this.errorArray.length == 0) {
-        axios
-          .post("C-rols", this.form)
-          .then((response) => {
-            me.modalShow = 0;
-            me.getListRol();
-             this.$toast.open({
-              message: "Rol creado con exito!",
-              type: "success",
-              duration: 2000,
-              dismissible: true,
-              position: "top-right",
-            });
-          })
-          .catch((error) => {
-        
-              if(error.response.data.errors){
-                me.errorArray = error.response.data.errors; 
-              }
-          });
-      }
-      if (this.metodo == "warning" && this.errorArray.length == 0) {
-        axios
-          .post("C-rols/editar", this.form)
-          .then((response) => {
-            me.modalShow = 0;
-            me.getListRol();
-            this.$toast.open({
-              message: "Rol editado con exito!",
-              type: "success",
-              duration: 2000,
-              dismissible: true,
-              position: "top-right",
-            });
-          })
-          .catch((error) => {
-            if(error.response.data.errors){
-                me.errorArray = error.response.data.errors; 
-              }
-          });
-      }
-    },
   },
 };
 </script>
-
 <style scoped>
-</style>
+.btn-light-warning {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
+
+.btn-light-danger {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
+.btn-light-success {
+  background-color: #f2f4f4;
+  color: #9797a6;
+}
+</style>t
