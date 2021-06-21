@@ -3,7 +3,7 @@
     <div class="content-header row">
       <div class="content-header-left col-12 mb-2 mt-1">
         <div class="breadcrumbs-top">
-          <h5 class="content-header-title float-left pr-1 mb-0">Usuarios</h5>
+          <h5 class="content-header-title float-left pr-1 mb-0">Rol</h5>
           <div class="breadcrumb-wrapper d-none d-sm-block">
             <ol class="breadcrumb p-0 mb-0 pl-1">
               <li class="breadcrumb-item">
@@ -17,7 +17,7 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-header">
         <div class="col-md-4">
-          <h2 class="card-title">Lista de usuario</h2>
+          <h2 class="card-title">Lista de rol</h2>
         </div>
 
         <div class="col-md-3">
@@ -25,8 +25,8 @@
           <fieldset class="form-group shadow">
             <v-select
               v-model="filtroBusquedad"
-              @input="getListUsuarios"
-              :options="['nombre', 'usuario', 'email', 'estado']"
+              @input="getListRol"
+              :options="['nombre', 'slug']"
             ></v-select>
           </fieldset>
         </div>
@@ -44,7 +44,7 @@
                   @click="inicializarPage"
                   v-model="valorBusquedad"
                   placeholder="Buscar"
-                  v-on:keyup="getListUsuarios"
+                  v-on:keyup="getListRol"
                 />
               </fieldset>
             </form>
@@ -56,41 +56,18 @@
           <table class="table table-hover table-striped" id="table">
             <thead>
               <tr role="row" class="bg-primary">
-                <th>id</th>
-                <th>Fotografia</th>
+                <th>#</th>
                 <th>Nombre</th>
-
-                <th>Usuario</th>
-                <th>Rol</th>
+                <th>Slug</th>
                 <th>Estado</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in listUsuario.data" :key="item.id">
-                <td>{{ item.id }}</td>
-                <td>
-                  <img
-                    v-if="item.image == 'sin.png' || item.image == null"
-                    class="media-object rounded-circle"
-                    :src="'/images/sin.png'"
-                    height="64"
-                    width="64"
-                  />
-
-                  <img
-                    v-else
-                    class="media-object rounded-circle"
-                    :src="'storage/img/users/' + item.image"
-                    height="64"
-                    width="64"
-                  />
-                </td>
+              <tr v-for="item,numero in listRol.data" :key="item.id">
+                <td>{{numero+1}}</td>
                 <td>{{ item.nombre }} {{ item.apellido }}</td>
-
-                <td>{{ item.usuario }}</td>
-                <td>{{ item.rol }}</td>
-
+                <td>{{ item.slug }}</td>
                 <td>
                   <div v-if="!item.estado" class="badge badge-light-danger">
                     Desact
@@ -103,7 +80,9 @@
                       type="button"
                       v-tooltip.top="'Editar Usuario.'"
                       class="btn btn-icon btn-light-warning glow mr-1"
-                      @click="editar(item.id)"
+                      @click="
+                        abrirCerrarModal('Editar rol', 'warning', item.id)
+                      "
                     >
                       <i class="bx bxs-edit-alt"></i>
                     </button>
@@ -145,8 +124,8 @@
               role="status"
               aria-live="polite"
             >
-              Mostrando {{ listUsuario.from }} a {{ listUsuario.to }} en
-              {{ listUsuario.total }} usuarios.
+              Mostrando {{ listRol.from }} a {{ listRol.to }} de
+              {{ listRol.total }} rol.
             </div>
           </div>
           <div class="col-md-8">
@@ -163,7 +142,7 @@
                 color: #5a8dee;
               "
               placeholder=""
-              @change="getListUsuarios()"
+              @change="getListRol()"
             />
             <span for="" class="dataTables_info mr-1" style="float: right">
               Cant por pagina</span
@@ -180,7 +159,7 @@
                   href="javascript:void(0);"
                   @click="
                     pagination.page--;
-                    getListUsuarios();
+                    getListRol();
                   "
                 >
                   <i class="bx bx-chevron-left"></i>
@@ -198,21 +177,21 @@
                   href="javascript:void(0);"
                   @click="
                     pagination.page = n;
-                    getListUsuarios();
+                    getListRol();
                   "
                   >{{ n }}</a
                 >
               </li>
               <li
                 class="page-item next"
-                :class="{ disabled: pagination.page == listUsuario.last_page }"
+                :class="{ disabled: pagination.page == listRol.last_page }"
               >
                 <a
                   class="page-link"
                   href="javascript:void(0);"
                   @click="
                     pagination.page++;
-                    getListUsuarios();
+                    getListRol();
                   "
                 >
                   <i class="bx bx-chevron-right"></i>
@@ -224,8 +203,7 @@
       </div>
     </div>
 
-    <router-link
-      :to="'/crear/usuario'"
+    <button
       class="
         btn btn-warning btn-icon
         floatBotton
@@ -233,19 +211,114 @@
         glow
         tooltip-light
       "
-      v-tooltip.left="'Crear Usuario.'"
+      @click="abrirCerrarModal('Crear rol', 'primary', 0)"
+      v-tooltip.left="'Crear Rol.'"
     >
-      <i class="bx bx-plus" style="font-size: 1.9rem; top: 6px"></i>
-    </router-link>
+      <i class="bx bx-plus" style="font-size: 1.9rem"></i>
+    </button>
+
+    <!-- modal de crear y editar -->
+    <div
+      class="modal fade text-left"
+      id="danger "
+      tabindex="-1"
+      :class="{ show: modalShow }"
+      :style="modalShow ? mostrarModal : ocultarModal"
+      aria-labelledby="myModalLabel120"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        id="modalError"
+      >
+        <div class="modal-content">
+          <div :class="'modal-header bg-' + metodo">
+            <h5 class="modal-title white" id="myModalLabel120">
+              {{ this.titleModal }}
+            </h5>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              @click="modalShow = 0"
+            >
+              <i class="bx bx-x"></i>
+            </button>
+          </div>
+          <div class="modal-body" id="form">
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <label for="first-name-icon">NOMBRE</label>
+                <div class="form-label-group has-icon-left">
+                  <input
+                    v-model="rol.nombre"
+                    type="text"
+                    :class="{error:typeof errorArray.nombre !== 'undefined'}"
+                    placeholder="Nombre"
+                    class="form-control"
+                  />
+                  <span class="error" v-if=" errorArray.nombre">{{ errorArray.nombre[0]}}</span>
+                  <div class="form-control-position">
+                    <i class="bx bx-data"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <label for="first-name-icon">SLUG</label>
+                <div class="form-label-group has-icon-left">
+                  <input
+                    v-model="rol.slug"
+                    type="text"
+                    placeholder="Slug"
+                     :class="{error:typeof  errorArray.slug !== 'undefined'}"
+                    class="form-control"
+                  />
+                  <span class="error" v-if=" errorArray.slug">{{ errorArray.slug[0]}}.</span>
+                  <div class="form-control-position">
+                    <i class="bx bx-code-block"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light-secondary"
+              data-dismiss="modal"
+              @click="modalShow = 0"
+            >
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Cerrar</span>
+            </button>
+            <button
+              type="button"
+              :class="'btn btn-' + metodo + ' ml-1'"
+              @click="guardarEditarRol()"
+            >
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Guardar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["ruta"],
   data() {
     return {
-      listUsuario: [],
+      rol: {
+        nombre: "",
+        slug: "",
+        id: 0,
+      },
+      listRol: [],
+      metodo: "",
+      idRol: 0,
       filtroBusquedad: "nombre",
       valorBusquedad: "",
       pagination: {
@@ -253,42 +326,26 @@ export default {
         page: 1,
       },
       arrayPageN: [],
+       errorArray:[],
       listEstado: [
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
       ],
+      modalShow: false,
+      mostrarModal: {
+        display: "block",
+        background: "#0000006b",
+      },
+      form: new FormData(),
+      titleModal: "",
+      ocultarModal: {
+        display: "none",
+      },
+    
     };
   },
   mounted() {
-    this.getListUsuarios();
-
-    if (this.$route.params.estado == 1) {
-      this.$toast.open({
-        message: "Usuario creado con exito!",
-        type: "success",
-        duration: 4000,
-        dismissible: true,
-        position: "top-right",
-      });
-    }
-    if (this.$route.params.estado == 2) {
-      this.$toast.open({
-        message: "Usuario editado con exito!",
-        type: "success",
-        duration: 4000,
-        dismissible: true,
-        position: "top-right",
-      });
-    }
-    if (this.$route.params.estado == 3) {
-      this.$toast.open({
-        message: "Problema para guardar el usuario",
-        type: "error",
-        duration: 4000,
-        dismissible: true,
-        position: "top-right",
-      });
-    }
+    this.getListRol();
   },
   methods: {
     // metodo para paginar
@@ -302,8 +359,8 @@ export default {
       }
 
       let fin = this.pagination.page + n;
-      if (fin > this.listUsuario.last_page) {
-        fin = this.listUsuario.last_page;
+      if (fin > this.listRol.last_page) {
+        fin = this.listRol.last_page;
       }
 
       for (let i = ini; i <= fin; i++) {
@@ -321,11 +378,11 @@ export default {
       this.valorBusquedad == "";
       this.opcionesB = "";
     },
-    //Obtener lista de usuario
-    getListUsuarios() {
+    //lista de rol
+    getListRol() {
       let me = this;
       this.$loading(true);
-      var url = "/C-usuarios";
+      var url = "/C-rols";
       axios
         .get(url, {
           params: {
@@ -336,25 +393,17 @@ export default {
           },
         })
         .then((response) => {
-          me.listUsuario = response.data.usuarios;
+          me.listRol = response.data.rol;
           me.paginacion();
           me.$loading(false);
-          
         });
-    },
-    // navegar hacia editar
-    editar(id) {
-      this.$router.push({
-        name: "usuarioCrear",
-        params: { idUsuario: id, metodo: "editar" },
-      });
     },
     //activar o desactivar
     activarDesactivar(id, metodo, metodo2) {
       let me = this;
       this.$swal({
         title: "Esta seguro?",
-        text: "Que desea '" + metodo + "' el usuario!",
+        text: "Que desea '" + metodo + "' el rol!",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#ff5b5c",
@@ -362,38 +411,94 @@ export default {
         confirmButtonText: "Si, " + metodo + "!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete("/C-usuarios/" + id).then((response) => {
+          axios.delete("/C-rols/" + id).then((response) => {
             me.$swal(
               "" + metodo2 + "!",
-              "El usuario a sido " + metodo2 + ".",
+              "El rol a sido " + metodo2 + ".",
               "success"
             );
-            me.getListUsuarios();
+            me.getListRol();
           });
         }
       });
+    },
+    //abrir y cerrar modal
+    abrirCerrarModal(titulo, metodo, idRol) {
+      let me = this;
+      this.errorArray = [];
+      this.titleModal = titulo;
+      this.metodo = metodo;
+      this.idRol = idRol;
+      this.modalShow = !this.modalShow;
+
+      if (metodo == "primary") {
+        this.rol.nombre = "";
+        this.rol.slug = "";
+        this.rol.id = 0;
+      }
+      if (metodo == "warning") {
+        axios
+          .get("C-rols/" + idRol)
+          .then((response) => {
+            me.rol = response.data.rol;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    //guardar 0 editar
+    guardarEditarRol() {
+      let me = this;
+      this.errorArray = [];
+      this.form.append("nombre", this.rol.nombre);
+      this.form.append("slug", this.rol.slug);
+      this.form.append("id", this.rol.id);
+      if (this.metodo == "primary" && this.errorArray.length == 0) {
+        axios
+          .post("C-rols", this.form)
+          .then((response) => {
+            me.modalShow = 0;
+            me.getListRol();
+             this.$toast.open({
+              message: "Rol creado con exito!",
+              type: "success",
+              duration: 2000,
+              dismissible: true,
+              position: "top-right",
+            });
+          })
+          .catch((error) => {
+        
+              if(error.response.data.errors){
+                me.errorArray = error.response.data.errors; 
+              }
+          });
+      }
+      if (this.metodo == "warning" && this.errorArray.length == 0) {
+        axios
+          .post("C-rols/editar", this.form)
+          .then((response) => {
+            me.modalShow = 0;
+            me.getListRol();
+            this.$toast.open({
+              message: "Rol editado con exito!",
+              type: "success",
+              duration: 2000,
+              dismissible: true,
+              position: "top-right",
+            });
+          })
+          .catch((error) => {
+            if(error.response.data.errors){
+                me.errorArray = error.response.data.errors; 
+              }
+          });
+      }
     },
   },
 };
 </script>
 
-<style  scoped>
-.btn-light-warning {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
-
-.btn-light-danger {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
-.btn-light-success {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
-#vs1__combobox {
-  height: 37px;
-}
+<style scoped>
 </style>
-
-

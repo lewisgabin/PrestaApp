@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/search.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/file-uploaders/dropzone.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/file-uploaders/dropzone.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/validation/form-validation.css')}}">
+
     @if($configData['direction'] === 'rtl')
     <link rel="stylesheet" type="text/css" href="{{asset('css/custom-rtl.css')}}">
     @endif

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\RolController;
 use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +16,14 @@ use App\Http\Controllers\LanguageController;
 */
 
 
-//
+//Usuarios
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
-Route::post('/C-usuarios/activar', [UsuarioController::class,'activar']);
 
 
+//Rols
+Route::apiResource('/C-rols', RolController::class);
+Route::post('/C-rols/editar', [RolController::class,'editar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
