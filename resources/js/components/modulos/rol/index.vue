@@ -80,9 +80,7 @@
                       type="button"
                       v-tooltip.top="'Editar Usuario.'"
                       class="btn btn-icon btn-light-warning glow mr-1"
-                      @click="
-                        abrirCerrarModal('Editar rol', 'warning', item.id)
-                      "
+                    
                     >
                       <i class="bx bxs-edit-alt"></i>
                     </button>

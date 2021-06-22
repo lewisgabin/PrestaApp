@@ -60,6 +60,7 @@
                 <th>Nombre</th>
                 <th>Url Amigable</th>
                 <th>Estado</th>
+                <th>Modulo</th>
                 <th>Opciones</th>
               </tr>
             </thead>
@@ -68,6 +69,7 @@
                 <td>{{numero+1}}</td>
                 <td>{{ item.nombre }} {{ item.apellido }}</td>
                 <td>{{ item.slug }}</td>
+                 <td>{{ item.modulo}}</td>
                 <td>
                   <div v-if="!item.estado" class="badge badge-light-danger">
                     Desact
@@ -280,6 +282,22 @@
                   </div>
                 </div>
               </div>
+                   <div class="col-md-12 col-12">
+                <label for="first-name-icon">MODULO</label>
+                <div class="form-label-group has-icon-left">
+                  <input
+                    v-model="permiso.modulo"
+                    type="text"
+                    placeholder="Modulo que pertenece"
+                     :class="{error:typeof  errorArray.modulo !== 'undefined'}"
+                    class="form-control"
+                  />
+                  <span class="error" v-if=" errorArray.modulo">{{ errorArray.modulo[0]}}.</span>
+                  <div class="form-control-position">
+                    <i class="bx bx-code-block"></i>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -315,6 +333,7 @@ export default {
         nombre: "",
         slug: "",
         id: 0,
+        modulo:'',
       },
       listPermiso: [],
       metodo: "",
@@ -434,6 +453,7 @@ export default {
       if (metodo == "primary") {
         this.permiso.nombre = "";
         this.permiso.slug = "";
+        this.permiso.modulo= "";
         this.permiso.id = 0;
       }
       if (metodo == "warning") {
@@ -452,6 +472,7 @@ export default {
       let me = this;
       this.errorArray = [];
       this.form.append("nombre", this.permiso.nombre);
+      this.form.append("modulo", this.permiso.modulo);
       this.form.append("slug", this.permiso.slug);
       this.form.append("id", this.permiso.id);
       if (this.metodo == "primary" && this.errorArray.length == 0) {

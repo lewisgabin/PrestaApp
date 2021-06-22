@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use  App\Http\Requests\RolRequest;
 use App\Models\Rol;
+use App\Models\Permiso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RolController extends Controller
 {
@@ -88,13 +90,12 @@ class RolController extends Controller
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Rol  $rol
-     * @return \Illuminate\Http\Response
-     */
+    public function getPermisos()
+    {
+        $permisos = Permiso::get();
+        $modulos = DB::table('permisos')->select('modulo',DB::raw("COUNT(id) as total"))->groupBy('modulo')->get();
+        return ['permisos' => $permisos,'modulos'=>$modulos];
+    }
     public function destroy($id)
     {
         //

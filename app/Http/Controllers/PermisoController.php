@@ -41,6 +41,7 @@ class PermisoController extends Controller
         
         $permiso = new Permiso();
         $permiso->nombre = $request->nombre;
+        $permiso->modulo = $request->modulo;
         $permiso->slug = $request->slug;
         $permiso->estado = 1;
         $permiso->save();
@@ -51,6 +52,7 @@ class PermisoController extends Controller
     {
         $permiso =  Permiso::findOrFail($request->id);
         $permiso->nombre = $request->nombre;
+        $permiso->modulo = $request->modulo;
         $permiso->slug = $request->slug;
         $permiso->update();
 
