@@ -366,7 +366,7 @@ export default {
       let me = this;
       if (this.metodo == "crear") {
         axios
-          .post(url, this.form, config)
+          .post('/C-usuarios', this.form, config)
           .then((response) => {
             //
           

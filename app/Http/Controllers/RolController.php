@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use  App\Http\Requests\RolRequest;
 use App\Models\Rol;
+use App\Models\RolPermiso;
 use App\Models\Permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +16,10 @@ class RolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
         //
-       
+
         $per_page = $request->per_page;
         $filtro = $request->filtro;
         $busquedad = $request->busquedad;
@@ -49,21 +51,49 @@ class RolController extends Controller
      */
     public function store(RolRequest $request)
     {
-        
+        $permisos = $request->permisos;
         $rol = new Rol();
         $rol->nombre = $request->nombre;
         $rol->slug = $request->slug;
         $rol->save();
 
+        if (isset($permisos) > 0) {
+
+            foreach ($permisos as $key) {
+
+                if ($key['checked'] == true) {
+                    $per = new RolPermiso();
+                    $per->id_rol = $rol->id;
+                    $per->id_permiso = $key['id'];
+                    $per->save();
+                }
+            }
+        }
     }
 
     public function editar(RolRequest  $request)
     {
+        $permisos = $request->permisos;
         $rol =  Rol::findOrFail($request->id);
         $rol->nombre = $request->nombre;
         $rol->slug = $request->slug;
         $rol->update();
 
+
+        if (isset($permisos) > 0) {
+            $delete = RolPermiso::where('id_rol', '=', $request->id);
+            $delete->delete();
+
+            foreach ($permisos as $key) {
+
+                if ($key['checked'] == true) {
+                    $per = new RolPermiso();
+                    $per->id_rol = $rol->id;
+                    $per->id_permiso = $key['id'];
+                    $per->save();
+                }
+            }
+        }
     }
 
 
@@ -93,9 +123,19 @@ class RolController extends Controller
     public function getPermisos()
     {
         $permisos = Permiso::get();
-        $modulos = DB::table('permisos')->select('modulo',DB::raw("COUNT(id) as total"))->groupBy('modulo')->get();
-        return ['permisos' => $permisos,'modulos'=>$modulos];
+        $modulos = DB::table('permisos')->select('modulo', DB::raw("COUNT(id) as total"))->groupBy('modulo')->get();
+        return ['permisos' => $permisos, 'modulos' => $modulos];
     }
+
+    public function getRol($id)
+    {
+
+        $rolP = RolPermiso::where('id_rol', '=', $id)->get();
+        $rol = Rol::findOrFail($id);
+
+        return ['rolP' => $rolP, 'rol'=>$rol];
+    }
+
     public function destroy($id)
     {
         //

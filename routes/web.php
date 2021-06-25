@@ -26,6 +26,7 @@ Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
 Route::apiResource('/C-rols', RolController::class);
 Route::post('/C-rols/editar', [RolController::class,'editar']);
 Route::get('/rol/GetPermisos', [RolController::class,'getPermisos']);
+Route::get('/rol/GetRol/{id}', [RolController::class,'getRol']);
 
 //permiso
 Route::apiResource('/C-permiso', PermisoController::class);

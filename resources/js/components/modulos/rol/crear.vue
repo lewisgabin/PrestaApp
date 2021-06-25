@@ -55,7 +55,7 @@
                   </h5>
                 </div>
               </div>
-              <div class="card-body">
+              <div class="card-body" id="form">
                 <div class="row mt-2">
                   <div class="col-md-10 col-12">
                     <label for="first-name-icon">NOMBRE</label>
@@ -156,19 +156,19 @@
                       class="collapse"
                       style=""
                     >
-                      <div class="card-body" style="padding-top: 5px;">
-                        <div v-for="per in listPermisos" :key="per.id">
-                          <div  style="display:flex;"
-                            class="checkbox-primary checkbox-glow mt-1 "
+                      <div class="card-body" style="padding-top: 5px">
+                        <div v-for="per in listaCheck" :key="per.id">
+                          <div
+                            style="display: flex"
+                            class="checkbox-primary checkbox-glow mt-1"
                             v-if="item.modulo == per.modulo"
                           >
                             <input
-                               class="che mr-1"
+                              class="che mr-1"
                               type="checkbox"
                               :id="per.slug"
-                              v-model="idPermisos"
+                              v-model="per.checked"
                               :value="per.id"
-                         
                             />
                             <label>{{ per.nombre }}</label>
                           </div>
@@ -179,6 +179,22 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="col-12 d-flex">
+            <button
+              type="reset"
+              @click.prevent="limpiaCampos()"
+              class="btn btn-light-secondary mr-1"
+            >
+              Limpiar
+            </button>
+            <button
+              type="submit"
+              @click.prevent="guardarRol()"
+              class="btn btn-primary"
+            >
+              Guardar
+            </button>
           </div>
         </div>
       </div>
@@ -194,17 +210,28 @@ export default {
         nombre: "",
         slug: "",
       },
+      idRol: 0,
       idPermisos: [],
       textoComponet: "Crear Rol",
       errorArray: [],
       listPermisos: [],
       listModulo: [],
+      form: new FormData(),
+      errorArray: [],
+      listaCheck: [],
+      rolWithPermisos: [],
     };
   },
   mounted() {
+    if (this.$route.params.metodo == "editar") {
+      this.textoComponet = "Editar Rol";
+      this.idRol = this.$route.params.idRol;
+      this.getRolWithPermision(this.$route.params.idRol);
+    }
     this.getListPermisos();
   },
   methods: {
+    //obtener lista de permisos
     getListPermisos() {
       let me = this;
       this.$loading(true);
@@ -212,8 +239,111 @@ export default {
       axios.get(url).then((response) => {
         me.listPermisos = response.data.permisos;
         me.listModulo = response.data.modulos;
+        me.setListaPermisoCheck();
         me.$loading(false);
       });
+    },
+    //guardar y editar rol
+    guardarRol() {
+      let me = this;
+      this.errorArray = [];
+      this.form.append("nombre", this.rol.nombre);
+      this.form.append("slug", this.rol.slug);
+      this.form.append("listPermiso", this.listaCheck);
+      let count = false;
+      var count1 = this.listaCheck.forEach((item) => {
+        
+        if (item.checked) {
+          count = true;
+        }
+      });
+
+      if (count) {
+        this.$loading(true);
+        if (this.$route.params.metodo == "editar") {
+          axios
+            .post("/C-rols/editar", {
+       
+                nombre: this.rol.nombre,
+                slug: this.rol.slug,
+                permisos: this.listaCheck,
+                id: this.idRol,
+              },
+            )
+            .then((response) => {
+              me.$router.push({ name: "rolIndex", params: { estado: 2 } });
+            })
+            .catch((error) => {
+              if (error.response.data.errors) {
+                me.errorArray = error.response.data.errors;
+                me.$loading(false);
+              }
+            });
+        } else {
+          axios
+            .post("/C-rols", {
+              nombre: this.rol.nombre,
+              slug: this.rol.slug,
+              permisos: this.listaCheck,
+            })
+            .then((response) => {
+              me.$router.push({ name: "rolIndex", params: { estado: 1 } });
+            })
+            .catch((error) => {
+              if (error.response.data.errors) {
+                me.errorArray = error.response.data.errors;
+                me.$loading(false);
+              }
+            });
+        }
+      } else {
+        this.$swal({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes agregar al menos un permiso!",
+        });
+      }
+    },
+    //Limpia campo
+    limpiaCampos() {
+      this.rol.nombre = "";
+      this.rol.slug = "";
+      this.listaCheck = [];
+    },
+    //get rol con sus permisos
+    getRolWithPermision(id) {
+      let me = this;
+      axios
+        .get("/rol/GetRol/" + id)
+        .then((response) => {
+          me.rolWithPermisos = response.data.rolP;
+          me.rol = response.data.rol;
+        })
+        .catch((error) => {
+          consoleg.log(error);
+        });
+    },
+    //organizar array permisos
+    setListaPermisoCheck() {
+      this.listPermisos.forEach((item, index) => {
+        this.listaCheck.push({
+          id: item.id,
+          nombre: item.nombre,
+          slug: item.slug,
+          modulo: item.modulo,
+          checked: 0,
+        });
+      });
+
+      if (this.$route.params.metodo == "editar") {
+        this.listaCheck.forEach((item, index) => {
+          this.rolWithPermisos.forEach((per) => {
+            if (item.id == per.id_permiso) {
+              item.checked = 1;
+            }
+          });
+        });
+      }
     },
   },
 };
@@ -222,8 +352,6 @@ export default {
 <style>
 .che {
   width: 19px;
-    height: 19px;
-  }
-
-
+  height: 19px;
+}
 </style>

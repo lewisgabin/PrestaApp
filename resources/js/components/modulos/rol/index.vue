@@ -78,8 +78,9 @@
                   <div style="display: flex">
                     <button
                       type="button"
-                      v-tooltip.top="'Editar Usuario.'"
+                      v-tooltip.top="'Editar Rol.'"
                       class="btn btn-icon btn-light-warning glow mr-1"
+                      @click="editar(item.id)"
                     
                     >
                       <i class="bx bxs-edit-alt"></i>
@@ -94,7 +95,7 @@
                         )
                       "
                       type="button"
-                      v-tooltip.top="'Desactivar Usuario.'"
+                      v-tooltip.top="'Desactivar Rol.'"
                       class="btn btn-icon btn-light-danger glow"
                     >
                       <i class="bx bxs-trash"></i>
@@ -103,7 +104,7 @@
                       v-else
                       type="button"
                       @click="activarDesactivar(item.id, 'Activar', 'Activado')"
-                      v-tooltip.top="'Activar Usuario.'"
+                      v-tooltip.top="'Activar Rol.'"
                       class="btn btn-icon btn-light-success glow"
                     >
                       <i class="bx bx-power-off"></i>
@@ -255,6 +256,24 @@ export default {
   },
   mounted() {
     this.getListRol();
+     if (this.$route.params.estado == 1) {
+      this.$toast.open({
+        message: "Rol ah sido creado con exito!",
+        type: "success",
+        duration: 4000,
+        dismissible: true,
+        position: "top-right",
+      });
+    }
+    if (this.$route.params.estado == 2) {
+      this.$toast.open({
+        message: "Rol editado con exito!",
+        type: "success",
+        duration: 4000,
+        dismissible: true,
+        position: "top-right",
+      });
+    }
   },
   methods: {
     // metodo para paginar
@@ -329,6 +348,13 @@ export default {
             me.getListRol();
           });
         }
+      });
+    },
+    //editar Rol
+        editar(id) {
+      this.$router.push({
+        name: "rolEditar",
+        params: { idRol: id, metodo: "editar" },
       });
     },
   },
