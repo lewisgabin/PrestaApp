@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\LanguageController;
@@ -15,6 +16,9 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//auth
+Route::post('/C-login', [LoginController::class,'login']);
+Route::get('/C-logout', [LoginController::class,'logout']);
 
 
 //Usuarios

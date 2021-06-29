@@ -11,6 +11,11 @@
    
 @endsection
 
+@section('login')
+@if (!Auth::check())
+<Auth></Auth>
+@endif
+@endsection
 @section('sidebar2')
     <sidebar ruta ="{{ asset('') }}"></sidebar>
 @endsection
@@ -18,7 +23,11 @@
 @section('content')
 
 <transition name="fade" mode="out-in">
-            <router-view></router-view>
+    @if (Auth::check())
+        <router-view></router-view> 
+       
+    @endif
+           
 </transition>
 @endsection
   

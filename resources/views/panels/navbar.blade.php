@@ -182,11 +182,11 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <li class="dropdown-menu-footer"><a class="dropdown-item p-50 text-primary justify-content-center" href="javascript:void(0)">Read all notifications</a></li>
             </ul>
           </li>
-          <li class="dropdown dropdown-user nav-item">
-            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+          <li class="dropdown dropdown-user nav-item" id="dropdownUser">
+            <a class="dropdown-toggle nav-link dropdown-user-link"  href="#" data-toggle="dropdown">
               <div class="user-nav d-sm-flex d-none">
-                <span class="user-name">John Doe</span>
-                <span class="user-status text-muted">Available</span>
+                <span class="user-name">{{Auth::user()->nombre}} </span>
+                <span class="user-status text-muted">{{Auth::user()->apellido}} </span>
               </div>
               <span><img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"></span>
             </a>
@@ -194,15 +194,11 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <a class="dropdown-item" href="#">
                 <i class="bx bx-user mr-50"></i> Edit Profile
               </a>
-              <a class="dropdown-item" href="#">
-                <i class="bx bx-envelope mr-50"></i> My Inbox
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="bx bx-check-square mr-50"></i> Task</a>
-                <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> Chats
-              </a>
+             
+          
               <div class="dropdown-divider mb-0"></div>
-              <a class="dropdown-item" href="#"><i class="bx bx-power-off mr-50"></i> Logout</a>
+              <router-link :to="'/logoutt'" class="dropdown-item"><i class="bx bx-power-off mr-50"></i> Salir</router-link>
+             
             </div>
           </li>
         </ul>

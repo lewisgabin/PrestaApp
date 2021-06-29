@@ -50,6 +50,7 @@ Vue.use(VTooltip)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('home', require('./components/Home.vue').default);
+Vue.component('Auth', require('./components/Auth.vue').default);
 Vue.component('sidebar', require('./components/Sidebar.vue').default);
 
 /**

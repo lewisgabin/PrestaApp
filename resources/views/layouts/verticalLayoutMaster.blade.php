@@ -7,9 +7,14 @@
 {{$configData['bodyCustomClass']}}
 @if($configData['mainLayoutType'] === 'vertical-menu-boxicons'){{'boxicon-layout'}}@endif
 @if($configData['isCardShadow'] === false) {{'no-card-shadow'}} @endif"
+@if (!Auth::check())style="background:url('img/auth-bg.jpg') no-repeat
+center center !important;    overflow: hidden;" @endif
 data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-framework="laravel" >
 <div id="app" style="    min-height: calc(100% - 3.5rem);">
   <!-- BEGIN: Header-->
+  @yield('login')
+  
+  @if (Auth::check())
   @include('panels.navbar')
   <!-- END: Header-->
 
@@ -55,15 +60,16 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-fra
 		</div>
 	@endif
   </div>
+  @endif
   <!-- END: Content-->
 </div>
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>
-
+  @if (Auth::check())
   <!-- BEGIN: Footer-->
     @include('panels.footer')
   <!-- END: Footer-->
-
+@endif
   @include('panels.scripts')
 
 </body>
