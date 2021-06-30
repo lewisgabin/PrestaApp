@@ -24,12 +24,14 @@ Route::get('/C-logout', [LoginController::class,'logout']);
 //Usuarios
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
+Route::post('/C-usuarios/getRol', [UsuarioController::class,'getRol']);
 
 
 //Rols
 Route::apiResource('/C-rols', RolController::class);
 Route::post('/C-rols/editar', [RolController::class,'editar']);
 Route::get('/rol/GetPermisos', [RolController::class,'getPermisos']);
+Route::get('/C-rol/getListRolPermiso', [RolController::class,'getListRolPermiso']);
 Route::get('/rol/GetRol/{id}', [RolController::class,'getRol']);
 
 //permiso

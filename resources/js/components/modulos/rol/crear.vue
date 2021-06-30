@@ -214,7 +214,9 @@ export default {
       idPermisos: [],
       textoComponet: "Crear Rol",
       errorArray: [],
+      listRolPermiso :[],
       listPermisos: [],
+      listRolPermisoFilter:[],
       listModulo: [],
       form: new FormData(),
       errorArray: [],
@@ -271,7 +273,8 @@ export default {
               },
             )
             .then((response) => {
-              me.$router.push({ name: "rolIndex", params: { estado: 2 } });
+           
+            this.getListarRolPermiso(response.data.rol);
             })
             .catch((error) => {
               if (error.response.data.errors) {
@@ -303,6 +306,28 @@ export default {
           text: "Debes agregar al menos un permiso!",
         });
       }
+    },   getListarRolPermiso(rol) {
+      axios
+        .get("/C-rol/getListRolPermiso", { params: { rol: rol } })
+        .then((response) => {
+         this.listRolPermiso = response.data.rolpermiso;
+          this.getListarRolPermisoFilter();
+          
+        
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getListarRolPermisoFilter(){
+      let me = this;
+      me.listRolPermiso.map(function (x,y){
+        me.listRolPermisoFilter.push(x.slug)
+      })
+      
+        sessionStorage.setItem("ListRolPermiso", JSON.stringify(me.listRolPermisoFilter ));
+            me.$router.push({ name: "rolIndex", params: { estado: 2 } });
+             location.reload();
     },
     //Limpia campo
     limpiaCampos() {

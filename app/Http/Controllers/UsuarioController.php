@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Rol;
 use Illuminate\Http\Request;
+
 
 class UsuarioController extends Controller
 {
@@ -90,6 +92,11 @@ class UsuarioController extends Controller
         return ['usuario' => $usuario];
     }
 
+    public function getRol()
+    {
+        $rol = Rol::select('nombre', 'id')->where('estado', '=', 1)->get();
+        return ['rol' => $rol];
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -98,7 +105,10 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function editar(Request $request)
+
     {
+
+     
         $file = $request->file;
         $usuario =  Usuario::findOrFail($request->id);
         $usuario->nombre = $request->nombre;
@@ -123,8 +133,8 @@ class UsuarioController extends Controller
         //  $usuario->actualizado_por = 1;
         //$usuario->created_at = now();
 
-
         $usuario->update();
+     
     }
 
 

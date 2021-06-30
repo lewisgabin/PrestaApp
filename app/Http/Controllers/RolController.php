@@ -8,6 +8,7 @@ use App\Models\RolPermiso;
 use App\Models\Permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RolController extends Controller
 {
@@ -94,6 +95,8 @@ class RolController extends Controller
                 }
             }
         }
+        $rol = Auth::user()->rol;
+        return  ['rol'=> $rol];
     }
 
 
@@ -142,5 +145,12 @@ class RolController extends Controller
         $rol = Rol::findOrFail($id);
         $rol->estado =  !$rol->estado;
         $rol->update();
+    }
+
+    public function getListRolPermiso(Request $request){
+        $rol = DB::table('rols_permison as rp')
+        ->join('permisos as p','p.id','=','rp.id_permiso')
+        ->select('p.slug')->where('rp.id_rol','=',$request->rol)->get();
+        return ['rolpermiso'=> $rol];
     }
 }

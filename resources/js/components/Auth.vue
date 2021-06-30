@@ -113,6 +113,8 @@ export default {
     return {
       usuario: "",
       password: "",
+      listRolPermiso:[],
+      listRolPermisoFilter:[],
       errorArray: [{ usuario: "", password: "" }],
     };
   },
@@ -135,23 +137,45 @@ export default {
     },
     enviarLoggin() {
       let me = this;
-       this.$loading(true);
+      this.$loading(true);
       axios
         .post("/C-login", { email: this.usuario, password: this.password })
         .then((response) => {
-           if(response.data.code == 401){
+          if (response.data.code == 401) {
             this.$loading(false);
-        }
-        if(response.data.code == 200){
-          me.$router.push({name: 'usuarioCrear'});
-         
-          location.reload();
-        }
+          }
+          if (response.data.code == 200) {
+           
+            me.getListarRolPermiso(response.data.authUser.rol);
+            
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    getListarRolPermiso(rol) {
+      axios
+        .get("/C-rol/getListRolPermiso", { params: { rol: rol } })
+        .then((response) => {
+         this.listRolPermiso = response.data.rolpermiso;
+          this.getListarRolPermisoFilter();
+        
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getListarRolPermisoFilter(){
+      let me = this;
+      me.listRolPermiso.map(function (x,y){
+        me.listRolPermisoFilter.push(x.slug)
+      })
+      
+        sessionStorage.setItem("ListRolPermiso", JSON.stringify(me.listRolPermisoFilter ));
+            this.$router.push({ name: "home" });
+             location.reload();
+    }
   },
 };
 </script>

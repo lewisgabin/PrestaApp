@@ -131,16 +131,9 @@
           <div class="col-md-6 col-12">
             <label for="first-name-icon">ROL</label>
             <div class="form-label-group has-icon-left">
-              <select
-                class="form-control"
-                v-model="usuario.rol"
-                placeholder="Rol"
-              >
-                <option value="prueba">prueba</option>
-              </select>
-              <div class="form-control-position">
-                <i class="bx bx-sitemap"></i>
-              </div>
+             
+              <v-select v-model="usuario.rol"  label="nombre" :reduce="nombre => nombre.id" :options="listRol"></v-select>
+            
             </div>
           </div>
 
@@ -260,6 +253,7 @@ export default {
         password: "",
       },
       mensajeError: [],
+      listRol:[],
       error: 0,
       textoComponet: "Crear Usuario",
       modalShow: false,
@@ -279,12 +273,14 @@ export default {
   },
   components: {},
   mounted() {
+    this.getRol();
     if (this.$route.params.metodo == "editar") {
       this.$loading(true);
       this.textoComponet = "Editar Usuario";
       this.metodo = this.$route.params.metodo;
       this.obtenerUsuario(this.$route.params.idUsuario);
     }
+    
   },
   methods: {
     //presenta la imagen en image input
@@ -314,7 +310,7 @@ export default {
       if (!this.usuario.usuario) {
         this.mensajeError.push("El Usuario es un campo obligatorio");
       }
-      if (!this.usuario.password && this.metodo == 'crear') {
+      if (!this.usuario.password && this.metodo == "crear") {
         this.mensajeError.push("La Contraseña es un campo obligatorio");
       }
       if (!this.usuario.rol) {
@@ -359,17 +355,17 @@ export default {
       this.form.append("email", this.usuario.email);
       this.form.append("estado", this.usuario.estado);
       this.form.append("file", this.usuario.image);
-      this.form.append("id",this.$route.params.idUsuario);
+      this.form.append("id", this.$route.params.idUsuario);
 
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-usuarios/editar";
       let me = this;
       if (this.metodo == "crear") {
         axios
-          .post('/C-usuarios', this.form, config)
+          .post("/C-usuarios", this.form, config)
           .then((response) => {
             //
-          
+
             me.$router.push({ name: "usuarioIndex", params: { estado: 1 } });
           })
           .catch((error) => {
@@ -379,17 +375,15 @@ export default {
       }
       if (this.metodo == "editar") {
         axios
-          .post(url,this.form, config)
+          .post(url, this.form, config)
           .then((response) => {
             //
-       
+
             me.$router.push({ name: "usuarioIndex", params: { estado: 2 } });
-           
           })
           .catch((error) => {
             console.log(error);
             me.$loading(false);
-
           });
       }
     },
@@ -401,6 +395,7 @@ export default {
         .get(url)
         .then((response) => {
           me.usuario = response.data.usuario;
+          me.usuario.rol = parseInt(me.usuario.rol);
           $("#imagePreview").css(
             "background-image",
             "url('" + "../storage/img/users/" + me.usuario.image + "')"
@@ -408,6 +403,18 @@ export default {
           me.usuario.password = "";
           me.$loading(false);
           me.usuario.image = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    //obtener todos los roles
+    getRol() {
+      let me = this;
+      axios
+        .post("/C-usuarios/getRol")
+        .then((response) => {
+          me.listRol = response.data.rol;
         })
         .catch((error) => {
           console.log(error);
