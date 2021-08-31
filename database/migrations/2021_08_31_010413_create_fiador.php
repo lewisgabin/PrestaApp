@@ -14,7 +14,7 @@ class CreateFiador extends Migration
     public function up()
     {
         Schema::create('fiador', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // joelia 
             $table->string('nombre');
             $table->string('apellidos');
             $table->string('apodo')->nullable();
