@@ -20,7 +20,7 @@
           <h2 class="card-title">Lista de permisos</h2>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3">         
           <label for="users-list-role">Filtro</label>
           <fieldset class="form-group shadow">
             <v-select
