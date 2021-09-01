@@ -14,15 +14,15 @@ class CreateFiador extends Migration
     public function up()
     {
         Schema::create('fiador', function (Blueprint $table) {
-            $table->id(); // joelia 
-            $table->string('nombre');
-            $table->string('apellidos');
-            $table->string('apodo')->nullable();
-            $table->string('cedula')->nullable();
-            $table->text('direccion')->nullable();
+            $table->id(); //joelia    
+            $table->string('nombre');    
+            $table->string('apellidos');           
+            $table->string('apodo')->nullable();  
+            $table->string('cedula')->nullable();  
+            $table->text('direccion')->nullable();     
             $table->string('telefono')->nullable();
-            $table->unsignedBigInteger('id_cliente')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('id_cliente')->nullable(); 
+            $table->timestamps();  
 
             $table->foreign("id_cliente")
             ->references("id")

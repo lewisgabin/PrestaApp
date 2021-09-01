@@ -169,6 +169,16 @@
             >
           </li>
         </template>
+              <template v-if="listRolPermiso.includes('index.clientes')">
+          <li class="nav-item">
+            <router-link :to="'/clientes'"
+              ><i class="bx bx-folder"></i
+              ><span class="menu-title text-truncate" data-i18n="clientes"
+                >Clientes</span
+              ></router-link
+            >
+          </li>
+        </template>
       </ul>
     </div>
   </div>

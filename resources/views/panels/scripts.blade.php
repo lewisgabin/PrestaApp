@@ -26,6 +26,12 @@
     <script src="{{asset('js/scripts/footer.js')}}"></script>
     <script src="{{asset('js/scripts/customizer.js')}}"></script>
     <script src="{{asset('assets/js/scripts.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.date.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.time.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/pick-a-datetime.js')}}"></script>
+   
   
   
     <!-- END: Theme JS-->
