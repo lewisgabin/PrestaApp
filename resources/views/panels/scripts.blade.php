@@ -31,6 +31,8 @@
     <script src="{{asset('vendors/js/pickers/pickadate/picker.time.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/pickadate/pick-a-datetime.js')}}"></script>
+    <script src="{{asset('vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset('js/scripts/forms/form-repeater.js')}}"></script>
    
   
   
