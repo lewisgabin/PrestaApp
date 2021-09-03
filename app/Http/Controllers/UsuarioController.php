@@ -43,6 +43,17 @@ class UsuarioController extends Controller
 
         return ['usuarios' => $usuarios];
     }
+    
+    public function prueba(Request $request)
+    {
+       
+       
+
+            $usuarios = Usuario::get();
+      
+
+        return ["data" =>$usuarios] ;
+    }
 
 
     /**

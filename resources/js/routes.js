@@ -16,7 +16,8 @@ export default new Router({
         {path: '/crear/rol', component:require('./components/modulos/rol/crear.vue').default, name:'rolCrear'},
         {path: '/editar/rol', component:require('./components/modulos/rol/crear.vue').default, name:'rolEditar'},
         {path: '/clientes', component:require('./components/modulos/cliente/index.vue').default, name:'clienteIndex'},
-        {path: '/crear/cliente', component:require('./components/modulos/cliente/crear.vue').default, name:'rolCrear'},
+        {path: '/crear/cliente', component:require('./components/modulos/cliente/crear.vue').default, name:'clienteCrear'},
+      
     ],
     mode:'history',
     linkActiveClass: 'active'

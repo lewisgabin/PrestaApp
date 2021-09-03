@@ -260,6 +260,7 @@ export default {
     };
   },
   mounted() {
+  
     this.getListUsuarios();
 
     if (this.$route.params.estado == 1) {

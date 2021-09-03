@@ -25,6 +25,7 @@ Route::get('/C-logout', [LoginController::class,'logout']);
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
 Route::post('/C-usuarios/getRol', [UsuarioController::class,'getRol']);
+Route::get('/prueba', [UsuarioController::class,'prueba']);
 
 
 //Rols
