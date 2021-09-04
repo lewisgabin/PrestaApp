@@ -52,6 +52,7 @@ class RolController extends Controller
      */
     public function store(RolRequest $request)
     {
+       
         $permisos = $request->permisos;
         $rol = new Rol();
         $rol->nombre = $request->nombre;

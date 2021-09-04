@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Http\Requests\ClienteRequest;
 
 class ClienteController extends Controller
 {
@@ -35,7 +36,7 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClienteRequest $request)
     {
         $file = $request->file;
         $cliente = new Cliente();

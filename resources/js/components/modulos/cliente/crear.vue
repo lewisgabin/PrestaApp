@@ -84,14 +84,20 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <label for="first-name-icon">NOMBRE*:</label>
+                  <label for="first-name-icon">NOMBRE:</label>
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
                       v-model="cliente.nombre"
                       placeholder="Nombre"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof errorArray.nombre !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="errorArray.nombre">
+                      {{ errorArray.nombre[0] }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-user"></i>
                     </div>
@@ -107,7 +113,13 @@
                       v-model="cliente.apellidos"
                       placeholder="Apellidos"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof errorArray.apellidos !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="errorArray.apellidos">
+                      {{ errorArray.apellidos[0] }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-user"></i>
                     </div>
@@ -178,7 +190,11 @@
                 <div class="col-md-6">
                   <label for="first-name-icon">NACIONALIDAD:</label>
                   <div class="form-label-group has-icon-left">
-                    <select class="form-control shadow" id="basicSelect" v-model="cliente.nacionalidad">
+                    <select class="form-control shadow" id="basicSelect" v-model="cliente.nacionalidad" 
+                      :class="{
+                        error: typeof errorArray.nacionalidad !== 'undefined',
+                      }"
+                    >
                       <option>Americana</option>
                       <option selected>Dominicana</option>
                       <option>Ecuatoriana</option>
@@ -186,7 +202,10 @@
                       <option>Venezolana</option>
                       <option>Latino-America</option>
                       <option>Nicaraguense</option>
-                    </select>
+                    </select>                    
+                    <span class="error" v-if="errorArray.nacionalidad">
+                      {{ errorArray.nacionalidad[0] }}
+                    </span>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -259,7 +278,13 @@
                       v-model="cliente.whatsapp"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof errorArray.whatsapp !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="errorArray.whatsapp">
+                      {{ errorArray.whatsapp[0] }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-mobile"></i>
                     </div>
@@ -303,7 +328,13 @@
                       v-model="cliente.email"
                       placeholder="Email"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof errorArray.email !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="errorArray.email">
+                      {{ errorArray.email[0] }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-mail-send"></i>
                     </div>
@@ -757,7 +788,7 @@ export default {
       },
       mensajeError: [],
       listRol:[],
-      error: 0,
+      errorArray: [],
       textoComponet: "Crear Cliente",
       modalShow: false,
       isLoading: false,
@@ -800,7 +831,10 @@ export default {
       //}
     },
     guardarCliente() {
+      this.errorArray = [];
+
       this.$loading(true);
+
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -834,23 +868,50 @@ export default {
             me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
           })
           .catch((error) => {
-            console.log(error.response.data);
-            me.$loading(false);
+            if (error.response.data.errors) {
+              me.errorArray = error.response.data.errors;
+              me.$loading(false);
+            }
           });
       }
       if (this.metodo == "editar") {
         axios
           .post(url, this.form, config)
           .then((response) => {
-            //
-
             me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
           })
           .catch((error) => {
-            console.log(error.response.data);
-            me.$loading(false);
+            if (error.response.data.errors) {
+              me.errorArray = error.response.data.errors;
+              me.$loading(false);
+            }
           });
       }
+    },
+    //Limpia campo
+    limpiaCampos() {
+      this.cliente.nombre = "",
+      this.cliente.apellidos = "",      
+      this.cliente.apodo = "",
+      this.cliente.cedula = "",
+      this.cliente.fecha_nacimiento = "2017-06-15",
+      this.cliente.ocupacion = "",
+      this.cliente.nacionalidad = "",
+      this.cliente.sexo = "1",
+      this.cliente.whatsapp = "",
+      this.cliente.tel_principal = "",
+      this.cliente.tel_otro = "",
+      this.cliente.email = "",
+      this.cliente.direccion = "",
+      this.cliente.id_provincia = 1,
+      this.cliente.id_municipio = 1,
+      this.cliente.sector = "",
+      this.cliente.id_ruta = 1,
+      this.cliente.direccion_trabajo = "",
+      this.cliente.foto = "",
+      this.cliente.recomendado_por = "",
+      this.cliente.comentario = "",
+      this.errorArray = [];
     },
     obtenerUsuario(idC) {
       var url = "/C-clientes/" + idC;
@@ -948,5 +1009,10 @@ export default {
 }
 .bx-2 {
   font-size: 1.5rem !important;
+}
+.error{
+  color: #FF5B5C;
+  font-size: small;
+  border-color: #FF5B5C;
 }
 </style>
