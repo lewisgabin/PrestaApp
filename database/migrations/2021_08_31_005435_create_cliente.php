@@ -25,7 +25,7 @@ class CreateCliente extends Migration
             $table->string('sexo');
             $table->string('whatsapp');
             $table->string('tel_principal')->nullable();
-            $table->string('tel_otro')->nullable();
+            $table->string('tel_otro')->nullable()->nullable();
             $table->string('email')->unique();
             $table->text('direccion')->nullable();
             $table->unsignedBigInteger('id_provincia')->nullable();

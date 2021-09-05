@@ -3,7 +3,7 @@
     <div class="content-header row">
       <div class="content-header-left col-12 mb-1 mt-1">
         <div class="breadcrumbs-top">
-          <h5 class="content-header-title float-left pr-1 mb-0">Usuarios</h5>
+          <h5 class="content-header-title float-left pr-1 mb-0">Clientes</h5>
           <div class="breadcrumb-wrapper d-none d-sm-block">
             <ol class="breadcrumb p-0 mb-0 pl-1">
               <li class="breadcrumb-item">
@@ -12,7 +12,7 @@
             </ol>
           </div>
           <router-link
-            :to="'/usuario'"
+            :to="'/cliente'"
             type="button"
             style="float: right"
             class="btn btn-light-primary mr-1 mb-1"
@@ -88,6 +88,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.nombre"
                       placeholder="Nombre"
                       class="form-control shadow"
                     />
@@ -103,6 +104,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.apellidos"
                       placeholder="Apellidos"
                       class="form-control shadow"
                     />
@@ -118,6 +120,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.apodo"
                       placeholder="Apodo"
                       class="form-control shadow"
                     />
@@ -131,6 +134,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.cedula"
                       placeholder="Ej: Numero de cedula"
                       class="form-control shadow"
                     />
@@ -146,6 +150,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.ocupacion"
                       placeholder="Ocupacion"
                       class="form-control shadow"
                     />
@@ -159,6 +164,7 @@
                   <fieldset class="form-group position-relative has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.fecha_nacimiento"
                       class="form-control shadow pickadate-months-year"
                       placeholder="Select Date"
                     />
@@ -172,7 +178,7 @@
                 <div class="col-md-6">
                   <label for="first-name-icon">NACIONALIDAD:</label>
                   <div class="form-label-group has-icon-left">
-                    <select class="form-control shadow" id="basicSelect">
+                    <select class="form-control shadow" id="basicSelect" v-model="cliente.nacionalidad">
                       <option>Americana</option>
                       <option selected>Dominicana</option>
                       <option>Ecuatoriana</option>
@@ -184,7 +190,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name-icon">FECHA NACIMIENTO:</label>
+                  <label for="first-name-icon">SEXO:</label>
                   <ul class="list-unstyled mb-0" style="margin-top: 5px">
                     <li class="d-inline-block mr-2 mb-1">
                       <fieldset>
@@ -250,6 +256,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.whatsapp"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
                     />
@@ -263,6 +270,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.tel_principal"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
                     />
@@ -278,6 +286,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.tel_otro"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
                     />
@@ -291,6 +300,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.email"
                       placeholder="Email"
                       class="form-control shadow"
                     />
@@ -306,6 +316,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.direccion"
                       placeholder="Direccion"
                       class="form-control shadow"
                     />
@@ -321,7 +332,6 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="provincia"
-                      @input="getListRol"
                       :options="['provincia', 'slug']"
                     ></v-select>
                   </fieldset>
@@ -332,7 +342,6 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="municipio"
-                      @input="getListRol"
                       :options="['municipio', 'slug']"
                     ></v-select>
                   </fieldset>
@@ -344,7 +353,6 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="sector"
-                      @input="getListRol"
                       :options="['sector', 'slug']"
                     ></v-select>
                   </fieldset>
@@ -354,8 +362,7 @@
 
                   <fieldset class="form-group shadow">
                     <v-select
-                      v-model="ruta"
-                      @input="getListRol"
+                      v-model="rutaa"
                       :options="['ruta', 'slug']"
                     ></v-select>
                   </fieldset>
@@ -367,6 +374,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.direccion_trabajo"
                       placeholder="Donde trabaja"
                       class="form-control shadow"
                     />
@@ -380,6 +388,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="cliente.recomendado_por"
                       placeholder="Quien recomendor"
                       class="form-control shadow"
                     />
@@ -398,6 +407,7 @@
                       id="basicTextarea"
                       rows="3"
                       placeholder="Textarea"
+                      v-model="cliente.comentario"
                     ></textarea>
                   </fieldset>
                 </div>
@@ -440,6 +450,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.nombre"
                       placeholder="Nombre"
                       class="form-control shadow"
                     />
@@ -453,6 +464,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.apellidos"
                       placeholder="Apellido"
                       class="form-control shadow"
                     />
@@ -467,6 +479,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.apodo"
                       placeholder="Apodo"
                       class="form-control shadow"
                     />
@@ -480,6 +493,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.cedula"
                       placeholder="Cedula"
                       class="form-control shadow"
                     />
@@ -495,6 +509,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.telefono"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
                     />
@@ -509,6 +524,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.celular"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
                     />
@@ -522,6 +538,7 @@
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
+                      v-model="fiador.direccion"
                       placeholder="Direccion"
                       class="form-control shadow"
                     />
@@ -664,7 +681,7 @@
     <div class="row">
       <div class="col-md-10 offset-md-1 card envio" style="text-align: center" >
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-2 btn-success glow">
+          <button type="button" @click="registrarCliente" class="btn btn-2 btn-success glow">
             <i class="bx bx-2 bx-save"></i
             ><span class="align-middle ml-25">Guardar</span>
           </button>
@@ -685,7 +702,14 @@
 
     
 <script>
+import vue2Dropzone from "vue2-dropzone";
+
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 export default {
+  props: ["ruta"],
+  components: {
+    vueDropzone: vue2Dropzone,
+  },
   data: function () {
     return {
       dropzoneOptions: {
@@ -697,11 +721,158 @@ export default {
       },
       municipio: "municipio",
       provincia: "provincia",
-      ruta: "ruta",
+      rutaa: "ruta",
       sector: "sector",
+      cliente: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        cedula: "",
+        fecha_nacimiento: "2017-06-15",
+        ocupacion: "",
+        nacionalidad: "",
+        sexo: "1",
+        whatsapp: "",
+        tel_principal: "",
+        tel_otro: "",
+        email: "",
+        direccion: "",
+        id_provincia: 1,
+        id_municipio: 1,
+        sector: "",
+        id_ruta: 1,
+        direccion_trabajo: "",
+        foto: "",
+        recomendado_por: "",
+        comentario: "",
+      },
+      fiador: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        cedula: "",
+        direccion: "",
+        telefono: "",
+        celular: "",
+      },
+      mensajeError: [],
+      listRol:[],
+      error: 0,
+      textoComponet: "Crear Cliente",
+      modalShow: false,
+      isLoading: false,
+      fullPage: true,
+      mostrarModal: {
+        display: "block",
+        background: "#0000006b",
+      },
+      ocultarModal: {
+        display: "none",
+      },
+      form: new FormData(),
+      clienteId: 0,
+      metodo: "crear",
     };
   },
   mounted() {},
+  methods: {
+    //presenta la imagen en image input
+    getFile(e) {
+      this.cliente.foto = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $("#imagePreview").css(
+          "background-image",
+          "url(" + reader.result + ")"
+        );
+        $("#imagePreview").show();
+        $("#imagePreview").fadeIn(650);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    },
+    // valida el envio al metodo guardar
+    registrarCliente() {
+      /*if (this.validarRegistrarCliente() == 1) {
+        this.modalShow = true;
+        return;
+      } else {*/
+        this.guardarCliente();
+      //}
+    },
+    guardarCliente() {
+      this.$loading(true);
+      this.form.append("nombre", this.cliente.nombre);
+      this.form.append("apellidos", this.cliente.apellidos);
+      this.form.append("apodo", this.cliente.apodo);
+      this.form.append("cedula", this.cliente.cedula);
+      this.form.append("fecha_nacimiento", this.cliente.fecha_nacimiento);
+      this.form.append("ocupacion", this.cliente.ocupacion);
+      this.form.append("nacionalidad", this.cliente.nacionalidad);
+      this.form.append("sexo", this.cliente.sexo);
+      this.form.append("whatsapp", this.cliente.whatsapp);
+      this.form.append("tel_principal", this.cliente.tel_principal);
+      this.form.append("tel_otro", this.cliente.tel_otro);
+      this.form.append("email", this.cliente.email);
+      this.form.append("direccion", this.cliente.direccion);
+      this.form.append("id_provincias", this.cliente.id_provincia);
+      this.form.append("id_municipio", this.cliente.id_municipio);
+      this.form.append("sector", this.sector);
+      this.form.append("id_ruta", this.cliente.id_ruta);
+      this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
+      this.form.append("recomendado_por", this.cliente.recomendado_por);
+      this.form.append("comentario", this.cliente.comentario);
+      this.form.append("file", this.cliente.foto);
+      this.form.append("id", this.$route.params.idCliente);
+
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      var url = "/C-clientes/editar";
+      let me = this;
+      if (this.metodo == "crear") {
+        axios
+          .post("/C-clientes", this.form, config)
+          .then((response) => {
+            me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+            me.$loading(false);
+          });
+      }
+      if (this.metodo == "editar") {
+        axios
+          .post(url, this.form, config)
+          .then((response) => {
+            //
+
+            me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+            me.$loading(false);
+          });
+      }
+    },
+    obtenerUsuario(idC) {
+      var url = "/C-clientes/" + idC;
+      let me = this;
+      axios
+        .get(url)
+        .then((response) => {
+          me.cliente = response.data.cliente;
+          // me.usuario.rol = parseInt(me.usuario.rol);
+          $("#imagePreview").css(
+            "background-image",
+            "url('" + "../storage/img/users/" + me.cliente.foto + "')"
+          );
+          me.cliente.password = "";
+          me.$loading(false);
+          me.cliente.foto = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  }
 };
 </script>
 

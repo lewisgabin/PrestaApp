@@ -14,17 +14,42 @@
         </div>
       </div>
     </div>
+
     <div class="card collapse-icon accordion-icon-rotate">
-    
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table" id="userDatatable1" v-once>
+          <table class="table" id="userDatatable1">
             <thead>
               <tr>
                 <th>CLIENTE</th>
                 <th># DOCUMENTO</th>
+                <th>CONTACTO</th>
+                <th>RUTA</th>
+                <th>ACCIONES</th>
               </tr>
             </thead>
+            <tbody>
+              <tr v-for="cliente in listClientes" :key="cliente.id">
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.cedula }}</td>
+                <td>{{ cliente.whatsapp }}</td>
+                <td>{{ cliente.id_ruta }}</td>
+                <td>
+                <div class="btn-group mr-1 mb-1">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle  btn-sm" type="button" id="dropdownMenuButtonIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-error-circle mr-50"></i> OPCIONES
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonIcon" style="">
+                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-bar-chart-alt-2 mr-50"></i> Option 1</a>
+                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-bell mr-50"></i> Option 2</a>
+                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-time mr-50"></i> Option 3</a>
+              </div>
+            </div>
+          </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -51,7 +76,7 @@ export default {
   props: ["ruta"],
   data() {
     return {
-      listUsuario: [],
+      listClientes: [],
       listEstado: [
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
@@ -59,11 +84,11 @@ export default {
     };
   },
   mounted() {
-    this.getListUsuarios();
+    this.getListCliente();
 
     if (this.$route.params.estado == 1) {
       this.$toast.open({
-        message: "Usuario creado con exito!",
+        message: "Cliente creado con exito!",
         type: "success",
         duration: 4000,
         dismissible: true,
@@ -72,7 +97,7 @@ export default {
     }
     if (this.$route.params.estado == 2) {
       this.$toast.open({
-        message: "Usuario editado con exito!",
+        message: "Cliente editado con exito!",
         type: "success",
         duration: 4000,
         dismissible: true,
@@ -81,7 +106,7 @@ export default {
     }
     if (this.$route.params.estado == 3) {
       this.$toast.open({
-        message: "Problema para guardar el usuario",
+        message: "Problema para guardar el Cliente",
         type: "error",
         duration: 4000,
         dismissible: true,
@@ -90,47 +115,47 @@ export default {
     }
   },
   methods: {
-    //Obtener lista de usuario
-    getListUsuarios() {
-      let me = this;
-      this.$loading(true);
-      var url = "/prueba";
-      axios.get(url).then((response) => {
-        me.listUsuario = response.data.data;
-
-        me.$loading(false);
-
+    //Obtener lista de Cliente
+    dataTable() {
+      this.$nextTick(() => {
         $("#userDatatable1").DataTable({
           language: {
             url: "http://prestaapp.test/css/es.json",
           },
           processing: true,
           scrollY: false,
-             scrollX: false,
+          scrollX: false,
           processing: true,
           autoFill: true,
-             dom: 'Blfrtip',
-          buttons: ["copy","pdf","print","excel"],
-          
-          data: me.listUsuario,
-          columns: [{ data: "nombre" }, { data: "apellido" }],
+          dom: "Blfrtip",
+          buttons: ["copy", "pdf", "print", "excel"],
         });
-       
+      });
+    },
+    getListCliente() {
+      let me = this;
+      this.$loading(true);
+      var url = "/C-clientes";
+      axios.get(url).then((response) => {
+        me.listClientes = response.data.data;
+        me.dataTable();
+        me.$loading(false);
       });
     },
     // navegar hacia editar
     editar(id) {
       this.$router.push({
-        name: "usuarioCrear",
-        params: { idUsuario: id, metodo: "editar" },
+        name: "clienteCrear",
+        params: { idCliente: id, metodo: "editar" },
       });
     },
     //activar o desactivar
-    activarDesactivar(id, metodo, metodo2) {
-      let me = this;
+    activarDesactivar() {
+      alert("lenady");
+      /* let me = this;
       this.$swal({
         title: "Esta seguro?",
-        text: "Que desea '" + metodo + "' el usuario!",
+        text: "Que desea '" + metodo + "' el cliente!",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#ff5b5c",
@@ -138,44 +163,28 @@ export default {
         confirmButtonText: "Si, " + metodo + "!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete("/C-usuarios/" + id).then((response) => {
+          axios.delete("/C-clientes/" + id).then((response) => {
             me.$swal(
               "" + metodo2 + "!",
-              "El usuario a sido " + metodo2 + ".",
+              "El cliente a sido " + metodo2 + ".",
               "success"
             );
-            me.getListUsuarios();
+            me.getListCliente();
           });
         }
-      });
+      });*/
     },
   },
 };
 </script>
 
 <style  scoped>
-.btn-light-warning {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
-
-.btn-light-danger {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
-.btn-light-success {
-  background-color: #f2f4f4;
-  color: #9797a6;
-}
 #vs1__combobox {
   height: 37px;
 }
 .table thead th {
   color: #475f7b;
 }
-
-
-
 </style>
 
 

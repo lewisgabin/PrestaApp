@@ -5,6 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Route::get('/C-logout', [LoginController::class,'logout']);
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
 Route::post('/C-usuarios/getRol', [UsuarioController::class,'getRol']);
-Route::get('/prueba', [UsuarioController::class,'prueba']);
+
 
 
 //Rols
@@ -39,8 +40,10 @@ Route::get('/rol/GetRol/{id}', [RolController::class,'getRol']);
 Route::apiResource('/C-permiso', PermisoController::class);
 Route::post('/C-permiso/editar', [PermisoController::class,'editar']);
 
+//Clientes
+Route::apiResource('/C-clientes', ClienteController::class);
+// Route::post('/C-clientes/editar', [RolController::class,'editar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
 })->name('basepath')->where('optional', '.*');
-
