@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Fiador;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class ClienteController extends Controller
     {
         $file = $request->file;
         $cliente = new Cliente();
+        $fiador = new Fiador();
+
         $cliente->foto = 'sin.png';
         $cliente->nombre = $request->nombre;
         $cliente->apellidos = $request->apellidos;
@@ -79,6 +82,19 @@ class ClienteController extends Controller
 
         $cliente->created_at = now();
         $cliente->save();
+    
+        if($request->F_nombre && $request->F_apellidos){
+            $fiador->nombre = $request->F_nombre;
+            $fiador->apellidos = $request->F_apellidos;
+            $fiador->apodo = $request->F_apodo;
+            $fiador->cedula = $request->F_cedula;
+            $fiador->telefono = $request->F_telefono;
+            $fiador->celular = $request->F_celular;
+            $fiador->direccion = $request->F_direccion;
+            $fiador->id_cliente = $cliente->id;
+            $fiador->created_at = now();
+            $fiador->save();
+        }        
     }
 
     /**
@@ -124,5 +140,19 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getProvincias()
+    {
+        $provincias = DB::table('provincia')->get();
+        
+        return ['provincias' => $provincias];
+    }
+
+    public function getMunicipios($id)
+    {
+        $municipios = DB::table('municipio')->where('id_provincia', '=', $id)->get();
+
+        return ['municipios' => $municipios];
     }
 }
