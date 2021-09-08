@@ -18,7 +18,23 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table" id="userDatatable1">
+             <div class="btn-group mr-1 mb-1">
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Primary
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 1</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 2</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 3</a>
+                                            </div>
+                                        </div>
+                                    </div>
+          <table
+            class="table dataTable table-striped"
+            style="width: 98% !important"
+            id="userDatatable1"
+          >
             <thead>
               <tr>
                 <th>CLIENTE</th>
@@ -35,21 +51,48 @@
                 <td>{{ cliente.whatsapp }}</td>
                 <td>{{ cliente.id_ruta }}</td>
                 <td>
-                <div class="btn-group mr-1 mb-1">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle  btn-sm" type="button" id="dropdownMenuButtonIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bx bx-error-circle mr-50"></i> OPCIONES
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonIcon" style="">
-                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-bar-chart-alt-2 mr-50"></i> Option 1</a>
-                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-bell mr-50"></i> Option 2</a>
-                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-time mr-50"></i> Option 3</a>
-              </div>
-            </div>
-          </div>
+                  <div class="btn-group mr-1 mb-1">
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-secondary dropdown-toggle btn-sm"
+                        type="button"
+                        id="dropdownMenuButtonIcon"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="bx bx-error-circle mr-50"></i> OPCIONES
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButtonIcon"
+                        style=""
+                      >
+                        <a class="dropdown-item" href="javascript:void(0);"
+                          ><i class="bx bx-bar-chart-alt-2 mr-50"></i> Option
+                          1</a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0);"
+                          ><i class="bx bx-bell mr-50"></i> Option 2</a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0);"
+                          ><i class="bx bx-time mr-50"></i> Option 3</a
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <th rowspan="1" colspan="1">Cliente</th>
+                <th rowspan="1" colspan="1"># Documento</th>
+                <th rowspan="1" colspan="1">Contacto</th>
+                <th rowspan="1" colspan="1">Ruta</th>
+                <th rowspan="1" colspan="1">Acciones</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>

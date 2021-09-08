@@ -3,6 +3,10 @@
     <script>
         var assetBaseUrl = "{{ asset('') }}";
     </script>
+      @yield('vendor-scripts')
+     
+   
+     <script src="{{asset('vendors/js/popper/popper.min.js')}}"></script>
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('vendors/js/vendors.min.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js')}}"></script>
@@ -11,7 +15,7 @@
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    @yield('vendor-scripts')
+  
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->

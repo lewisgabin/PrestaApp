@@ -3509,6 +3509,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ruta"],
   data: function data() {
@@ -56229,11 +56272,17 @@ var render = function() {
       _c("div", { staticClass: "card collapse-icon accordion-icon-rotate" }, [
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
+            _vm._m(1),
+            _vm._v(" "),
             _c(
               "table",
-              { staticClass: "table", attrs: { id: "userDatatable1" } },
+              {
+                staticClass: "table dataTable table-striped",
+                staticStyle: { width: "98% !important" },
+                attrs: { id: "userDatatable1" }
+              },
               [
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -56247,11 +56296,13 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(cliente.id_ruta))]),
                       _vm._v(" "),
-                      _vm._m(2, true)
+                      _vm._m(3, true)
                     ])
                   }),
                   0
-                )
+                ),
+                _vm._v(" "),
+                _vm._m(4)
               ]
             )
           ])
@@ -56316,6 +56367,69 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "btn-group mr-1 mb-1" }, [
+      _c("div", { staticClass: "dropdown" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-primary dropdown-toggle",
+            attrs: {
+              type: "button",
+              id: "dropdownMenuButton",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _vm._v(
+              "\n                                              Primary\n                                          "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "dropdownMenuButton" }
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { href: "javascript:void(0);" }
+              },
+              [_vm._v("Option 1")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { href: "javascript:void(0);" }
+              },
+              [_vm._v("Option 2")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { href: "javascript:void(0);" }
+              },
+              [_vm._v("Option 3")]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("CLIENTE")]),
@@ -56340,7 +56454,7 @@ var staticRenderFns = [
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary dropdown-toggle  btn-sm",
+              staticClass: "btn btn-secondary dropdown-toggle btn-sm",
               attrs: {
                 type: "button",
                 id: "dropdownMenuButtonIcon",
@@ -56351,7 +56465,7 @@ var staticRenderFns = [
             },
             [
               _c("i", { staticClass: "bx bx-error-circle mr-50" }),
-              _vm._v(" OPCIONES\n            ")
+              _vm._v(" OPCIONES\n                    ")
             ]
           ),
           _vm._v(" "),
@@ -56370,7 +56484,7 @@ var staticRenderFns = [
                 },
                 [
                   _c("i", { staticClass: "bx bx-bar-chart-alt-2 mr-50" }),
-                  _vm._v(" Option 1")
+                  _vm._v(" Option\n                        1")
                 ]
               ),
               _vm._v(" "),
@@ -56399,6 +56513,32 @@ var staticRenderFns = [
               )
             ]
           )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tfoot", [
+      _c("tr", [
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [
+          _vm._v("Cliente")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [
+          _vm._v("# Documento")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [
+          _vm._v("Contacto")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [_vm._v("Ruta")]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [
+          _vm._v("Acciones")
         ])
       ])
     ])
