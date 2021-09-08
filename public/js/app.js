@@ -3156,6 +3156,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3174,8 +3177,8 @@ __webpack_require__.r(__webpack_exports__);
         },
         addRemoveLinks: true
       },
-      municipio: "municipio",
-      provincia: "provincia",
+      municipio: "",
+      provincia: "",
       rutaa: "ruta",
       sector: "sector",
       cliente: {
@@ -3192,8 +3195,6 @@ __webpack_require__.r(__webpack_exports__);
         tel_otro: "",
         email: "",
         direccion: "",
-        id_provincia: 1,
-        id_municipio: 1,
         sector: "",
         id_ruta: 1,
         direccion_trabajo: "",
@@ -3226,10 +3227,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       form: new FormData(),
       clienteId: 0,
-      metodo: "crear"
+      metodo: "crear",
+      listProvincias: [],
+      listMunicipios: []
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.getProvincias();
+  },
   methods: {
     //presenta la imagen en image input
     getFile: function getFile(e) {
@@ -3252,9 +3257,32 @@ __webpack_require__.r(__webpack_exports__);
       } else {*/
       this.guardarCliente(); //}
     },
+    getProvincias: function getProvincias() {
+      var _this = this;
+
+      this.$loading(true);
+      var url = "/GetProvincias";
+      axios.get(url).then(function (response) {
+        _this.listProvincias = response.data.provincias;
+
+        _this.$loading(false);
+      });
+    },
+    getMunicipio: function getMunicipio(provinciaSeleccionada) {
+      var _this2 = this;
+
+      this.$loading(true);
+      var url = "/GetMunicipios/" + provinciaSeleccionada.id;
+      axios.get(url).then(function (response) {
+        _this2.listMunicipios = response.data.municipios;
+
+        _this2.$loading(false);
+      });
+    },
     guardarCliente: function guardarCliente() {
       this.errorArray = [];
-      this.$loading(true);
+      this.$loading(true); //Datos Cliente
+
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -3268,15 +3296,23 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
-      this.form.append("id_provincias", this.cliente.id_provincia);
-      this.form.append("id_municipio", this.cliente.id_municipio);
+      this.form.append("id_provincia", this.provincia.id);
+      this.form.append("id_municipio", this.municipio.id);
       this.form.append("sector", this.sector);
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
-      this.form.append("id", this.$route.params.idCliente);
+      this.form.append("id", this.$route.params.idCliente); //Datos Fiador
+
+      this.form.append("F_nombre", this.fiador.nombre);
+      this.form.append("F_apellidos", this.fiador.apellidos);
+      this.form.append("F_apodo", this.fiador.apodo);
+      this.form.append("F_cedula", this.fiador.cedula);
+      this.form.append("F_telefono", this.fiador.telefono);
+      this.form.append("F_celular", this.fiador.celular);
+      this.form.append("F_direccion", this.fiador.direccion);
       var config = {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -3293,6 +3329,53 @@ __webpack_require__.r(__webpack_exports__);
               estado: 1
             }
           });
+        })["catch"](function (error) {
+          if (error.response.data.errors) {
+            me.errorArray = error.response.data.errors;
+            me.$loading(false);
+          }
+        });
+      }
+
+      if (this.metodo == "editar") {
+        axios.post(url, this.form, config).then(function (response) {
+          me.$router.push({
+            name: "clienteIndex",
+            params: {
+              estado: 2
+            }
+          });
+        })["catch"](function (error) {
+          if (error.response.data.errors) {
+            me.errorArray = error.response.data.errors;
+            me.$loading(false);
+          }
+        });
+      }
+    },
+    //Guardar datos del fiador
+    guardarFiador: function guardarFiador() {
+      this.errorArray = [];
+      this.$loading(true);
+      this.form.append("F_nombre", this.cliente.nombre);
+      this.form.append("F_apellidos", this.cliente.apellidos);
+      this.form.append("F_apodo", this.cliente.apodo);
+      this.form.append("F_cedula", this.cliente.cedula);
+      this.form.append("F_telefono", this.cliente.tel_principal);
+      this.form.append("F_celular", this.cliente.tel_otro);
+      this.form.append("F_direccion", this.cliente.direccion); // this.form.append("id", this.$route.params.idCliente);
+
+      var config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      var url = "/C-fiador/editar";
+      var me = this;
+
+      if (this.metodo == "crear") {
+        axios.post("/C-fiador", this.form, config).then(function (response) {
+          console.log("Guardado!");
         })["catch"](function (error) {
           if (error.response.data.errors) {
             me.errorArray = error.response.data.errors;
@@ -10888,7 +10971,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11008,7 +11091,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11080,7 +11163,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54983,7 +55066,8 @@ var render = function() {
                     { staticClass: "form-group shadow" },
                     [
                       _c("v-select", {
-                        attrs: { options: ["provincia", "slug"] },
+                        attrs: { options: _vm.listProvincias, label: "nombre" },
+                        on: { input: _vm.getMunicipio },
                         model: {
                           value: _vm.provincia,
                           callback: function($$v) {
@@ -55007,7 +55091,7 @@ var render = function() {
                     { staticClass: "form-group shadow" },
                     [
                       _c("v-select", {
-                        attrs: { options: ["municipio", "slug"] },
+                        attrs: { options: _vm.listMunicipios, label: "nombre" },
                         model: {
                           value: _vm.municipio,
                           callback: function($$v) {

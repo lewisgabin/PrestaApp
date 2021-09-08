@@ -363,7 +363,9 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="provincia"
-                      :options="['provincia', 'slug']"
+                      :options="listProvincias"
+                      label="nombre"
+                      @input="getMunicipio"
                     ></v-select>
                   </fieldset>
                 </div>
@@ -373,7 +375,8 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="municipio"
-                      :options="['municipio', 'slug']"
+                      :options="listMunicipios"
+                      label="nombre"
                     ></v-select>
                   </fieldset>
                 </div>
@@ -750,8 +753,8 @@ export default {
         headers: { "My-Awesome-Header": "header value" },
         addRemoveLinks: true,
       },
-      municipio: "municipio",
-      provincia: "provincia",
+      municipio: "",
+      provincia: "",
       rutaa: "ruta",
       sector: "sector",
       cliente: {
@@ -768,8 +771,6 @@ export default {
         tel_otro: "",
         email: "",
         direccion: "",
-        id_provincia: 1,
-        id_municipio: 1,
         sector: "",
         id_ruta: 1,
         direccion_trabajo: "",
@@ -803,9 +804,13 @@ export default {
       form: new FormData(),
       clienteId: 0,
       metodo: "crear",
+      listProvincias: [],
+      listMunicipios: [],
     };
   },
-  mounted() {},
+  mounted() {
+    this.getProvincias();
+  },
   methods: {
     //presenta la imagen en image input
     getFile(e) {
@@ -830,11 +835,27 @@ export default {
         this.guardarCliente();
       //}
     },
+    getProvincias(){
+      this.$loading(true);
+      var url = "/GetProvincias";
+      axios.get(url).then((response) => {
+        this.listProvincias = response.data.provincias;
+        this.$loading(false);
+      });
+    },
+    getMunicipio(provinciaSeleccionada){
+      this.$loading(true);
+      var url = "/GetMunicipios/"+ provinciaSeleccionada.id;
+      axios.get(url).then((response) => {
+        this.listMunicipios = response.data.municipios;
+        this.$loading(false);
+      });
+    },
     guardarCliente() {
       this.errorArray = [];
 
       this.$loading(true);
-
+      //Datos Cliente
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -848,8 +869,8 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
-      this.form.append("id_provincias", this.cliente.id_provincia);
-      this.form.append("id_municipio", this.cliente.id_municipio);
+      this.form.append("id_provincia", this.provincia.id);
+      this.form.append("id_municipio", this.municipio.id);
       this.form.append("sector", this.sector);
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
@@ -857,6 +878,15 @@ export default {
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
       this.form.append("id", this.$route.params.idCliente);
+      //Datos Fiador
+      this.form.append("F_nombre", this.fiador.nombre);
+      this.form.append("F_apellidos", this.fiador.apellidos);
+      this.form.append("F_apodo", this.fiador.apodo);
+      this.form.append("F_cedula", this.fiador.cedula);
+      this.form.append("F_telefono", this.fiador.telefono);
+      this.form.append("F_celular", this.fiador.celular);
+      this.form.append("F_direccion", this.fiador.direccion);
+
 
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
@@ -866,6 +896,52 @@ export default {
           .post("/C-clientes", this.form, config)
           .then((response) => {
             me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+          })
+          .catch((error) => {
+            if (error.response.data.errors) {
+              me.errorArray = error.response.data.errors;
+              me.$loading(false);
+            }
+          });
+      }
+      if (this.metodo == "editar") {
+        axios
+          .post(url, this.form, config)
+          .then((response) => {
+            me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+          })
+          .catch((error) => {
+            if (error.response.data.errors) {
+              me.errorArray = error.response.data.errors;
+              me.$loading(false);
+            }
+          });
+      }
+    },
+    //Guardar datos del fiador
+    guardarFiador() {
+      this.errorArray = [];
+
+      this.$loading(true);
+
+      this.form.append("F_nombre", this.cliente.nombre);
+      this.form.append("F_apellidos", this.cliente.apellidos);
+      this.form.append("F_apodo", this.cliente.apodo);
+      this.form.append("F_cedula", this.cliente.cedula);
+      this.form.append("F_telefono", this.cliente.tel_principal);
+      this.form.append("F_celular", this.cliente.tel_otro);
+      this.form.append("F_direccion", this.cliente.direccion);
+      // this.form.append("id", this.$route.params.idCliente);
+      
+
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      var url = "/C-fiador/editar";
+      let me = this;
+      if (this.metodo == "crear") {
+        axios
+          .post("/C-fiador", this.form, config)
+          .then((response) => {
+            console.log("Guardado!");
           })
           .catch((error) => {
             if (error.response.data.errors) {
