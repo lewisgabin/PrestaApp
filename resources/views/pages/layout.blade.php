@@ -24,6 +24,7 @@
 
 <transition name="fade" mode="out-in">
     @if (Auth::check())
+    
         <router-view></router-view> 
        
     @endif

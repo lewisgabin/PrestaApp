@@ -3902,42 +3902,46 @@ input:focus ~ .bg-success {
  
 
 }
-.btn-light-success:hover, .buttons-excel.hover {
+ .buttons-excel:hover {
 
   font-size: 2.2rem !important;
   padding-top:9px !important;
   padding-bottom:9px !important;
   padding-right:6px !important;
   padding-left:6px !important;
+
 }
-.btn-light-danger:hover, .buttons-pdf.hover {
+ .buttons-pdf:hover {
 
   font-size: 2.2rem !important;
   padding-top:9px !important;
   padding-bottom:9px !important;
   padding-right:6px !important;
   padding-left:6px !important;
+
 }
 
-.btn-light-warning:hover, .buttons-copy.hover {
+.buttons-copy:hover {
 
   font-size: 1.8rem !important;
   padding-top:9px !important;
   padding-bottom:9px !important;
   padding-right:8px !important;
   padding-left:8px !important;
+
 }
  .m-6{
   margin-right: 21px;
  }
 
-.btn-light-primary:hover, .buttons-printer.hover {
+.buttons-print:hover {
 
   font-size: 2rem !important;
   padding-top:9px !important;
   padding-bottom:9px !important;
   padding-right:6px !important;
   padding-left:6px !important;
+
 }
 
 .btn-light-success:active, .btn-light-success.active {

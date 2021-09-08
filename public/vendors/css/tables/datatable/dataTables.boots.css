@@ -214,36 +214,6 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
    
    }
 
-   .dt-buttons{
-    position: fixed;
-    top: 155px !important;
-    right: 39px !important;
-    left:none !important;
-    
-    
  
-    
 }
-}
-@media screen and (min-width: 767px) {
-    .dt-buttons{
-        position: fixed;
-       
-        left: 49% !important;
-     
-        
-    }
 
-    @media screen and (max-width: 1199px) and (min-width:768px) {
-  
-            .dt-buttons {
-              
-                left: 38% !important;
-            }
-         
-            
-        
- 
-
-   
-}
