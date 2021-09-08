@@ -21,6 +21,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueToast);
 Vue.use(VueSweetalert2);
 
+
 // using default options
 Vue.use(VueLoading)
 

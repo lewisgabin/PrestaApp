@@ -32,6 +32,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-fra
 					@yield('sidebar-content')
        
 
+
 				</div>
 			</div>
 			<div class="content-right">
