@@ -365,7 +365,7 @@
                       v-model="provincia"
                       :options="listProvincias"
                       label="nombre"
-                      @input="getMunicipio"
+                      @input="getMunicipio(provincia.id)"
                     ></v-select>
                   </fieldset>
                 </div>
@@ -715,7 +715,7 @@
     <div class="row">
       <div class="col-md-10 offset-md-1 card envio" style="text-align: center" >
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" @click="registrarCliente" class="btn btn-2 btn-success glow">
+          <button type="button" @click="guardarCliente" class="btn btn-2 btn-success glow">
             <i class="bx bx-2 bx-save"></i
             ><span class="align-middle ml-25">Guardar</span>
           </button>
@@ -753,6 +753,7 @@ export default {
         headers: { "My-Awesome-Header": "header value" },
         addRemoveLinks: true,
       },
+      idCliente: 0,
       municipio: "",
       provincia: "",
       rutaa: "ruta",
@@ -762,7 +763,7 @@ export default {
         apellidos: "",
         apodo: "",
         cedula: "",
-        fecha_nacimiento: "2017-06-15",
+        fecha_nacimiento: new Date(Date.now()).toLocaleDateString(),
         ocupacion: "",
         nacionalidad: "",
         sexo: "1",
@@ -810,6 +811,13 @@ export default {
   },
   mounted() {
     this.getProvincias();
+
+    if (this.$route.params.metodo == "editar") {
+      this.$loading(true);
+      this.metodo = this.$route.params.metodo;
+      this.idCliente = this.$route.params.idCliente;
+      this.obtenerCliente(this.$route.params.idCliente);
+    }
   },
   methods: {
     //presenta la imagen en image input
@@ -826,15 +834,6 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
-    // valida el envio al metodo guardar
-    registrarCliente() {
-      /*if (this.validarRegistrarCliente() == 1) {
-        this.modalShow = true;
-        return;
-      } else {*/
-        this.guardarCliente();
-      //}
-    },
     getProvincias(){
       this.$loading(true);
       var url = "/GetProvincias";
@@ -844,7 +843,7 @@ export default {
       });
     },
     getMunicipio(provinciaSeleccionada){
-      var url = "/GetMunicipios/"+ provinciaSeleccionada.id;
+      var url = "/GetMunicipios/"+ provinciaSeleccionada;
       axios.get(url).then((response) => {
         this.listMunicipios = response.data.municipios;
       });
@@ -854,6 +853,7 @@ export default {
 
       this.$loading(true);
       //Datos Cliente
+      this.form.append('id_cliente', this.idCliente);
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -922,7 +922,7 @@ export default {
       this.cliente.apellidos = "",      
       this.cliente.apodo = "",
       this.cliente.cedula = "",
-      this.cliente.fecha_nacimiento = "2017-06-15",
+      this.cliente.fecha_nacimiento = Date.now(),
       this.cliente.ocupacion = "",
       this.cliente.nacionalidad = "",
       this.cliente.sexo = "1",
@@ -941,21 +941,23 @@ export default {
       this.cliente.comentario = "",
       this.errorArray = [];
     },
-    obtenerUsuario(idC) {
+    obtenerCliente(idC) {
       var url = "/C-clientes/" + idC;
       let me = this;
       axios
         .get(url)
         .then((response) => {
           me.cliente = response.data.cliente;
-          // me.usuario.rol = parseInt(me.usuario.rol);
-          $("#imagePreview").css(
-            "background-image",
-            "url('" + "../storage/img/users/" + me.cliente.foto + "')"
-          );
-          me.cliente.password = "";
+          me.provincia = response.data.provincia;
+          me.municipio = response.data.municipio;
+          me.getMunicipio(response.data.provincia.id);
           me.$loading(false);
-          me.cliente.foto = false;
+          
+          // $("#imagePreview").css(
+          //   "background-image",
+          //   "url('" + "../storage/img/users/" + me.cliente.foto + "')"
+          // );
+          // me.cliente.foto = false;
         })
         .catch((error) => {
           console.log(error);

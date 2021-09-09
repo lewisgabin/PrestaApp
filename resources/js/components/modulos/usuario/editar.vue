@@ -289,7 +289,7 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
-    //metodo validar envio de datosnpm uninstall
+    //metodo validar envio de datos
     validarRegistrarUsuario() {
      
       this.error = 0;

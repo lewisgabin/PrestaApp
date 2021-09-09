@@ -18,6 +18,21 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-body">
         <div class="table-responsive">
+<<<<<<< HEAD
+=======
+             <div class="btn-group mr-1 mb-1">
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="editar(10)">
+                                                Primary
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 1</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 2</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Option 3</a>
+                                            </div>
+                                        </div>
+                                    </div>
+>>>>>>> dee3568bc9b209dfaf22dde7a1eaf6c00e198bf9
           <table
             class="table dataTable table-striped"
             style="width: 98% !important"
@@ -175,7 +190,7 @@ event.currentTarget.querySelector('.dropdown').classList.add('show');
     // navegar hacia editar
     editar(id) {
       this.$router.push({
-        name: "clienteCrear",
+        name: "clienteEditar",
         params: { idCliente: id, metodo: "editar" },
       });
     },

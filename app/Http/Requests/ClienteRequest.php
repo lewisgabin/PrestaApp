@@ -29,7 +29,6 @@ class ClienteRequest extends FormRequest
             'nacionalidad'=>'required',
             'sexo'=>'required|boolean',
             'whatsapp'=>'required',
-            'email'=>'unique:cliente',
         ];
     }
 
@@ -40,7 +39,6 @@ class ClienteRequest extends FormRequest
             'nacionalidad.*'=>'La nacionalidad es requerida.',
             'sexo.*'=>'El sexo es requerido.',
             'whatsapp.*'=>'El numero de whatsapp es requerido.',
-            'email.unique'=>'El email debe ser único.'
         ];
     }
 }

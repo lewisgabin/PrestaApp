@@ -34,4 +34,14 @@ class Cliente extends Model
         'comentario',
         'estado',
     ];
+
+    public function provincia()
+    {
+        return $this->belongsTo(Provincia::class, 'id_provincia');
+    }
+
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class, 'id_municipio');
+    }
 }
