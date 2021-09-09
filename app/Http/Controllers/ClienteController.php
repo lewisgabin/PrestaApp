@@ -142,17 +142,7 @@ class ClienteController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+   
     public function getProvincias()
     {
         $provincias = DB::table('provincia')->get();
@@ -165,5 +155,12 @@ class ClienteController extends Controller
         $municipios = DB::table('municipio')->where('id_provincia', '=', $id)->get();
 
         return ['municipios' => $municipios];
+    }
+
+    public function destroy($id)
+    {
+        $usuario =  Cliente::findOrFail($id);
+        $usuario->estado =  !$usuario->estado;
+        $usuario->update();
     }
 }

@@ -3528,30 +3528,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ruta"],
   data: function data() {
@@ -3563,7 +3539,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         value: 1,
         label: "Activo"
-      }]
+      }],
+      inicial: 0
     };
   },
   mounted: function mounted() {
@@ -3621,9 +3598,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var url = "/C-clientes";
       axios.get(url).then(function (response) {
         me.listClientes = response.data.data;
-        me.dataTable();
+
+        if (me.inicial == 0) {
+          me.dataTable();
+          me.inicial = 1;
+        }
+
         me.$loading(false);
       });
+    },
+    prueba: function prueba(event) {
+      console.log(event.currentTarget);
+      event.currentTarget.querySelector('.dropdown').classList.add('show');
     },
     // navegar hacia editar
     editar: function editar(id) {
@@ -3636,9 +3622,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     //activar o desactivar
-    activarDesactivar: function activarDesactivar() {
-      alert("lenady");
-      /* let me = this;
+    activarDesactivar: function activarDesactivar(id, metodo, metodo2) {
+      var me = this;
       this.$swal({
         title: "Esta seguro?",
         text: "Que desea '" + metodo + "' el cliente!",
@@ -3646,19 +3631,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         showCancelButton: true,
         cancelButtonColor: "#ff5b5c",
         confirmButtonColor: "#5a8dee",
-        confirmButtonText: "Si, " + metodo + "!",
-      }).then((result) => {
+        confirmButtonText: "Si, " + metodo + "!"
+      }).then(function (result) {
         if (result.isConfirmed) {
-          axios.delete("/C-clientes/" + id).then((response) => {
-            me.$swal(
-              "" + metodo2 + "!",
-              "El cliente a sido " + metodo2 + ".",
-              "success"
-            );
+          axios["delete"]("/C-clientes/" + id).then(function (response) {
+            me.$swal("" + metodo2 + "!", "El cliente a sido " + metodo2 + ".", "success");
             me.getListCliente();
           });
         }
-      });*/
+      });
     }
   }
 });
@@ -10971,7 +10952,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11091,7 +11072,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11163,7 +11144,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56272,8 +56253,6 @@ var render = function() {
       _c("div", { staticClass: "card collapse-icon accordion-icon-rotate" }, [
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
-            _vm._m(1),
-            _vm._v(" "),
             _c(
               "table",
               {
@@ -56282,7 +56261,7 @@ var render = function() {
                 attrs: { id: "userDatatable1" }
               },
               [
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -56294,15 +56273,58 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(cliente.whatsapp))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(cliente.id_ruta))]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(cliente.id_ruta) +
+                            "\n                \n              "
+                        )
+                      ]),
                       _vm._v(" "),
-                      _vm._m(3, true)
+                      _c("td", [
+                        !cliente.estado
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(
+                                "\n                  Inactivo\n                "
+                              )
+                            ])
+                          : _c("div", { staticClass: "text-success" }, [
+                              _vm._v("Activo")
+                            ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown",
+                            on: {
+                              click: function($event) {
+                                return _vm.prueba($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass:
+                                "bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer",
+                              attrs: {
+                                "data-toggle": "dropdown",
+                                "aria-haspopup": "true",
+                                "aria-expanded": "false",
+                                role: "menu"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(2, true)
+                          ]
+                        )
+                      ])
                     ])
                   }),
                   0
                 ),
                 _vm._v(" "),
-                _vm._m(4)
+                _vm._m(3)
               ]
             )
           ])
@@ -56367,69 +56389,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "btn-group mr-1 mb-1" }, [
-      _c("div", { staticClass: "dropdown" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-outline-primary dropdown-toggle",
-            attrs: {
-              type: "button",
-              id: "dropdownMenuButton",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [
-            _vm._v(
-              "\n                                              Primary\n                                          "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu",
-            attrs: { "aria-labelledby": "dropdownMenuButton" }
-          },
-          [
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item",
-                attrs: { href: "javascript:void(0);" }
-              },
-              [_vm._v("Option 1")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item",
-                attrs: { href: "javascript:void(0);" }
-              },
-              [_vm._v("Option 2")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item",
-                attrs: { href: "javascript:void(0);" }
-              },
-              [_vm._v("Option 3")]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("CLIENTE")]),
@@ -56440,6 +56399,8 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("RUTA")]),
         _vm._v(" "),
+        _c("th", [_vm._v("ESTADO")]),
+        _vm._v(" "),
         _c("th", [_vm._v("ACCIONES")])
       ])
     ])
@@ -56448,73 +56409,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "btn-group mr-1 mb-1" }, [
-        _c("div", { staticClass: "dropdown" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary dropdown-toggle btn-sm",
-              attrs: {
-                type: "button",
-                id: "dropdownMenuButtonIcon",
-                "data-toggle": "dropdown",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "bx bx-error-circle mr-50" }),
-              _vm._v(" OPCIONES\n                    ")
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu",
-              attrs: { "aria-labelledby": "dropdownMenuButtonIcon" }
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item",
-                  attrs: { href: "javascript:void(0);" }
-                },
-                [
-                  _c("i", { staticClass: "bx bx-bar-chart-alt-2 mr-50" }),
-                  _vm._v(" Option\n                        1")
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item",
-                  attrs: { href: "javascript:void(0);" }
-                },
-                [
-                  _c("i", { staticClass: "bx bx-bell mr-50" }),
-                  _vm._v(" Option 2")
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item",
-                  attrs: { href: "javascript:void(0);" }
-                },
-                [
-                  _c("i", { staticClass: "bx bx-time mr-50" }),
-                  _vm._v(" Option 3")
-                ]
-              )
-            ]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+      _c(
+        "a",
+        {
+          staticClass: "dropdown-item",
+          attrs: { href: "javascript:void(0);" }
+        },
+        [_c("i", { staticClass: "bx bx-edit-alt mr-1" }), _vm._v(" edit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "dropdown-item",
+          attrs: { href: "javascript:void(0);" }
+        },
+        [_c("i", { staticClass: "bx bx-trash mr-1" }), _vm._v(" delete")]
+      )
     ])
   },
   function() {
@@ -56536,6 +56448,8 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [_vm._v("Ruta")]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [_vm._v("Estado")]),
         _vm._v(" "),
         _c("th", { attrs: { rowspan: "1", colspan: "1" } }, [
           _vm._v("Acciones")

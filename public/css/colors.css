@@ -3902,6 +3902,10 @@ input:focus ~ .bg-success {
  
 
 }
+.buttons-excel,.buttons-pdf,.buttons-copy,.buttons-print{
+  font-size: 1.4rem !important;
+}
+
  .buttons-excel:hover {
 
   font-size: 2.2rem !important;

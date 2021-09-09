@@ -3,12 +3,11 @@
     <script>
         var assetBaseUrl = "{{ asset('') }}";
     </script>
-      @yield('vendor-scripts')
-     
    
+   <script src="{{asset('vendors/js/vendors.min.js')}}"></script>
      <script src="{{asset('vendors/js/popper/popper.min.js')}}"></script>
     <script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('vendors/js/vendors.min.js')}}"></script>
+   
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
@@ -47,6 +46,7 @@
     <script src="{{asset('vendors/js/tables/datatable/buttons.bootstrap4.min.js')}}"></script>
     
     <script src="{{asset('vendors/js/tables/datatable/vfs_fonts.js')}}"></script>
+   
  
     
 
