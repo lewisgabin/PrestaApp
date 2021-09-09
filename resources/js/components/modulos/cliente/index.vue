@@ -14,25 +14,16 @@
         </div>
       </div>
     </div>
-
+  <div class="dropdown"  @click="prueba($event)">
+                                                <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt mr-1"></i> edit</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash mr-1"></i> delete</a>
+                                                </div>
+                                            </div>
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-body">
         <div class="table-responsive">
-<<<<<<< HEAD
-=======
-             <div class="btn-group mr-1 mb-1">
-                                        <div class="dropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="editar(10)">
-                                                Primary
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="javascript:void(0);">Option 1</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Option 2</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
->>>>>>> dee3568bc9b209dfaf22dde7a1eaf6c00e198bf9
           <table
             class="table dataTable table-striped"
             style="width: 98% !important"
@@ -44,7 +35,7 @@
                 <th># DOCUMENTO</th>
                 <th>CONTACTO</th>
                 <th>RUTA</th>
-                 <th>ESTADO</th>
+                <th>ESTADO</th>
                 <th>ACCIONES</th>
               </tr>
             </thead>
@@ -53,24 +44,48 @@
                 <td>{{ cliente.nombre }}</td>
                 <td>{{ cliente.cedula }}</td>
                 <td>{{ cliente.whatsapp }}</td>
-                <td>{{ cliente.id_ruta }}
-                  
-                </td>
+                <td>{{ cliente.id_ruta }}</td>
                 <td>
-                   <div v-if="!cliente.estado" class="text-danger">
-                    Inactivo
-                  </div>
+                  <div v-if="!cliente.estado" class="text-danger">Inactivo</div>
                   <div v-else class="text-success">Activo</div>
                 </td>
                 <td>
-                       <div class="dropdown" @click="prueba($event)">
-                                                <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt mr-1"></i> edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash mr-1"></i> delete</a>
-                                                </div>
-                                            </div>
-             
+                    <div style="display: flex">
+                  <button
+                      type="button"
+                      v-tooltip.top="'Editar Usuario.'"
+                      class="btn btn-icon btn-light-secondary glow mr-1"
+                      @click="
+                        editar(cliente.id)
+                      "
+                    >
+                      <i class="bx bxs-edit-alt"></i>
+                    </button>
+                    <button
+                      v-if="cliente.estado"
+                      @click="
+                        activarDesactivar(
+                          cliente.id,
+                          'Desactivar',
+                          'Desactivado'
+                        )
+                      "
+                      type="button"
+                      v-tooltip.top="'Desactivar Usuario.'"
+                      class="btn btn-icon btn-light-secondary glow"
+                    >
+                      <i class="bx bxs-trash"></i>
+                    </button>
+                    <button
+                      v-else
+                      type="button"
+                      @click="activarDesactivar(cliente.id, 'Activar', 'Activado')"
+                      v-tooltip.top="'Activar Usuario.'"
+                      class="btn btn-icon btn-light-secondary glow"
+                    >
+                      <i class="bx bx-power-off"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -80,7 +95,7 @@
                 <th rowspan="1" colspan="1"># Documento</th>
                 <th rowspan="1" colspan="1">Contacto</th>
                 <th rowspan="1" colspan="1">Ruta</th>
-                  <th rowspan="1" colspan="1">Estado</th>
+                <th rowspan="1" colspan="1">Estado</th>
                 <th rowspan="1" colspan="1">Acciones</th>
               </tr>
             </tfoot>
@@ -115,11 +130,10 @@ export default {
         { value: 0, label: "Inactivo" },
         { value: 1, label: "Activo" },
       ],
-      inicial:0,
+      inicial: 0,
     };
   },
   mounted() {
-
     this.getListCliente();
 
     if (this.$route.params.estado == 1) {
@@ -174,19 +188,18 @@ export default {
       var url = "/C-clientes";
       axios.get(url).then((response) => {
         me.listClientes = response.data.data;
-        if(me.inicial == 0){
+        if (me.inicial == 0) {
           me.dataTable();
           me.inicial = 1;
         }
-       
+
         me.$loading(false);
       });
     },
-    prueba(event){
-      console.log(event.currentTarget);
-event.currentTarget.querySelector('.dropdown').classList.add('show');
+    prueba(event) {
+    document.getElementById("myDropdown").classList.toggle("show");
     },
-    
+
     // navegar hacia editar
     editar(id) {
       this.$router.push({
@@ -196,8 +209,7 @@ event.currentTarget.querySelector('.dropdown').classList.add('show');
     },
     //activar o desactivar
     activarDesactivar(id, metodo, metodo2) {
-    
-    let me = this;
+      let me = this;
       this.$swal({
         title: "Esta seguro?",
         text: "Que desea '" + metodo + "' el cliente!",

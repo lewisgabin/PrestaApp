@@ -38,13 +38,13 @@
             </div>
             <div class="heading-elements">
               <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -190,7 +190,10 @@
                 <div class="col-md-6">
                   <label for="first-name-icon">NACIONALIDAD:</label>
                   <div class="form-label-group has-icon-left">
-                    <select class="form-control shadow" id="basicSelect" v-model="cliente.nacionalidad" 
+                    <select
+                      class="form-control shadow"
+                      id="basicSelect"
+                      v-model="cliente.nacionalidad"
                       :class="{
                         error: typeof errorArray.nacionalidad !== 'undefined',
                       }"
@@ -202,7 +205,7 @@
                       <option>Venezolana</option>
                       <option>Latino-America</option>
                       <option>Nicaraguense</option>
-                    </select>                    
+                    </select>
                     <span class="error" v-if="errorArray.nacionalidad">
                       {{ errorArray.nacionalidad[0] }}
                     </span>
@@ -253,14 +256,14 @@
               <h2 class="card-title" style="font-size: 1.1rem">OTROS DATOS</h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="">
+               <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -365,8 +368,8 @@
                       v-model="provincia"
                       :options="listProvincias"
                       label="nombre"
-                      @input="getMunicipio(provincia.id)"
-                    ></v-select>
+                      @input="getMunicipio(provincia,'select')"
+                    ></v-select><!-- lewis-->
                   </fieldset>
                 </div>
                 <div class="col-md-6">
@@ -462,14 +465,14 @@
               </h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="rotate" style="color: white">
+                <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -598,14 +601,14 @@
               </h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="rotate" style="color: white">
+           <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -713,14 +716,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-10 offset-md-1 card envio" style="text-align: center" >
+      <div class="col-md-10 offset-md-1 card envio" style="text-align: center">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" @click="guardarCliente" class="btn btn-2 btn-success glow">
+          <button
+            type="button"
+            @click="guardarCliente"
+            class="btn btn-2 btn-success glow"
+          >
             <i class="bx bx-2 bx-save"></i
             ><span class="align-middle ml-25">Guardar</span>
           </button>
-          <button type="button" class="btn btn-2 btn-light-secondary ">
-            <i class="bx  bx-user-plus" style="font-size: 1.7rem !important;"></i
+          <button type="button" class="btn btn-2 btn-light-secondary">
+            <i class="bx bx-user-plus" style="font-size: 1.7rem !important"></i
             ><span class="align-middle ml-25">Guardar y Nuevo Cliente</span>
           </button>
           <button type="button" class="btn btn-2 btn-light-primary">
@@ -789,7 +796,7 @@ export default {
         celular: "",
       },
       mensajeError: [],
-      listRol:[],
+      listRol: [],
       errorArray: [],
       textoComponet: "Crear Cliente",
       modalShow: false,
@@ -834,7 +841,20 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
-    getProvincias(){
+      //abrir y cerrar card 
+    openClose(event){
+     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+      div.querySelector('.card-content').classList.toggle('show');
+      div.querySelector('.list-inline li a').classList.toggle('rotate');
+    },
+    //amplia el card
+    zoomCard(event){
+     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+     console.log(div);
+   //   div.querySelector('.card-content').classList.toggle('show');
+     div.classList.toggle('card-fullscreen');
+    },
+    getProvincias() {
       this.$loading(true);
       var url = "/GetProvincias";
       axios.get(url).then((response) => {
@@ -842,18 +862,29 @@ export default {
         this.$loading(false);
       });
     },
-    getMunicipio(provinciaSeleccionada){
-      var url = "/GetMunicipios/"+ provinciaSeleccionada;
+    getMunicipio(provinciaSeleccionada,metodo) {
+    
+     if(!this.provincia == ""){
+       // metodo recibe el nombre ddel componete de donde a sido llamado el metodo --lewis
+       if(metodo == "select"){
+         provinciaSeleccionada = provinciaSeleccionada.id;
+       }
+      this.municipio = "";
+      var url = "/GetMunicipios/" + provinciaSeleccionada;
       axios.get(url).then((response) => {
         this.listMunicipios = response.data.municipios;
+        
+        
       });
+
+      }
     },
     guardarCliente() {
       this.errorArray = [];
 
       this.$loading(true);
       //Datos Cliente
-      this.form.append('id_cliente', this.idCliente);
+      this.form.append("id_cliente", this.idCliente);
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -867,8 +898,14 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
-      this.form.append("id_provincia", this.provincia.id);
-      this.form.append("id_municipio", this.municipio.id);
+      //por que si no se selecionan no de error --lewis
+      if (!this.provincia == "") {
+        this.form.append("id_provincia", this.provincia.id);
+      }
+      if (!this.municipio.id == "") {
+        this.form.append("id_municipio", this.municipio.id);
+      }
+
       this.form.append("sector", this.sector);
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
@@ -884,7 +921,6 @@ export default {
       this.form.append("F_telefono", this.fiador.telefono);
       this.form.append("F_celular", this.fiador.celular);
       this.form.append("F_direccion", this.fiador.direccion);
-
 
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
@@ -918,28 +954,28 @@ export default {
     },
     //Limpia campo
     limpiaCampos() {
-      this.cliente.nombre = "",
-      this.cliente.apellidos = "",      
-      this.cliente.apodo = "",
-      this.cliente.cedula = "",
-      this.cliente.fecha_nacimiento = Date.now(),
-      this.cliente.ocupacion = "",
-      this.cliente.nacionalidad = "",
-      this.cliente.sexo = "1",
-      this.cliente.whatsapp = "",
-      this.cliente.tel_principal = "",
-      this.cliente.tel_otro = "",
-      this.cliente.email = "",
-      this.cliente.direccion = "",
-      this.cliente.id_provincia = 1,
-      this.cliente.id_municipio = 1,
-      this.cliente.sector = "",
-      this.cliente.id_ruta = 1,
-      this.cliente.direccion_trabajo = "",
-      this.cliente.foto = "",
-      this.cliente.recomendado_por = "",
-      this.cliente.comentario = "",
-      this.errorArray = [];
+      (this.cliente.nombre = ""),
+        (this.cliente.apellidos = ""),
+        (this.cliente.apodo = ""),
+        (this.cliente.cedula = ""),
+        (this.cliente.fecha_nacimiento = Date.now()),
+        (this.cliente.ocupacion = ""),
+        (this.cliente.nacionalidad = ""),
+        (this.cliente.sexo = "1"),
+        (this.cliente.whatsapp = ""),
+        (this.cliente.tel_principal = ""),
+        (this.cliente.tel_otro = ""),
+        (this.cliente.email = ""),
+        (this.cliente.direccion = ""),
+        (this.cliente.id_provincia = 1),
+        (this.cliente.id_municipio = 1),
+        (this.cliente.sector = ""),
+        (this.cliente.id_ruta = 1),
+        (this.cliente.direccion_trabajo = ""),
+        (this.cliente.foto = ""),
+        (this.cliente.recomendado_por = ""),
+        (this.cliente.comentario = ""),
+        (this.errorArray = []);
     },
     obtenerCliente(idC) {
       var url = "/C-clientes/" + idC;
@@ -950,9 +986,10 @@ export default {
           me.cliente = response.data.cliente;
           me.provincia = response.data.provincia;
           me.municipio = response.data.municipio;
-          me.getMunicipio(response.data.provincia.id);
+          me.getMunicipio(response.data.provincia.id,'obtenerCliente');
+          me.municipio = me.cliente.municipio; //--lewis
           me.$loading(false);
-          
+
           // $("#imagePreview").css(
           //   "background-image",
           //   "url('" + "../storage/img/users/" + me.cliente.foto + "')"
@@ -963,7 +1000,7 @@ export default {
           console.log(error);
         });
     },
-  }
+  },
 };
 </script>
 
@@ -986,13 +1023,13 @@ export default {
     padding-bottom: 85px !important;
   }
 }
-.envio{
+.envio {
   text-align: center;
-    background: white;
-    padding: 21px;
-    border-radius: 0.267rem;
-    
-    border: 0px solid #dfe3e7;
+  background: white;
+  padding: 21px;
+  border-radius: 0.267rem;
+
+  border: 0px solid #dfe3e7;
 }
 .card-header {
   background-image: linear-gradient(
@@ -1040,9 +1077,9 @@ export default {
 .bx-2 {
   font-size: 1.5rem !important;
 }
-.error{
-  color: #FF5B5C;
+.error {
+  color: #ff5b5c;
   font-size: small;
-  border-color: #FF5B5C;
+  border-color: #ff5b5c;
 }
 </style>
