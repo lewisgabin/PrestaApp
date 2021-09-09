@@ -20,7 +20,7 @@
         <div class="table-responsive">
              <div class="btn-group mr-1 mb-1">
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="editar(10)">
                                                 Primary
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -188,7 +188,7 @@ export default {
     // navegar hacia editar
     editar(id) {
       this.$router.push({
-        name: "clienteCrear",
+        name: "clienteEditar",
         params: { idCliente: id, metodo: "editar" },
       });
     },
