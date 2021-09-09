@@ -26,7 +26,7 @@
 
     <div class="row">
       <div class="col-md-6 col-12 col-sm-12">
-        <div class="card collapse-icon accordion-icon-rotate">
+        <div class="card collapse-icon accordion-icon-rotate" >
           <div
             class="card-header border-bottom d-flex"
             style="padding-bottom: 15px; padding-top: 15px"
@@ -38,13 +38,13 @@
             </div>
             <div class="heading-elements">
               <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -253,14 +253,14 @@
               <h2 class="card-title" style="font-size: 1.1rem">OTROS DATOS</h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="">
+               <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -462,14 +462,14 @@
               </h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="rotate" style="color: white">
+               <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -598,14 +598,14 @@
               </h2>
             </div>
             <div class="heading-elements">
-              <ul class="list-inline mb-0">
-                <li>
-                  <a data-action="collapse" class="rotate" style="color: white">
+               <ul class="list-inline mb-0">
+                <li  >
+                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand">
+                  <a data-action="expand"  @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -810,6 +810,7 @@ export default {
   },
   mounted() {
     this.getProvincias();
+   
   },
   methods: {
     //presenta la imagen en image input
@@ -826,6 +827,20 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
+    //abrir y cerrar card 
+    openClose(event){
+     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+      div.querySelector('.card-content').classList.toggle('show');
+      div.querySelector('.list-inline li a').classList.toggle('rotate');
+    },
+    //amplia el card
+    zoomCard(event){
+     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+     console.log(div);
+   //   div.querySelector('.card-content').classList.toggle('show');
+     div.classList.toggle('card-fullscreen');
+    },
+    
     // valida el envio al metodo guardar
     registrarCliente() {
       /*if (this.validarRegistrarCliente() == 1) {

@@ -138,8 +138,8 @@ class ClienteController extends Controller
             $cliente->recomendado_por = $request->recomendado_por;
             $cliente->comentario = $request->comentario;
             $cliente->estado = 1;
-          
-            if ($file) {
+          //ESTE METODO VALIDA SI TIENE UN ARCHIVO O ES SIMPLEMENTE UN STRING -lewis
+            if ($request->hasFile($request->file)) {
                 $subNombre = Str::random(10);
                 $fileName = $file->getClientOriginalName();
                 $fileServer = $subNombre . '_' . $fileName;
