@@ -38,13 +38,18 @@
             </div>
             <div class="heading-elements">
               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -256,14 +261,19 @@
               <h2 class="card-title" style="font-size: 1.1rem">OTROS DATOS</h2>
             </div>
             <div class="heading-elements">
-               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -368,8 +378,9 @@
                       v-model="provincia"
                       :options="listProvincias"
                       label="nombre"
-                      @input="getMunicipio(provincia,'select')"
-                    ></v-select><!-- lewis-->
+                      @input="getMunicipio(provincia, 'select')"
+                    ></v-select
+                    ><!-- lewis-->
                   </fieldset>
                 </div>
                 <div class="col-md-6">
@@ -465,21 +476,29 @@
               </h2>
             </div>
             <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="card-content collapse">
+          <div
+            class="card-content collapse"
+            :class="{ show: fiador.nombre !== '' }"
+          >
             <div class="card-body" style="">
               <div class="row" style="margin-top: 25px">
                 <div class="col-md-6">
@@ -625,14 +644,19 @@
               </h2>
             </div>
             <div class="heading-elements">
-           <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -794,7 +818,7 @@ export default {
         apellidos: "",
         apodo: "",
         cedula: "",
-        fecha_nacimiento: new Date(Date.now()).toLocaleDateString(),
+        fecha_nacimiento: "",
         ocupacion: "",
         nacionalidad: "",
         sexo: "1",
@@ -838,6 +862,7 @@ export default {
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
+      estado:true
     };
   },
   mounted() {
@@ -853,22 +878,27 @@ export default {
   methods: {
     //metodo validar envio de datos
     validarRegistrarCliente() {
-      this.mensajeError = {dev:"dev"};
-      
-      if(this.fiador.nombre != "" || this.fiador.apellidos != "" || this.fiador.apodo != "" || this.fiador.cedula != "" || this.fiador.direccion != "" || this.fiador.telefono != "" || this.fiador.celular != ""){
-        if (!this.fiador.nombre) {
-          this.mensajeError.nombre = "El Nombre es un campo obligatorio";
-        }
-        if (!this.fiador.apellidos) {
-          this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
-        }
-        if (!this.fiador.cedula) {
-          this.mensajeError.cedula = "La Cédula es un campo obligatorio";
-        }
-        if (!this.fiador.telefono) {
-          this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
-        }
+      this.mensajeError = { dev: "dev" };
+     this.estado = true;
+
+      if (!this.fiador.nombre) {
+        this.mensajeError.nombre = "El Nombre es un campo obligatorio";
+        this.estado = false;
       }
+      if (!this.fiador.apellidos) {
+        this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!this.fiador.cedula) {
+        this.mensajeError.cedula = "La Cédula es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!this.fiador.telefono) {
+        this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
+        this.estado = false;
+      }
+    
+     this.guardarCliente();
     },
     //presenta la imagen en image input
     getFile(e) {
@@ -884,18 +914,22 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
-      //abrir y cerrar card 
-    openClose(event){
-     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-      div.querySelector('.card-content').classList.toggle('show');
-      div.querySelector('.list-inline li a').classList.toggle('rotate');
+    //abrir y cerrar card
+    openClose(event) {
+      var div =
+        event.target.parentNode.parentNode.parentNode.parentNode.parentNode
+          .parentNode;
+      div.querySelector(".card-content").classList.toggle("show");
+      div.querySelector(".list-inline li a").classList.toggle("rotate");
     },
     //amplia el card
-    zoomCard(event){
-     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-     console.log(div);
-   //   div.querySelector('.card-content').classList.toggle('show');
-     div.classList.toggle('card-fullscreen');
+    zoomCard(event) {
+      var div =
+        event.target.parentNode.parentNode.parentNode.parentNode.parentNode
+          .parentNode;
+      console.log(div);
+      //   div.querySelector('.card-content').classList.toggle('show');
+      div.classList.toggle("card-fullscreen");
     },
     getProvincias() {
       this.$loading(true);
@@ -905,33 +939,45 @@ export default {
         this.$loading(false);
       });
     },
-    getMunicipio(provinciaSeleccionada,metodo) {
-    
-     if(!this.provincia == ""){
-       // metodo recibe el nombre ddel componete de donde a sido llamado el metodo --lewis
-       if(metodo == "select"){
-         provinciaSeleccionada = provinciaSeleccionada.id;
-       }
-      this.municipio = "";
-      var url = "/GetMunicipios/" + provinciaSeleccionada;
-      axios.get(url).then((response) => {
-        this.listMunicipios = response.data.municipios;
-        
-        
-      });
-
+    getMunicipio(provinciaSeleccionada, metodo) {
+      if (!this.provincia == "") {
+        // metodo recibe el nombre ddel componete de donde a sido llamado el metodo --lewis
+        if (metodo == "select") {
+          provinciaSeleccionada = provinciaSeleccionada.id;
+        }
+        this.municipio = "";
+        var url = "/GetMunicipios/" + provinciaSeleccionada;
+        axios.get(url).then((response) => {
+          this.listMunicipios = response.data.municipios;
+        });
       }
     },
-    // valida el envio al metodo guardar
+    // valida el envio al metodo guardar 
     registrarCliente() {
-      this.validarRegistrarCliente();
-      this.guardarCliente();
+  
+      if (
+        this.fiador.nombre  ||
+        this.fiador.apellidos  ||
+        this.fiador.apodo  ||
+        this.fiador.cedula  ||
+        this.fiador.telefono  ||
+        this.fiador.celular  ||
+        this.fiador.direccion 
+      ) {
+        this.validarRegistrarCliente();
+      } else {
+        this.estado = true;
+        this.mensajeError = { dev: "dev" };
+        this.guardarCliente();
+           
+      }
     },
     guardarCliente() {
       this.errorArray = [];
 
       this.$loading(true);
       //Datos Cliente
+      this.form.append("estado", this.estado);
       this.form.append("id_cliente", this.idCliente);
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
@@ -949,9 +995,16 @@ export default {
       //por que si no se selecionan no de error --lewis
       if (!this.provincia == "") {
         this.form.append("id_provincia", this.provincia.id);
+      } else {
+        this.form.append("id_provincia", "");
       }
       if (!this.municipio == "") {
         this.form.append("id_municipio", this.municipio.id);
+      } else {
+        this.form.append("id_municipio", "");
+      }
+       if (!this.fiador == "") {
+        this.form.append("fiador_id", this.fiador.id);
       }
 
       this.form.append("sector", this.sector);
@@ -973,24 +1026,16 @@ export default {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
-      if (this.metodo == "crear") {
-        axios
-          .post("/C-clientes", this.form, config)
-          .then((response) => {
-            me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
-          })
-          .catch((error) => {
-            if (error.response.data.errors) {
-              me.errorArray = error.response.data.errors;
-              me.$loading(false);
-            }
-          });
-      }
       if (this.metodo == "editar") {
         axios
           .post(url, this.form, config)
           .then((response) => {
-            me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+             if (response.data.estado == false) {
+                 me.$loading(false);
+            } else {
+                 me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+
+             }
           })
           .catch((error) => {
             if (error.response.data.errors) {
@@ -1033,9 +1078,12 @@ export default {
         .then((response) => {
           me.cliente = response.data.cliente;
           me.provincia = response.data.provincia;
-         
-          me.getMunicipio(response.data.provincia.id,'obtenerCliente');
-         me.municipio = me.cliente.municipio; //--lewis
+
+          if (response.data.fiador) {
+            me.fiador = response.data.fiador;
+          }
+          me.getMunicipio(response.data.provincia.id, "obtenerCliente");
+          me.municipio = me.cliente.municipio; //--lewis
           me.$loading(false);
 
           // $("#imagePreview").css(
