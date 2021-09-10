@@ -3159,6 +3159,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3211,7 +3235,7 @@ __webpack_require__.r(__webpack_exports__);
         telefono: "",
         celular: ""
       },
-      mensajeError: [],
+      mensajeError: {},
       listRol: [],
       errorArray: [],
       textoComponet: "Crear Cliente",
@@ -3229,13 +3253,43 @@ __webpack_require__.r(__webpack_exports__);
       clienteId: 0,
       metodo: "crear",
       listProvincias: [],
-      listMunicipios: []
+      listMunicipios: [],
+      erroresEnFiador: false
     };
   },
   mounted: function mounted() {
     this.getProvincias();
   },
   methods: {
+    //metodo validar envio de datos
+    validarRegistrarCliente: function validarRegistrarCliente() {
+      this.erroresEnFiador = false;
+      this.mensajeError = {
+        dev: "dev"
+      };
+
+      if (!this.fiador.nombre) {
+        this.mensajeError.nombre = "El Nombre es un campo obligatorio";
+        this.erroresEnFiador = true;
+      }
+
+      if (!this.fiador.apellidos) {
+        this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
+        this.erroresEnFiador = true;
+      }
+
+      if (!this.fiador.cedula) {
+        this.mensajeError.cedula = "La Cédula es un campo obligatorio";
+        this.erroresEnFiador = true;
+      }
+
+      if (!this.fiador.telefono) {
+        this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
+        this.erroresEnFiador = true;
+      }
+
+      this.guardarCliente();
+    },
     //presenta la imagen en image input
     getFile: function getFile(e) {
       this.cliente.foto = e.target.files[0];
@@ -3264,11 +3318,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
-      /*if (this.validarRegistrarCliente() == 1) {
-        this.modalShow = true;
-        return;
-      } else {*/
-      this.guardarCliente(); //}
+      if (this.fiador.nombre != "" || this.fiador.apellidos != "" || this.fiador.apodo != "" || this.fiador.cedula != "" || this.fiador.direccion != "" || this.fiador.telefono != "" || this.fiador.celular != "") {
+        this.validarRegistrarCliente();
+      } else {
+        this.guardarCliente();
+      }
     },
     getProvincias: function getProvincias() {
       var _this = this;
@@ -3333,12 +3387,17 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.metodo == "crear") {
         axios.post("/C-clientes", this.form, config).then(function (response) {
-          me.$router.push({
-            name: "clienteIndex",
-            params: {
-              estado: 1
-            }
-          });
+          if (response.data.estado == false) {
+            me.$loading(false);
+            alert('error');
+          } else {
+            me.$router.push({
+              name: "clienteIndex",
+              params: {
+                estado: 1
+              }
+            });
+          }
         })["catch"](function (error) {
           if (error.response.data.errors) {
             me.errorArray = error.response.data.errors;
@@ -4145,6 +4204,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4198,7 +4281,7 @@ __webpack_require__.r(__webpack_exports__);
         telefono: "",
         celular: ""
       },
-      mensajeError: [],
+      mensajeError: {},
       listRol: [],
       errorArray: [],
       textoComponet: "Crear Cliente",
@@ -4230,6 +4313,30 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    //metodo validar envio de datos
+    validarRegistrarCliente: function validarRegistrarCliente() {
+      this.mensajeError = {
+        dev: "dev"
+      };
+
+      if (this.fiador.nombre != "" || this.fiador.apellidos != "" || this.fiador.apodo != "" || this.fiador.cedula != "" || this.fiador.direccion != "" || this.fiador.telefono != "" || this.fiador.celular != "") {
+        if (!this.fiador.nombre) {
+          this.mensajeError.nombre = "El Nombre es un campo obligatorio";
+        }
+
+        if (!this.fiador.apellidos) {
+          this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
+        }
+
+        if (!this.fiador.cedula) {
+          this.mensajeError.cedula = "La Cédula es un campo obligatorio";
+        }
+
+        if (!this.fiador.telefono) {
+          this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
+        }
+      }
+    },
     //presenta la imagen en image input
     getFile: function getFile(e) {
       this.cliente.foto = e.target.files[0];
@@ -4283,6 +4390,11 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
+    // valida el envio al metodo guardar
+    registrarCliente: function registrarCliente() {
+      this.validarRegistrarCliente();
+      this.guardarCliente();
+    },
     guardarCliente: function guardarCliente() {
       this.errorArray = [];
       this.$loading(true); //Datos Cliente
@@ -4306,7 +4418,7 @@ __webpack_require__.r(__webpack_exports__);
         this.form.append("id_provincia", this.provincia.id);
       }
 
-      if (!this.municipio.id == "") {
+      if (!this.municipio == "") {
         this.form.append("id_municipio", this.municipio.id);
       }
 
@@ -4375,7 +4487,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         me.cliente = response.data.cliente;
         me.provincia = response.data.provincia;
-        me.municipio = response.data.municipio;
         me.getMunicipio(response.data.provincia.id, 'obtenerCliente');
         me.municipio = me.cliente.municipio; //--lewis
 
@@ -11955,7 +12066,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12099,7 +12210,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12171,7 +12282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56517,7 +56628,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("label", { attrs: { for: "first-name-icon" } }, [
-                      _vm._v("NOMBRE*:")
+                      _vm._v("NOMBRE:")
                     ]),
                     _vm._v(" "),
                     _c(
@@ -56534,6 +56645,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.nombre !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Nombre" },
                           domProps: { value: _vm.fiador.nombre },
                           on: {
@@ -56549,6 +56664,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.nombre
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.nombre) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(20)
                       ]
@@ -56574,6 +56699,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.apellidos !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Apellido" },
                           domProps: { value: _vm.fiador.apellidos },
                           on: {
@@ -56589,6 +56718,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.apellidos
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.apellidos) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(21)
                       ]
@@ -56650,6 +56789,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.cedula !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Cedula" },
                           domProps: { value: _vm.fiador.cedula },
                           on: {
@@ -56665,6 +56808,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.cedula
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.cedula) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(23)
                       ]
@@ -56690,6 +56843,9 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control shadow",
+                      class: {
+                        error: typeof _vm.mensajeError.telefono !== "undefined"
+                      },
                       attrs: { type: "text", placeholder: "(000)-000-0000" },
                       domProps: { value: _vm.fiador.telefono },
                       on: {
@@ -56701,6 +56857,16 @@ var render = function() {
                         }
                       }
                     }),
+                    _vm._v(" "),
+                    _vm.mensajeError.telefono
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(_vm.mensajeError.telefono) +
+                              "\n                  "
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _vm._m(24)
                   ])
@@ -58455,7 +58621,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("label", { attrs: { for: "first-name-icon" } }, [
-                      _vm._v("NOMBRE*:")
+                      _vm._v("NOMBRE:")
                     ]),
                     _vm._v(" "),
                     _c(
@@ -58472,6 +58638,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.nombre !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Nombre" },
                           domProps: { value: _vm.fiador.nombre },
                           on: {
@@ -58487,6 +58657,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.nombre
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.nombre) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(20)
                       ]
@@ -58512,6 +58692,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.apellidos !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Apellido" },
                           domProps: { value: _vm.fiador.apellidos },
                           on: {
@@ -58527,6 +58711,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.apellidos
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.apellidos) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(21)
                       ]
@@ -58588,6 +58782,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
+                          class: {
+                            error:
+                              typeof _vm.mensajeError.cedula !== "undefined"
+                          },
                           attrs: { type: "text", placeholder: "Cedula" },
                           domProps: { value: _vm.fiador.cedula },
                           on: {
@@ -58603,6 +58801,16 @@ var render = function() {
                             }
                           }
                         }),
+                        _vm._v(" "),
+                        _vm.mensajeError.cedula
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.mensajeError.cedula) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm._m(23)
                       ]
@@ -58628,6 +58836,9 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control shadow",
+                      class: {
+                        error: typeof _vm.mensajeError.telefono !== "undefined"
+                      },
                       attrs: { type: "text", placeholder: "(000)-000-0000" },
                       domProps: { value: _vm.fiador.telefono },
                       on: {
@@ -58639,6 +58850,16 @@ var render = function() {
                         }
                       }
                     }),
+                    _vm._v(" "),
+                    _vm.mensajeError.telefono
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(_vm.mensajeError.telefono) +
+                              "\n                  "
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _vm._m(24)
                   ])
@@ -58786,7 +59007,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-2 btn-success glow",
                   attrs: { type: "button" },
-                  on: { click: _vm.guardarCliente }
+                  on: { click: _vm.registrarCliente }
                 },
                 [
                   _c("i", { staticClass: "bx bx-2 bx-save" }),

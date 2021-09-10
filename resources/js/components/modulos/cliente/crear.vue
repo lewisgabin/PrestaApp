@@ -480,14 +480,20 @@
             <div class="card-body" style="">
               <div class="row" style="margin-top: 25px">
                 <div class="col-md-6">
-                  <label for="first-name-icon">NOMBRE*:</label>
+                  <label for="first-name-icon">NOMBRE:</label>
                   <div class="form-label-group has-icon-left">
                     <input
                       type="text"
                       v-model="fiador.nombre"
                       placeholder="Nombre"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof mensajeError.nombre !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="mensajeError.nombre">
+                      {{ mensajeError.nombre }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-user"></i>
                     </div>
@@ -501,7 +507,13 @@
                       v-model="fiador.apellidos"
                       placeholder="Apellido"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof mensajeError.apellidos !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="mensajeError.apellidos">
+                      {{ mensajeError.apellidos }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-user"></i>
                     </div>
@@ -530,7 +542,13 @@
                       v-model="fiador.cedula"
                       placeholder="Cedula"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof mensajeError.cedula !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="mensajeError.cedula">
+                      {{ mensajeError.cedula }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-user"></i>
                     </div>
@@ -546,7 +564,13 @@
                       v-model="fiador.telefono"
                       placeholder="(000)-000-0000"
                       class="form-control shadow"
+                      :class="{
+                        error: typeof mensajeError.telefono !== 'undefined',
+                      }"
                     />
+                    <span class="error" v-if="mensajeError.telefono">
+                      {{ mensajeError.telefono }}
+                    </span>
                     <div class="form-control-position">
                       <i class="bx bx-phone"></i>
                     </div>
@@ -787,7 +811,7 @@ export default {
         telefono: "",
         celular: "",
       },
-      mensajeError: [],
+      mensajeError: {},
       listRol:[],
       errorArray: [],
       textoComponet: "Crear Cliente",
@@ -806,6 +830,7 @@ export default {
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
+      erroresEnFiador: false,
     };
   },
   mounted() {
@@ -813,6 +838,37 @@ export default {
    
   },
   methods: {
+    //metodo validar envio de datos
+    validarRegistrarCliente() {
+      this.erroresEnFiador = false;
+      this.mensajeError = {dev:"dev"};
+      
+     
+        if (!this.fiador.nombre) {
+          this.mensajeError.nombre = "El Nombre es un campo obligatorio";
+         this.erroresEnFiador = true;
+
+        }
+        if (!this.fiador.apellidos) {
+          this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
+           this.erroresEnFiador = true;
+        }
+        if (!this.fiador.cedula) {
+          this.mensajeError.cedula = "La Cédula es un campo obligatorio";
+          this.erroresEnFiador = true;
+        }
+        if (!this.fiador.telefono) {
+          this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
+          this.erroresEnFiador = true;
+        }
+        
+        this.guardarCliente();
+        
+        
+   
+      
+      
+    },
     //presenta la imagen en image input
     getFile(e) {
       this.cliente.foto = e.target.files[0];
@@ -839,16 +895,14 @@ export default {
      console.log(div);
    //   div.querySelector('.card-content').classList.toggle('show');
      div.classList.toggle('card-fullscreen');
-    },
-    
+    },    
     // valida el envio al metodo guardar
     registrarCliente() {
-      /*if (this.validarRegistrarCliente() == 1) {
-        this.modalShow = true;
-        return;
-      } else {*/
+      if(this.fiador.nombre != "" || this.fiador.apellidos != "" || this.fiador.apodo != "" || this.fiador.cedula != "" || this.fiador.direccion != "" || this.fiador.telefono != "" || this.fiador.celular != ""){
+        this.validarRegistrarCliente();
+      }else{
         this.guardarCliente();
-      //}
+      }
     },
     getProvincias(){
       this.$loading(true);
@@ -908,7 +962,13 @@ export default {
         axios
           .post("/C-clientes", this.form, config)
           .then((response) => {
-            me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+            if(response.data.estado == false){
+              me.$loading(false);
+                alert('error');
+            }else{
+              me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+            }
+           
           })
           .catch((error) => {
             if (error.response.data.errors) {

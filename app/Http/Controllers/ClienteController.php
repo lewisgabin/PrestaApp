@@ -44,9 +44,13 @@ class ClienteController extends Controller
      */
     public function store(ClienteRequest $request)
     {
+        $estado = false;
         try{
+          
+            if(!empty($request->F_nombre) ){
+                $estado = true;
             DB::beginTransaction();
-
+          
             $file = $request->file;
             $cliente = new Cliente();
             $fiador = new Fiador();
@@ -85,7 +89,7 @@ class ClienteController extends Controller
             $cliente->created_at = now();
             $cliente->save();
         
-            if($request->F_nombre && $request->F_apellidos){
+            
                 $fiador->nombre = $request->F_nombre;
                 $fiador->apellidos = $request->F_apellidos;
                 $fiador->apodo = $request->F_apodo;
@@ -96,15 +100,17 @@ class ClienteController extends Controller
                 $fiador->id_cliente = $cliente->id;
                 $fiador->created_at = now();
                 $fiador->save();
-            } 
-
-            DB::commit();
-
-        }catch(\Exception $e){
             
+       
+            DB::commit();
+        }
+        }catch(\Exception $e){
+            dd($e);
             DB::rollback();
         
         }
+
+        return['estado' => $estado];
                
     }
 
