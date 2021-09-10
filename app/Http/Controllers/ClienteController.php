@@ -47,7 +47,8 @@ class ClienteController extends Controller
         $estado = false;
         try{
           
-            if(!empty($request->F_nombre) ){
+            if($request->estado == "true"){
+            
                 $estado = true;
             DB::beginTransaction();
           
@@ -89,7 +90,7 @@ class ClienteController extends Controller
             $cliente->created_at = now();
             $cliente->save();
         
-            
+            if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
                 $fiador->nombre = $request->F_nombre;
                 $fiador->apellidos = $request->F_apellidos;
                 $fiador->apodo = $request->F_apodo;
@@ -100,6 +101,8 @@ class ClienteController extends Controller
                 $fiador->id_cliente = $cliente->id;
                 $fiador->created_at = now();
                 $fiador->save();
+            }
+              
             
        
             DB::commit();
@@ -116,11 +119,15 @@ class ClienteController extends Controller
 
     public function editar(ClienteRequest $request)
     {
+        $estado = false;
+       
         try{
+            if($request->estado =="true"){
             DB::beginTransaction();
+         
             $file = $request->file;
             $cliente = Cliente::findOrFail($request->id_cliente);
-            $fiador = new Fiador();
+         
 
             $cliente->foto = 'sin.png';
             $cliente->nombre = $request->nombre;
@@ -156,7 +163,10 @@ class ClienteController extends Controller
             $cliente->updated_at = now();
             $cliente->update();
         
-            if($request->F_nombre && $request->F_apellidos){
+        
+            if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
+                
+                $fiador = Fiador::findOrfail($request->fiador_id);
                 $fiador->nombre = $request->F_nombre;
                 $fiador->apellidos = $request->F_apellidos;
                 $fiador->apodo = $request->F_apodo;
@@ -167,15 +177,21 @@ class ClienteController extends Controller
                 $fiador->id_cliente = $cliente->id;
                 $fiador->created_at = now();
                 $fiador->update();
-            } 
+          
 
+            }
+            $estado = true;
             DB::commit();
+        } 
 
         }catch(\Exception $e){
-          //dd($e);
+          dd($e);
             DB::rollback();
         
         }
+
+ 
+        return['estado' => $estado];
     }
 
     /**
@@ -187,7 +203,8 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente =  Cliente::find($id);
-        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio];
+   
+        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'fiador' => $cliente->fiador];
     }
 
     /**

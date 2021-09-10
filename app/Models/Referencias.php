@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fiador extends Model
+class Referencias extends Model
 {
     use HasFactory;
-    protected $table = 'fiador';
+    protected $table = 'referencias';
     protected $fillable = [
         'nombre',
         'apellido',
-        'apodo',
-        'cedula',
         'direccion',
-        'telefono',
-        'id_cliente',
-        'celular'
+        'idCliente',
+        'celular',
+        'parentesco'
+
       
     ];
 
-    public function cliente() {
-        return $this->belongsTo(Cliente::class, 'id_cliente');
+    public function clienteRef() {
+        return $this->belongsTo(Cliente::class, 'idCliente');
       }
 }

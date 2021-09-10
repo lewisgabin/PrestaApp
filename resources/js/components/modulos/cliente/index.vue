@@ -14,13 +14,7 @@
         </div>
       </div>
     </div>
-  <div class="dropdown"  @click="prueba($event)">
-                                                <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt mr-1"></i> edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash mr-1"></i> delete</a>
-                                                </div>
-                                            </div>
+
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-body">
         <div class="table-responsive">
@@ -176,7 +170,6 @@ export default {
           scrollY: false,
           scrollX: false,
           processing: true,
-          autoFill: true,
           dom: "Blfrtip",
           buttons: ["copy", "pdf", "print", "excel"],
         });

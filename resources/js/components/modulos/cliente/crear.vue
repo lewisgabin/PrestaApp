@@ -26,7 +26,7 @@
 
     <div class="row">
       <div class="col-md-6 col-12 col-sm-12">
-        <div class="card collapse-icon accordion-icon-rotate" >
+        <div class="card collapse-icon accordion-icon-rotate">
           <div
             class="card-header border-bottom d-flex"
             style="padding-bottom: 15px; padding-top: 15px"
@@ -38,13 +38,18 @@
             </div>
             <div class="heading-elements">
               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -190,7 +195,10 @@
                 <div class="col-md-6">
                   <label for="first-name-icon">NACIONALIDAD:</label>
                   <div class="form-label-group has-icon-left">
-                    <select class="form-control shadow" id="basicSelect" v-model="cliente.nacionalidad" 
+                    <select
+                      class="form-control shadow"
+                      id="basicSelect"
+                      v-model="cliente.nacionalidad"
                       :class="{
                         error: typeof errorArray.nacionalidad !== 'undefined',
                       }"
@@ -202,7 +210,7 @@
                       <option>Venezolana</option>
                       <option>Latino-America</option>
                       <option>Nicaraguense</option>
-                    </select>                    
+                    </select>
                     <span class="error" v-if="errorArray.nacionalidad">
                       {{ errorArray.nacionalidad[0] }}
                     </span>
@@ -253,14 +261,19 @@
               <h2 class="card-title" style="font-size: 1.1rem">OTROS DATOS</h2>
             </div>
             <div class="heading-elements">
-               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -462,14 +475,19 @@
               </h2>
             </div>
             <div class="heading-elements">
-               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -622,14 +640,19 @@
               </h2>
             </div>
             <div class="heading-elements">
-               <ul class="list-inline mb-0">
-                <li  >
-                  <a data-action="collapse" style='color: white;' class="" @click="openClose($event)">
+              <ul class="list-inline mb-0">
+                <li>
+                  <a
+                    data-action="collapse"
+                    style="color: white"
+                    class=""
+                    @click="openClose($event)"
+                  >
                     <i class="bx bx-chevron-down"></i>
                   </a>
                 </li>
                 <li>
-                  <a data-action="expand"  @click="zoomCard($event)">
+                  <a data-action="expand" @click="zoomCard($event)">
                     <i class="bx bx-fullscreen"></i>
                   </a>
                 </li>
@@ -638,98 +661,118 @@
           </div>
           <div class="card-content collapse">
             <div class="card-body" style="">
-              <div class="row" style="margin-top: 25px">
-                <form class="form repeater-default">
-                  <div data-repeater-list="group-a">
-                    <div data-repeater-item="">
-                      <div class="row justify-content-between">
-                        <div class="col-md-4 col-sm-12 form-group">
-                          <label for="Nombre">NOMBRE </label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="Nombre"
-                            placeholder="Enter Nombre"
-                          />
-                        </div>
-                        <div class="col-md-4 col-sm-12 form-group">
-                          <label> APELLIDO</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="apellido"
-                            placeholder="Enter Apellido"
-                          />
-                        </div>
-                        <div class="col-md-4 col-sm-12 form-group">
-                          <label>TELEFONO</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="telefono"
-                            placeholder="(000)-000-0000"
-                          />
-                        </div>
-                        <div class="col-md-6 col-sm-12 form-group">
-                          <label>DIRECCION</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="direccion"
-                            placeholder="Enter Direccion"
-                          />
-                        </div>
-                        <div class="col-md-3 col-sm-12 form-group">
-                          <label for="gender">PARENTESCO</label>
-                          <select
-                            name="group-a[0][gender]"
-                            id="parentesco"
-                            class="form-control"
-                          >
-                            <option value="Padre">Padre</option>
-                            <option value="Madre">Madre</option>
-                            <option value="Tio">Tio</option>
-                            <option value="Amigo">Amigo</option>
-                            <option value="Familiar">Familiar</option>
-                            <option value="Conyugue">Conyugue</option>
-                          </select>
-                        </div>
-
-                        <div
-                          class="
-                            col-md-3 col-sm-12
-                            form-group
-                            d-flex
-                            align-items-center
-                            pt-2
-                          "
-                        >
-                          <button
-                            class="btn btn-danger text-nowrap px-1"
-                            data-repeater-delete=""
-                            type="button"
-                          >
-                            <i class="bx bx-x"></i>
-                            Borrar
-                          </button>
-                        </div>
-                      </div>
-                      <hr />
-                    </div>
+              <div class="row" style="margin-top: 10px">
+                <div
+                  class="row justify-content-between"
+                  v-for="(input, i) in inputs"
+                  :key="i"
+                  style="margin-top: 15px"
+                >
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label for="Nombre">NOMBRE </label>
+                    <input
+                      v-model="input.nombre"
+                      class="form-control shadow"
+                      placeholder="Enter Nombre"
+                      :class="{
+                        error: mensajeErrorR[i].nombre !== '',
+                      }"
+                    />
+                    <span class="error" v-if="mensajeErrorR[i].nombre">
+                      {{ mensajeErrorR[i].nombre }}
+                    </span>
                   </div>
-                  <div class="form-group">
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label> APELLIDO</label>
+                    <input
+                      v-model="input.apellido"
+                      class="form-control shadow"
+                      placeholder="Enter Apellido"
+                      :class="{
+                        error: typeof mensajeErrorR.apellidos !== 'undefined',
+                      }"
+                    />
+                    <span class="error" v-if="mensajeErrorR.apellidos">
+                      {{ mensajeErrorR.apellidos }}
+                    </span>
+                  </div>
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label>TELEFONO</label>
+                    <input
+                      v-model="input.telefono"
+                      class="form-control shadow"
+                      placeholder="(000)-000-0000"
+                    />
+                  </div>
+                  <div class="col-md-6 col-sm-12 form-group">
+                    <label>DIRECCION</label>
+                    <input
+                      v-model="input.direccion"
+                      class="form-control shadow"
+                      placeholder="Enter Direccion"
+                    />
+                  </div>
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label for="gender">PARENTESCO</label>
+                    <select
+                      v-model="input.parentesco"
+                      class="form-control shadow"
+                      :class="{
+                        error: typeof mensajeErrorR.parentesco !== 'undefined',
+                      }"
+                    >
+                      <option value="Padre">Padre</option>
+                      <option value="Madre">Madre</option>
+                      <option value="Tio">Tio</option>
+                      <option value="Amigo">Amigo</option>
+                      <option value="Familiar">Familiar</option>
+                      <option value="Conyugue">Conyugue</option>
+                      <option value=""></option>
+                    </select>
+                    <span class="error" v-if="mensajeErrorR.parentesco">
+                      {{ mensajeErrorR.parentesco }}
+                    </span>
+                  </div>
+
+                  <div
+                    class="
+                      col-md-2 col-sm-12
+                      form-group
+                      d-flex
+                      align-items-center
+                      pt-2
+                    "
+                  >
+                    <button
+                      class="btn btn-danger text-nowrap px-1"
+                      @click="remove(i)"
+                      v-show="i || (!i && inputs.length > 1)"
+                    >
+                      <i class="bx bxs-user-minus"></i>
+                    </button>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      style="
+                        width: 100%;
+                        border-bottom: 1px solid #dce1e6;
+                        height: 16px;
+                      "
+                    ></div>
+                  </div>
+                  <div class="col-md-12" style="margin-top: 15px">
                     <div class="col p-0">
                       <button
                         class="btn btn-success"
-                        data-repeater-create=""
-                        type="button"
+                        @click="add(i)"
+                        v-show="i == inputs.length - 1"
                       >
-                        <i class="bx bx-plus"></i>
+                        <i class="bx bxs-user-plus"></i>
                         Agregar Otra
                       </button>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -737,14 +780,22 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-10 offset-md-1 card envio" style="text-align: center" >
+      <div class="col-md-10 offset-md-1 card envio" style="text-align: center">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" @click="registrarCliente" class="btn btn-2 btn-success glow">
+          <button
+            type="button"
+            @click="registrarCliente"
+            class="btn btn-2 btn-success glow"
+          >
             <i class="bx bx-2 bx-save"></i
             ><span class="align-middle ml-25">Guardar</span>
           </button>
-          <button type="button" class="btn btn-2 btn-light-secondary ">
-            <i class="bx  bx-user-plus" style="font-size: 1.7rem !important;"></i
+          <button
+            type="button"
+            class="btn btn-2 btn-light-secondary"
+            @click="prueba()"
+          >
+            <i class="bx bx-user-plus" style="font-size: 1.7rem !important"></i
             ><span class="align-middle ml-25">Guardar y Nuevo Cliente</span>
           </button>
           <button type="button" class="btn btn-2 btn-light-primary">
@@ -754,6 +805,7 @@
         </div>
       </div>
     </div>
+
     <!-- modal de errores -->
   </div>
 </template>
@@ -811,13 +863,14 @@ export default {
         telefono: "",
         celular: "",
       },
+      refPersonal: {
+        nombre: "",
+        apellidos: "",
+      },
       mensajeError: {},
-      listRol:[],
+      mensajeErrorR: [{ nombre: "" }],
+      listRol: [],
       errorArray: [],
-      textoComponet: "Crear Cliente",
-      modalShow: false,
-      isLoading: false,
-      fullPage: true,
       mostrarModal: {
         display: "block",
         background: "#0000006b",
@@ -831,42 +884,78 @@ export default {
       listProvincias: [],
       listMunicipios: [],
       erroresEnFiador: false,
+      estado: true,
+      estado2: true,
+      inputs: [
+        {
+          nombre: "",
+          apellido: "",
+          telefono: "",
+          direccion: "",
+          parentesco: "",
+        },
+      ],
     };
   },
   mounted() {
     this.getProvincias();
-   
   },
   methods: {
+    add(index) {
+      this.inputs.push({ name: "" });
+       this.mensajeErrorR.push({nombre: "" });
+    },
+    remove(index) {
+      this.inputs.splice(index, 1);
+      this.mensajeErrorR.splice(index, 1);
+    },
     //metodo validar envio de datos
-    validarRegistrarCliente() {
-      this.erroresEnFiador = false;
-      this.mensajeError = {dev:"dev"};
-      
-     
-        if (!this.fiador.nombre) {
-          this.mensajeError.nombre = "El Nombre es un campo obligatorio";
-         this.erroresEnFiador = true;
+    validarRegistrarFiador() {
+      this.mensajeError = { dev: "dev" };
+    //  this.mensajeErrorR = { dev: "dev" };
 
-        }
-        if (!this.fiador.apellidos) {
-          this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
-           this.erroresEnFiador = true;
-        }
-        if (!this.fiador.cedula) {
-          this.mensajeError.cedula = "La Cédula es un campo obligatorio";
-          this.erroresEnFiador = true;
-        }
-        if (!this.fiador.telefono) {
-          this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
-          this.erroresEnFiador = true;
-        }
-        
-        this.guardarCliente();
-        
-        
-   
-      
+      if (!this.fiador.nombre) {
+        this.mensajeError.nombre = "El Nombre es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!this.fiador.apellidos) {
+        this.mensajeError.apellidos = "El Apellido es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!this.fiador.cedula) {
+        this.mensajeError.cedula = "La Cédula es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!this.fiador.telefono) {
+        this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
+        this.estado = false;
+      }
+    },
+    //metodo validar envio de datos de referencia
+    validarRegistrarReferencia() {
+      //this.mensajeErrorR = { dev: "dev" };
+ 
+     this.inputs.forEach( function(valor, indice, array) {
+          
+     
+      if (!valor.nombre) {
+        this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
+        this.estado = false;
+      }else{
+        this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
+        this.estado = true;
+      }/*
+      if (!key.apellido) {
+       this.mensajeErrorR[key].apellidos = "El Apellido es un campo obligatorio";
+        this.estado = false;
+      }
+      if (!key.parentesco) {
+         this.mensajeErrorR[key].parentesco = "El Parentesco es un campo obligatorio";
+        this.estado = false;
+      }
+   */
+         });
+
       
     },
     //presenta la imagen en image input
@@ -883,28 +972,57 @@ export default {
       };
       reader.readAsDataURL(e.target.files[0]);
     },
-    //abrir y cerrar card 
-    openClose(event){
-     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-      div.querySelector('.card-content').classList.toggle('show');
-      div.querySelector('.list-inline li a').classList.toggle('rotate');
+    //abrir y cerrar card
+    openClose(event) {
+      var div =
+        event.target.parentNode.parentNode.parentNode.parentNode.parentNode
+          .parentNode;
+      div.querySelector(".card-content").classList.toggle("show");
+      div.querySelector(".list-inline li a").classList.toggle("rotate");
     },
     //amplia el card
-    zoomCard(event){
-     var div = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-     console.log(div);
-   //   div.querySelector('.card-content').classList.toggle('show');
-     div.classList.toggle('card-fullscreen');
-    },    
+    zoomCard(event) {
+      var div =
+        event.target.parentNode.parentNode.parentNode.parentNode.parentNode
+          .parentNode;
+      console.log(div);
+      //   div.querySelector('.card-content').classList.toggle('show');
+      div.classList.toggle("card-fullscreen");
+    },
     // valida el envio al metodo guardar
     registrarCliente() {
-      if(this.fiador.nombre != "" || this.fiador.apellidos != "" || this.fiador.apodo != "" || this.fiador.cedula != "" || this.fiador.direccion != "" || this.fiador.telefono != "" || this.fiador.celular != ""){
-        this.validarRegistrarCliente();
-      }else{
+      this.estado = true;
+      this.estado2 = true;
+      if (
+        this.fiador.nombre ||
+        this.fiador.apellidos ||
+        this.fiador.apodo ||
+        this.fiador.cedula ||
+        this.fiador.direccion ||
+        this.fiador.telefono ||
+        this.fiador.celular
+      ) {
+        this.validarRegistrarFiador();
+      }
+      if (
+        this.inputs[0].nombre ||
+        this.inputs[0].direccion ||
+        this.inputs[0].apellido ||
+        this.inputs[0].telefono ||
+        this.inputs[0].parentesco
+      ) {
+        this.validarRegistrarReferencia();
+      }
+      if (this.estado == true && this.estado2 == true) {
+        // this.estado = true;
+        this.mensajeError = { dev: "dev" };
+      //  this.mensajeErrorR = { dev: "dev" };
+        this.guardarCliente();
+      } else {
         this.guardarCliente();
       }
     },
-    getProvincias(){
+    getProvincias() {
       this.$loading(true);
       var url = "/GetProvincias";
       axios.get(url).then((response) => {
@@ -912,17 +1030,20 @@ export default {
         this.$loading(false);
       });
     },
-    getMunicipio(provinciaSeleccionada){
-      var url = "/GetMunicipios/"+ provinciaSeleccionada.id;
+    getMunicipio(provinciaSeleccionada) {
+      var url = "/GetMunicipios/" + provinciaSeleccionada.id;
       axios.get(url).then((response) => {
         this.listMunicipios = response.data.municipios;
       });
     },
     guardarCliente() {
+      //validando  referencias
+
       this.errorArray = [];
 
       this.$loading(true);
       //Datos Cliente
+      this.form.append("estado", this.estado);
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -936,8 +1057,18 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
-      this.form.append("id_provincia", this.provincia.id);
-      this.form.append("id_municipio", this.municipio.id);
+      //por que si no se selecionan no de error --lewis
+      if (!this.provincia == "") {
+        this.form.append("id_provincia", this.provincia.id);
+      } else {
+        this.form.append("id_provincia", "");
+      }
+      if (!this.municipio == "") {
+        this.form.append("id_municipio", this.municipio.id);
+      } else {
+        this.form.append("id_municipio", "");
+      }
+
       this.form.append("sector", this.sector);
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
@@ -954,7 +1085,6 @@ export default {
       this.form.append("F_celular", this.fiador.celular);
       this.form.append("F_direccion", this.fiador.direccion);
 
-
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
@@ -962,13 +1092,11 @@ export default {
         axios
           .post("/C-clientes", this.form, config)
           .then((response) => {
-            if(response.data.estado == false){
+            if (response.data.estado == false) {
               me.$loading(false);
-                alert('error');
-            }else{
+            } else {
               me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
             }
-           
           })
           .catch((error) => {
             if (error.response.data.errors) {
@@ -993,28 +1121,28 @@ export default {
     },
     //Limpia campo
     limpiaCampos() {
-      this.cliente.nombre = "",
-      this.cliente.apellidos = "",      
-      this.cliente.apodo = "",
-      this.cliente.cedula = "",
-      this.cliente.fecha_nacimiento = "2017-06-15",
-      this.cliente.ocupacion = "",
-      this.cliente.nacionalidad = "",
-      this.cliente.sexo = "1",
-      this.cliente.whatsapp = "",
-      this.cliente.tel_principal = "",
-      this.cliente.tel_otro = "",
-      this.cliente.email = "",
-      this.cliente.direccion = "",
-      this.cliente.id_provincia = 1,
-      this.cliente.id_municipio = 1,
-      this.cliente.sector = "",
-      this.cliente.id_ruta = 1,
-      this.cliente.direccion_trabajo = "",
-      this.cliente.foto = "",
-      this.cliente.recomendado_por = "",
-      this.cliente.comentario = "",
-      this.errorArray = [];
+      (this.cliente.nombre = ""),
+        (this.cliente.apellidos = ""),
+        (this.cliente.apodo = ""),
+        (this.cliente.cedula = ""),
+        (this.cliente.fecha_nacimiento = "2017-06-15"),
+        (this.cliente.ocupacion = ""),
+        (this.cliente.nacionalidad = ""),
+        (this.cliente.sexo = "1"),
+        (this.cliente.whatsapp = ""),
+        (this.cliente.tel_principal = ""),
+        (this.cliente.tel_otro = ""),
+        (this.cliente.email = ""),
+        (this.cliente.direccion = ""),
+        (this.cliente.id_provincia = 1),
+        (this.cliente.id_municipio = 1),
+        (this.cliente.sector = ""),
+        (this.cliente.id_ruta = 1),
+        (this.cliente.direccion_trabajo = ""),
+        (this.cliente.foto = ""),
+        (this.cliente.recomendado_por = ""),
+        (this.cliente.comentario = ""),
+        (this.errorArray = []);
     },
     obtenerUsuario(idC) {
       var url = "/C-clientes/" + idC;
@@ -1036,7 +1164,7 @@ export default {
           console.log(error);
         });
     },
-  }
+  },
 };
 </script>
 
@@ -1059,13 +1187,13 @@ export default {
     padding-bottom: 85px !important;
   }
 }
-.envio{
+.envio {
   text-align: center;
-    background: white;
-    padding: 21px;
-    border-radius: 0.267rem;
-    
-    border: 0px solid #dfe3e7;
+  background: white;
+  padding: 21px;
+  border-radius: 0.267rem;
+
+  border: 0px solid #dfe3e7;
 }
 .card-header {
   background-image: linear-gradient(
@@ -1113,9 +1241,9 @@ export default {
 .bx-2 {
   font-size: 1.5rem !important;
 }
-.error{
-  color: #FF5B5C;
+.error {
+  color: #ff5b5c;
   font-size: small;
-  border-color: #FF5B5C;
+  border-color: #ff5b5c;
 }
 </style>
