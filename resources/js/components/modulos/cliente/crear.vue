@@ -937,7 +937,7 @@ export default {
  
      this.inputs.forEach( function(valor, indice, array) {
           
-     
+    /* 
       if (!valor.nombre) {
         this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
         this.estado = false;

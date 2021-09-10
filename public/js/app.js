@@ -3367,24 +3367,23 @@ __webpack_require__.r(__webpack_exports__);
     validarRegistrarReferencia: function validarRegistrarReferencia() {
       //this.mensajeErrorR = { dev: "dev" };
       this.inputs.forEach(function (valor, indice, array) {
-        if (!valor.nombre) {
-          this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
-          this.estado = false;
-        } else {
-          this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
-          this.estado = true;
-        }
-        /*
-        if (!key.apellido) {
-        this.mensajeErrorR[key].apellidos = "El Apellido es un campo obligatorio";
-         this.estado = false;
-        }
-        if (!key.parentesco) {
-          this.mensajeErrorR[key].parentesco = "El Parentesco es un campo obligatorio";
-         this.estado = false;
-        }
+        /* 
+          if (!valor.nombre) {
+            this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
+            this.estado = false;
+          }else{
+            this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
+            this.estado = true;
+          }/*
+          if (!key.apellido) {
+           this.mensajeErrorR[key].apellidos = "El Apellido es un campo obligatorio";
+            this.estado = false;
+          }
+          if (!key.parentesco) {
+             this.mensajeErrorR[key].parentesco = "El Parentesco es un campo obligatorio";
+            this.estado = false;
+          }
         */
-
       });
     },
     //presenta la imagen en image input
