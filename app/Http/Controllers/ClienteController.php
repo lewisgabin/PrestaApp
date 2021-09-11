@@ -44,10 +44,12 @@ class ClienteController extends Controller
      */
     public function store(ClienteRequest $request)
     {
+        
         $estado = false;
+     
         try{
           
-            if($request->estado == "true"){
+            if($request->estado == "true" && $request->estado2 == "true"){
             
                 $estado = true;
             DB::beginTransaction();
@@ -102,6 +104,8 @@ class ClienteController extends Controller
                 $fiador->created_at = now();
                 $fiador->save();
             }
+
+
               
             
        
@@ -113,7 +117,7 @@ class ClienteController extends Controller
         
         }
 
-        return['estado' => $estado];
+        return['estado' => $estado, 'estado2' => $request->estado2];
                
     }
 

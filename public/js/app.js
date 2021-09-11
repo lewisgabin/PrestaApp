@@ -3293,7 +3293,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       mensajeError: {},
       mensajeErrorR: [{
-        nombre: ""
+        nombre: "",
+        apellido: "",
+        parentesco: ""
       }],
       listRol: [],
       errorArray: [],
@@ -3330,7 +3332,9 @@ __webpack_require__.r(__webpack_exports__);
         name: ""
       });
       this.mensajeErrorR.push({
-        nombre: ""
+        nombre: "",
+        apellido: "",
+        parentesco: ""
       });
     },
     remove: function remove(index) {
@@ -3339,9 +3343,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     //metodo validar envio de datos
     validarRegistrarFiador: function validarRegistrarFiador() {
+      //;impio la variable de errores
       this.mensajeError = {
         dev: "dev"
-      }; //  this.mensajeErrorR = { dev: "dev" };
+      }; //valido si el esta vacio
 
       if (!this.fiador.nombre) {
         this.mensajeError.nombre = "El Nombre es un campo obligatorio";
@@ -3362,29 +3367,6 @@ __webpack_require__.r(__webpack_exports__);
         this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
         this.estado = false;
       }
-    },
-    //metodo validar envio de datos de referencia
-    validarRegistrarReferencia: function validarRegistrarReferencia() {
-      //this.mensajeErrorR = { dev: "dev" };
-      this.inputs.forEach(function (valor, indice, array) {
-        /* 
-          if (!valor.nombre) {
-            this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
-            this.estado = false;
-          }else{
-            this.mensajeErrorR[indice]['nombre'] = "El Nombre es un campo obligatorio";
-            this.estado = true;
-          }/*
-          if (!key.apellido) {
-           this.mensajeErrorR[key].apellidos = "El Apellido es un campo obligatorio";
-            this.estado = false;
-          }
-          if (!key.parentesco) {
-             this.mensajeErrorR[key].parentesco = "El Parentesco es un campo obligatorio";
-            this.estado = false;
-          }
-        */
-      });
     },
     //presenta la imagen en image input
     getFile: function getFile(e) {
@@ -3415,22 +3397,57 @@ __webpack_require__.r(__webpack_exports__);
     // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
       this.estado = true;
-      this.estado2 = true;
+      this.estado2 = true; //valido s hay un campo de fiador lledo para valida 
 
       if (this.fiador.nombre || this.fiador.apellidos || this.fiador.apodo || this.fiador.cedula || this.fiador.direccion || this.fiador.telefono || this.fiador.celular) {
+        //llamo al metodo validar 
         this.validarRegistrarFiador();
       }
 
-      if (this.inputs[0].nombre || this.inputs[0].direccion || this.inputs[0].apellido || this.inputs[0].telefono || this.inputs[0].parentesco) {
-        this.validarRegistrarReferencia();
-      }
+      if (true) {
+        // recorror el array input para saber cuana referecia se van agregar 
+        for (var i = 0; i < this.inputs.length; i++) {
+          //valido si hay algunas llena 
+          if (this.inputs[i].nombre || this.inputs[i].apellido || this.inputs[i].parentesco || this.inputs[i].direccion || this.inputs[i].telefono) {
+            //si exite alguna llena entoces valido los campos 
+            //si esta vacio el campo
+            if (!this.inputs[i].nombre) {
+              this.mensajeErrorR[i].nombre = "El Nombre es un campo obligatorio";
+              this.estado2 = false; //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
+            } else {
+              this.mensajeErrorR[i].nombre = "";
+              this.estado2 = true;
+            }
 
-      if (this.estado == true && this.estado2 == true) {
-        // this.estado = true;
+            if (!this.inputs[i].apellido) {
+              this.mensajeErrorR[i].apellido = "El apellido es un campo obligatorio";
+              this.estado2 = false;
+            } else {
+              this.mensajeErrorR[i].apellido = "";
+              this.estado2 = true;
+            }
+
+            if (!this.inputs[i].parentesco) {
+              this.mensajeErrorR[i].parentesco = "El Parentesco es un campo obligatorio";
+              this.estado2 = false;
+            } else {
+              this.mensajeErrorR[i].parentesco = "";
+              this.estado2 = true;
+            } //SI NO AH LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO 
+
+          } else {
+            this.mensajeErrorR[i].nombre = "";
+            this.mensajeErrorR[i].apellido = "";
+            this.mensajeErrorR[i].parentesco = "";
+          }
+        }
+      } //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO 
+
+
+      if (this.estado == true) {
         this.mensajeError = {
           dev: "dev"
-        }; //  this.mensajeErrorR = { dev: "dev" };
-
+        };
         this.guardarCliente();
       } else {
         this.guardarCliente();
@@ -3458,9 +3475,11 @@ __webpack_require__.r(__webpack_exports__);
     guardarCliente: function guardarCliente() {
       //validando  referencias
       this.errorArray = [];
-      this.$loading(true); //Datos Cliente
+      this.$loading(true); //DATOS VALIDAR
 
       this.form.append("estado", this.estado);
+      this.form.append("estado2", this.estado2); //Datos ClientE
+
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -3501,7 +3520,9 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("F_cedula", this.fiador.cedula);
       this.form.append("F_telefono", this.fiador.telefono);
       this.form.append("F_celular", this.fiador.celular);
-      this.form.append("F_direccion", this.fiador.direccion);
+      this.form.append("F_direccion", this.fiador.direccion); //DATOS REFERENCIA
+      // this.form.append("referecias",  JSON.stringify(this.inputs));
+
       var config = {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -3511,8 +3532,8 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
 
       if (this.metodo == "crear") {
-        axios.post("/C-clientes", this.form, config).then(function (response) {
-          if (response.data.estado == false) {
+        axios.post("/C-clientes", this.form, this.inputs, config).then(function (response) {
+          if (response.data.estado == false || response.data.estado2 == "false") {
             me.$loading(false);
           } else {
             me.$router.push({
@@ -3522,22 +3543,6 @@ __webpack_require__.r(__webpack_exports__);
               }
             });
           }
-        })["catch"](function (error) {
-          if (error.response.data.errors) {
-            me.errorArray = error.response.data.errors;
-            me.$loading(false);
-          }
-        });
-      }
-
-      if (this.metodo == "editar") {
-        axios.post(url, this.form, config).then(function (response) {
-          me.$router.push({
-            name: "clienteIndex",
-            params: {
-              estado: 2
-            }
-          });
         })["catch"](function (error) {
           if (error.response.data.errors) {
             me.errorArray = error.response.data.errors;
@@ -57222,9 +57227,7 @@ var render = function() {
                             ],
                             staticClass: "form-control shadow",
                             class: {
-                              error:
-                                typeof _vm.mensajeErrorR.apellidos !==
-                                "undefined"
+                              error: _vm.mensajeErrorR[i].apellido !== ""
                             },
                             attrs: { placeholder: "Enter Apellido" },
                             domProps: { value: input.apellido },
@@ -57238,11 +57241,11 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _vm.mensajeErrorR.apellidos
+                          _vm.mensajeErrorR[i].apellido
                             ? _c("span", { staticClass: "error" }, [
                                 _vm._v(
                                   "\n                    " +
-                                    _vm._s(_vm.mensajeErrorR.apellidos) +
+                                    _vm._s(_vm.mensajeErrorR[i].apellido) +
                                     "\n                  "
                                 )
                               ])
@@ -57335,9 +57338,7 @@ var render = function() {
                               ],
                               staticClass: "form-control shadow",
                               class: {
-                                error:
-                                  typeof _vm.mensajeErrorR.parentesco !==
-                                  "undefined"
+                                error: _vm.mensajeErrorR[i].parentesco !== ""
                               },
                               on: {
                                 change: function($event) {
@@ -57389,11 +57390,11 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm.mensajeErrorR.parentesco
+                          _vm.mensajeErrorR[i].parentesco
                             ? _c("span", { staticClass: "error" }, [
                                 _vm._v(
                                   "\n                    " +
-                                    _vm._s(_vm.mensajeErrorR.parentesco) +
+                                    _vm._s(_vm.mensajeErrorR[0].parentesco) +
                                     "\n                  "
                                 )
                               ])
@@ -57861,7 +57862,7 @@ var staticRenderFns = [
       [
         _c("i", { staticClass: "bx bx-2 bx-dollar" }),
         _c("span", { staticClass: "align-middle ml-25" }, [
-          _vm._v("Guardar y Nuevo Prestamo")
+          _vm._v("Guardar y Nuevo Prestamo ")
         ])
       ]
     )
