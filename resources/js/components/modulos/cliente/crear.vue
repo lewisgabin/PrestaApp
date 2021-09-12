@@ -864,8 +864,7 @@ export default {
         celular: "",
       },
       refPersonal: {
-        nombre: "",
-        apellidos: "",
+        informacion: [],
       },
       mensajeError: {},
       mensajeErrorR: [{ nombre: "", apellido: "", parentesco: "" }],
@@ -903,7 +902,7 @@ export default {
   methods: {
     add(index) {
       this.inputs.push({ name: "" });
-      this.mensajeErrorR.push({ nombre: "" , apellido: "", parentesco: ""});
+      this.mensajeErrorR.push({ nombre: "", apellido: "", parentesco: "" });
     },
     remove(index) {
       this.inputs.splice(index, 1);
@@ -913,7 +912,7 @@ export default {
     validarRegistrarFiador() {
       //;impio la variable de errores
       this.mensajeError = { dev: "dev" };
-     //valido si el esta vacio
+      //valido si el esta vacio
       if (!this.fiador.nombre) {
         this.mensajeError.nombre = "El Nombre es un campo obligatorio";
         this.estado = false;
@@ -931,7 +930,7 @@ export default {
         this.estado = false;
       }
     },
-   
+
     //presenta la imagen en image input
     getFile(e) {
       this.cliente.foto = e.target.files[0];
@@ -967,7 +966,7 @@ export default {
     registrarCliente() {
       this.estado = true;
       this.estado2 = true;
-      //valido s hay un campo de fiador lledo para valida 
+      //valido si hay un campo de fiador lleno para validar
       if (
         this.fiador.nombre ||
         this.fiador.apellidos ||
@@ -977,13 +976,13 @@ export default {
         this.fiador.telefono ||
         this.fiador.celular
       ) {
-        //llamo al metodo validar 
+        //llamo al metodo validar
         this.validarRegistrarFiador();
       }
       if (true) {
-        // recorror el array input para saber cuana referecia se van agregar 
+        // recorror el array input para saber cuanta referecia se van a agregar
         for (var i = 0; i < this.inputs.length; i++) {
-          //valido si hay algunas llena 
+          //valido si hay algunas llena
           if (
             this.inputs[i].nombre ||
             this.inputs[i].apellido ||
@@ -991,7 +990,7 @@ export default {
             this.inputs[i].direccion ||
             this.inputs[i].telefono
           ) {
-            //si exite alguna llena entoces valido los campos 
+            //si exite alguna llena entoces valido los campos
             //si esta vacio el campo
             if (!this.inputs[i].nombre) {
               this.mensajeErrorR[i].nombre =
@@ -1018,20 +1017,19 @@ export default {
               this.mensajeErrorR[i].parentesco = "";
               this.estado2 = true;
             }
-            //SI NO AH LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO 
-          }else{
-             this.mensajeErrorR[i].nombre = "";
-             this.mensajeErrorR[i].apellido = "";
-             this.mensajeErrorR[i].parentesco = "";
+            //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
+          } else {
+            this.mensajeErrorR[i].nombre = "";
+            this.mensajeErrorR[i].apellido = "";
+            this.mensajeErrorR[i].parentesco = "";
           }
         }
       }
-      //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO 
+      //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO
       if (this.estado == true) {
         this.mensajeError = { dev: "dev" };
         this.guardarCliente();
-      }
-       else {
+      } else {
         this.guardarCliente();
       }
     },
@@ -1053,11 +1051,11 @@ export default {
       //validando  referencias
 
       this.errorArray = [];
-       this.$loading(true);
-       //DATOS VALIDAR
-       this.form.append("estado", this.estado);
+      this.$loading(true);
+      //DATOS VALIDAR
+      this.form.append("estado", this.estado);
       this.form.append("estado2", this.estado2);
-      //Datos ClientE
+      //DATOS CLIENTE
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
       this.form.append("apodo", this.cliente.apodo);
@@ -1091,7 +1089,7 @@ export default {
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
       this.form.append("id", this.$route.params.idCliente);
-      //Datos Fiador
+      //DATOS FIADOR
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
       this.form.append("F_apodo", this.fiador.apodo);
@@ -1099,15 +1097,13 @@ export default {
       this.form.append("F_telefono", this.fiador.telefono);
       this.form.append("F_celular", this.fiador.celular);
       this.form.append("F_direccion", this.fiador.direccion);
-      //DATOS REFERENCIA
-      // this.form.append("referecias",  JSON.stringify(this.inputs));
-
+      
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
       if (this.metodo == "crear") {
         axios
-          .post("/C-clientes", this.form,this.inputs, config)
+          .post("/C-clientes", this.form, config)
           .then((response) => {
             if (
               response.data.estado == false ||
@@ -1115,16 +1111,43 @@ export default {
             ) {
               me.$loading(false);
             } else {
-              me.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+              if (response.data.idCliente > 0 && this.inputs[0].nombre) {
+                this.guardarReferencias(response.data.idCliente);
+              } else {
+                me.$router.push({
+                  name: "clienteIndex",
+                  params: { estado: 1 },
+                });
+              }
             }
           })
           .catch((error) => {
             if (error.response.data.errors) {
               me.errorArray = error.response.data.errors;
+
               me.$loading(false);
             }
           });
       }
+    },
+    //Guardar las referencias personales
+    guardarReferencias(idClienteGuardado){
+      //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
+      this.refPersonal.informacion = this.inputs.slice();
+      this.refPersonal.idCliente = idClienteGuardado;
+
+      axios
+          .post("/C-clienteReferencia", this.refPersonal)
+          .then((response) => {
+            me.$router.push({name: "clienteIndex", params: { estado: 1 }});
+          })
+          .catch((error) => {
+            if (error.response.data.errors) {
+              me.errorArray = error.response.data.errors;
+
+              me.$loading(false);
+            }
+          });
     },
     //Limpia campo
     limpiaCampos() {

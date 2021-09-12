@@ -3288,8 +3288,7 @@ __webpack_require__.r(__webpack_exports__);
         celular: ""
       },
       refPersonal: {
-        nombre: "",
-        apellidos: ""
+        informacion: []
       },
       mensajeError: {},
       mensajeErrorR: [{
@@ -3397,19 +3396,19 @@ __webpack_require__.r(__webpack_exports__);
     // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
       this.estado = true;
-      this.estado2 = true; //valido s hay un campo de fiador lledo para valida 
+      this.estado2 = true; //valido si hay un campo de fiador lleno para validar
 
       if (this.fiador.nombre || this.fiador.apellidos || this.fiador.apodo || this.fiador.cedula || this.fiador.direccion || this.fiador.telefono || this.fiador.celular) {
-        //llamo al metodo validar 
+        //llamo al metodo validar
         this.validarRegistrarFiador();
       }
 
       if (true) {
-        // recorror el array input para saber cuana referecia se van agregar 
+        // recorror el array input para saber cuanta referecia se van a agregar
         for (var i = 0; i < this.inputs.length; i++) {
-          //valido si hay algunas llena 
+          //valido si hay algunas llena
           if (this.inputs[i].nombre || this.inputs[i].apellido || this.inputs[i].parentesco || this.inputs[i].direccion || this.inputs[i].telefono) {
-            //si exite alguna llena entoces valido los campos 
+            //si exite alguna llena entoces valido los campos
             //si esta vacio el campo
             if (!this.inputs[i].nombre) {
               this.mensajeErrorR[i].nombre = "El Nombre es un campo obligatorio";
@@ -3433,7 +3432,7 @@ __webpack_require__.r(__webpack_exports__);
             } else {
               this.mensajeErrorR[i].parentesco = "";
               this.estado2 = true;
-            } //SI NO AH LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO 
+            } //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
 
           } else {
             this.mensajeErrorR[i].nombre = "";
@@ -3441,7 +3440,7 @@ __webpack_require__.r(__webpack_exports__);
             this.mensajeErrorR[i].parentesco = "";
           }
         }
-      } //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO 
+      } //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO
 
 
       if (this.estado == true) {
@@ -3473,12 +3472,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     guardarCliente: function guardarCliente() {
+      var _this3 = this;
+
       //validando  referencias
       this.errorArray = [];
       this.$loading(true); //DATOS VALIDAR
 
       this.form.append("estado", this.estado);
-      this.form.append("estado2", this.estado2); //Datos ClientE
+      this.form.append("estado2", this.estado2); //DATOS CLIENTE
 
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
@@ -3512,7 +3513,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
-      this.form.append("id", this.$route.params.idCliente); //Datos Fiador
+      this.form.append("id", this.$route.params.idCliente); //DATOS FIADOR
 
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
@@ -3520,9 +3521,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("F_cedula", this.fiador.cedula);
       this.form.append("F_telefono", this.fiador.telefono);
       this.form.append("F_celular", this.fiador.celular);
-      this.form.append("F_direccion", this.fiador.direccion); //DATOS REFERENCIA
-      // this.form.append("referecias",  JSON.stringify(this.inputs));
-
+      this.form.append("F_direccion", this.fiador.direccion);
       var config = {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -3532,16 +3531,20 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
 
       if (this.metodo == "crear") {
-        axios.post("/C-clientes", this.form, this.inputs, config).then(function (response) {
+        axios.post("/C-clientes", this.form, config).then(function (response) {
           if (response.data.estado == false || response.data.estado2 == "false") {
             me.$loading(false);
           } else {
-            me.$router.push({
-              name: "clienteIndex",
-              params: {
-                estado: 1
-              }
-            });
+            if (response.data.idCliente > 0 && _this3.inputs[0].nombre) {
+              _this3.guardarReferencias(response.data.idCliente);
+            } else {
+              me.$router.push({
+                name: "clienteIndex",
+                params: {
+                  estado: 1
+                }
+              });
+            }
           }
         })["catch"](function (error) {
           if (error.response.data.errors) {
@@ -3550,6 +3553,25 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    //Guardar las referencias personales
+    guardarReferencias: function guardarReferencias(idClienteGuardado) {
+      //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
+      this.refPersonal.informacion = this.inputs.slice();
+      this.refPersonal.idCliente = idClienteGuardado;
+      axios.post("/C-clienteReferencia", this.refPersonal).then(function (response) {
+        me.$router.push({
+          name: "clienteIndex",
+          params: {
+            estado: 1
+          }
+        });
+      })["catch"](function (error) {
+        if (error.response.data.errors) {
+          me.errorArray = error.response.data.errors;
+          me.$loading(false);
+        }
+      });
     },
     //Limpia campo
     limpiaCampos: function limpiaCampos() {
@@ -12136,7 +12158,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12280,7 +12302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12352,7 +12374,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -11,7 +11,7 @@ class Referencias extends Model
     protected $table = 'referencias';
     protected $fillable = [
         'nombre',
-        'apellido',
+        'apellidos',
         'direccion',
         'idCliente',
         'celular',

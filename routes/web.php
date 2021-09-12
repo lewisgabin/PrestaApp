@@ -45,6 +45,7 @@ Route::apiResource('/C-clientes', ClienteController::class);
 Route::get('/GetProvincias', [ClienteController::class,'getProvincias']);
 Route::get('/GetMunicipios/{id}', [ClienteController::class,'getMunicipios']);
 Route::post('/C-clientes/editar', [ClienteController::class, 'editar']);
+Route::post('/C-clienteReferencia', [ClienteController::class, 'guardarReferencia']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
