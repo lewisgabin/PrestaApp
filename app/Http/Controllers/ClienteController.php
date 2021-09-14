@@ -119,17 +119,25 @@ class ClienteController extends Controller
 
     public function guardarReferencia(Request $request)
     {
-        
         for ($i = 0; $i < count($request->informacion); $i++) {
             $referencia = new Referencias();
-            
-            dd($request->informacion[$i]);
 
-            $referencia->nombre = $request->informacion[$i]->nombre;
-            $referencia->apellidos = $request->informacion[$i]->apellido;
-            $referencia->telefono = $request->informacion[$i]->telefono;
-            $referencia->direccion = $request->informacion[$i]->direccion;
-            $referencia->parentesco = $request->informacion[$i]->parentesco;
+            $referencia->nombre = $request->informacion[$i]['nombre'];
+            $referencia->apellidos = $request->informacion[$i]['apellido'];
+
+            if(isset($request->informacion[$i]['telefono'])){
+                $referencia->telefono = $request->informacion[$i]['telefono'];
+            }else{
+                $referencia->telefono = null;
+            }
+
+            if(isset($request->informacion[$i]['direccion'])){
+                $referencia->direccion = $request->informacion[$i]['direccion'];
+            }else{
+                $referencia->direccion = null;
+            }
+
+            $referencia->parentesco = $request->informacion[$i]['parentesco'];
             $referencia->idCliente = $request->idCliente;
             $referencia->created_at = now();
             $referencia->save();
