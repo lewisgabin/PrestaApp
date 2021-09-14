@@ -20,6 +20,8 @@ class Referencias extends Model
       
     ];
 
+    public $timestamps = true;
+
     public function clienteRef() {
         return $this->belongsTo(Cliente::class, 'idCliente');
       }

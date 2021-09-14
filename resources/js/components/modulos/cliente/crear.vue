@@ -224,8 +224,10 @@
                         <div class="radio radio-info radio-glow">
                           <input
                             type="radio"
+                            v-model="cliente.sexo"
                             id="radioGlow1"
                             name="radioGlow"
+                            value="1"
                             checked=""
                           />
                           <label for="radioGlow1">MASCULINO</label>
@@ -236,8 +238,10 @@
                       <fieldset>
                         <div class="radio radio-danger radio-glow">
                           <input
+                           v-model="cliente.sexo"
                             type="radio"
                             id="radioGlow2"
+                            value="0"
                             name="radioGlow"
                           />
                           <label for="radioGlow2">FEMENINO</label>
@@ -840,7 +844,7 @@ export default {
         cedula: "",
         fecha_nacimiento: "2017-06-15",
         ocupacion: "",
-        nacionalidad: "",
+        nacionalidad: "Dominicana",
         sexo: "1",
         whatsapp: "",
         tel_principal: "",
@@ -1139,19 +1143,15 @@ export default {
       axios
           .post("/C-clienteReferencia", this.refPersonal)
           .then((response) => {
-            me.$router.push({name: "clienteIndex", params: { estado: 1 }});
+            this.$router.push({name: "clienteIndex", params: { estado: 1 }});
           })
           .catch((error) => {
-            if (error.response.data.errors) {
-              me.errorArray = error.response.data.errors;
-
-              me.$loading(false);
-            }
+            console.log(error);
           });
     },
     //Limpia campo
     limpiaCampos() {
-      (this.cliente.nombre = ""),
+        (this.cliente.nombre = ""),
         (this.cliente.apellidos = ""),
         (this.cliente.apodo = ""),
         (this.cliente.cedula = ""),
@@ -1181,12 +1181,10 @@ export default {
         .get(url)
         .then((response) => {
           me.cliente = response.data.cliente;
-          // me.usuario.rol = parseInt(me.usuario.rol);
           $("#imagePreview").css(
             "background-image",
             "url('" + "../storage/img/users/" + me.cliente.foto + "')"
           );
-          me.cliente.password = "";
           me.$loading(false);
           me.cliente.foto = false;
         })

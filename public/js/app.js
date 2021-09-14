@@ -3235,6 +3235,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3264,7 +3268,7 @@ __webpack_require__.r(__webpack_exports__);
         cedula: "",
         fecha_nacimiento: "2017-06-15",
         ocupacion: "",
-        nacionalidad: "",
+        nacionalidad: "Dominicana",
         sexo: "1",
         whatsapp: "",
         tel_principal: "",
@@ -3556,21 +3560,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Guardar las referencias personales
     guardarReferencias: function guardarReferencias(idClienteGuardado) {
+      var _this4 = this;
+
       //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
       this.refPersonal.informacion = this.inputs.slice();
       this.refPersonal.idCliente = idClienteGuardado;
       axios.post("/C-clienteReferencia", this.refPersonal).then(function (response) {
-        me.$router.push({
+        _this4.$router.push({
           name: "clienteIndex",
           params: {
             estado: 1
           }
         });
       })["catch"](function (error) {
-        if (error.response.data.errors) {
-          me.errorArray = error.response.data.errors;
-          me.$loading(false);
-        }
+        console.log(error);
       });
     },
     //Limpia campo
@@ -3581,10 +3584,8 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/C-clientes/" + idC;
       var me = this;
       axios.get(url).then(function (response) {
-        me.cliente = response.data.cliente; // me.usuario.rol = parseInt(me.usuario.rol);
-
+        me.cliente = response.data.cliente;
         $("#imagePreview").css("background-image", "url('" + "../storage/img/users/" + me.cliente.foto + "')");
-        me.cliente.password = "";
         me.$loading(false);
         me.cliente.foto = false;
       })["catch"](function (error) {
@@ -56164,7 +56165,99 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(10)
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("label", { attrs: { for: "first-name-icon" } }, [
+                      _vm._v("SEXO:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      {
+                        staticClass: "list-unstyled mb-0",
+                        staticStyle: { "margin-top": "5px" }
+                      },
+                      [
+                        _c("li", { staticClass: "d-inline-block mr-2 mb-1" }, [
+                          _c("fieldset", [
+                            _c(
+                              "div",
+                              { staticClass: "radio radio-info radio-glow" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cliente.sexo,
+                                      expression: "cliente.sexo"
+                                    }
+                                  ],
+                                  attrs: {
+                                    type: "radio",
+                                    id: "radioGlow1",
+                                    name: "radioGlow",
+                                    value: "1",
+                                    checked: ""
+                                  },
+                                  domProps: {
+                                    checked: _vm._q(_vm.cliente.sexo, "1")
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.$set(_vm.cliente, "sexo", "1")
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("label", { attrs: { for: "radioGlow1" } }, [
+                                  _vm._v("MASCULINO")
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "d-inline-block mr-2 mb-1" }, [
+                          _c("fieldset", [
+                            _c(
+                              "div",
+                              { staticClass: "radio radio-danger radio-glow" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cliente.sexo,
+                                      expression: "cliente.sexo"
+                                    }
+                                  ],
+                                  attrs: {
+                                    type: "radio",
+                                    id: "radioGlow2",
+                                    value: "0",
+                                    name: "radioGlow"
+                                  },
+                                  domProps: {
+                                    checked: _vm._q(_vm.cliente.sexo, "0")
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.$set(_vm.cliente, "sexo", "0")
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("label", { attrs: { for: "radioGlow2" } }, [
+                                  _vm._v("FEMENINO")
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
                 ])
               ]
             )
@@ -56181,7 +56274,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(11),
+              _vm._m(10),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -56278,7 +56371,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(12)
+                        _vm._m(11)
                       ]
                     )
                   ]),
@@ -56321,7 +56414,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(13)
+                        _vm._m(12)
                       ]
                     )
                   ])
@@ -56357,7 +56450,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(13)
                   ])
                 ]),
                 _vm._v(" "),
@@ -56402,7 +56495,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(14)
                   ])
                 ])
               ]),
@@ -56440,7 +56533,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(16)
+                    _vm._m(15)
                   ])
                 ])
               ]),
@@ -56579,7 +56672,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(17)
+                    _vm._m(16)
                   ])
                 ]),
                 _vm._v(" "),
@@ -56615,7 +56708,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(18)
+                    _vm._m(17)
                   ])
                 ])
               ]),
@@ -56673,7 +56766,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(19),
+              _vm._m(18),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -56767,7 +56860,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(20)
+                        _vm._m(19)
                       ]
                     )
                   ]),
@@ -56821,7 +56914,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(21)
+                        _vm._m(20)
                       ]
                     )
                   ]),
@@ -56857,7 +56950,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(22)
+                        _vm._m(21)
                       ]
                     )
                   ]),
@@ -56911,7 +57004,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(23)
+                        _vm._m(22)
                       ]
                     )
                   ])
@@ -56960,7 +57053,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(24)
+                    _vm._m(23)
                   ])
                 ]),
                 _vm._v(" "),
@@ -56992,7 +57085,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(25)
+                    _vm._m(24)
                   ])
                 ]),
                 _vm._v(" "),
@@ -57024,7 +57117,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(26)
+                    _vm._m(25)
                   ])
                 ])
               ])
@@ -57042,7 +57135,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(27),
+              _vm._m(26),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -57362,7 +57455,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(28, true),
+                      _vm._m(27, true),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -57463,7 +57556,7 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(29)
+              _vm._m(28)
             ]
           )
         ]
@@ -57568,56 +57661,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-control-position" }, [
       _c("i", { staticClass: "bx bx-calendar" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("label", { attrs: { for: "first-name-icon" } }, [_vm._v("SEXO:")]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        {
-          staticClass: "list-unstyled mb-0",
-          staticStyle: { "margin-top": "5px" }
-        },
-        [
-          _c("li", { staticClass: "d-inline-block mr-2 mb-1" }, [
-            _c("fieldset", [
-              _c("div", { staticClass: "radio radio-info radio-glow" }, [
-                _c("input", {
-                  attrs: {
-                    type: "radio",
-                    id: "radioGlow1",
-                    name: "radioGlow",
-                    checked: ""
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "radioGlow1" } }, [
-                  _vm._v("MASCULINO")
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "d-inline-block mr-2 mb-1" }, [
-            _c("fieldset", [
-              _c("div", { staticClass: "radio radio-danger radio-glow" }, [
-                _c("input", {
-                  attrs: { type: "radio", id: "radioGlow2", name: "radioGlow" }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "radioGlow2" } }, [
-                  _vm._v("FEMENINO")
-                ])
-              ])
-            ])
-          ])
-        ]
-      )
     ])
   },
   function() {
