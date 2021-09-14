@@ -664,9 +664,7 @@
             </div>
           </div>
           <div class="card-content collapse">
-            <div class="card-body" style="">
-             
-            </div>
+            <div class="card-body" style=""></div>
           </div>
         </div>
       </div>
@@ -934,7 +932,7 @@ export default {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
-      if (this.metodo == "editar") {
+  
         axios
           .post(url, this.form, config)
           .then((response) => {
@@ -951,8 +949,8 @@ export default {
               me.$loading(false);
             }
           });
-      }
-    },
+      },
+    
     //Limpia campo
     limpiaCampos() {
       (this.cliente.nombre = ""),
@@ -1003,9 +1001,9 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -20,6 +20,7 @@ export default new Router({
         { path: '/cliente', component:require('./components/modulos/cliente/index.vue').default, name:'clienteIndex'},
         { path: '/crear/cliente', component:require('./components/modulos/cliente/crear.vue').default, name:'clienteCrear'},
         { path: '/editar/cliente', component:require('./components/modulos/cliente/editar.vue').default, name:'clienteEditar'},
+        { path: '/calculadora', component:require('./components/modulos/calculadora/calculadora.vue').default, name:'calculadora'}
     ],
     mode:'history',
     linkActiveClass: 'active'

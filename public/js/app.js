@@ -2393,6 +2393,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ruta"],
   data: function data() {
@@ -2403,6 +2411,462 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.listRolPermiso = JSON.parse(sessionStorage.getItem("ListRolPermiso"));
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'print-js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue2-datepicker'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var moment = __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'moment'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      loading: false,
+      monto: 10000,
+      tasaAnual: 6,
+      tasaMensual: 5,
+      cuotas: 6,
+      amortizacion: "Interes Fijo",
+      modalidadPago: "Mensual",
+      fechaPrimerPago: moment().format('YYYY-MM-DD'),
+      tablaAmortizada: new Array(),
+      interesAcumulado: 0,
+      sumaInteres: 0.0,
+      rango: "",
+      valor: 0,
+      interesMensual: 0
+    };
+  },
+  components: {
+    datepicker: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue2-datepicker'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+  },
+  validations: {
+    monto: {
+      minValue: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(1000),
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    },
+    tasaAnual: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+      minValue: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(0.1)
+    },
+    tasaMensual: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+      minValue: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(0.1)
+    },
+    cuotas: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+      minValue: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(1)
+    },
+    amortizacion: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    },
+    modalidadPago: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    },
+    fechaPrimerPago: {
+      required: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate/lib/validators'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    }
+  },
+  methods: {
+    checkInput: function checkInput() {
+      this.$v.$touch();
+
+      if (!this.$v.$error) {
+        this.calcularPrestamos();
+      }
+    },
+    calcularPrestamos: function calcularPrestamos() {
+      this.tablaAmortizada = new Array();
+
+      switch (this.amortizacion) {
+        case "Interes Fijo":
+          this.InteresFijo();
+          break;
+
+        case "Capital al Final (Metodo Americano)":
+          this.capitalAlFinal();
+          break;
+
+        case "Cuotas Fijas (Metodo Frances)":
+          this.metodoFrances();
+          break;
+
+        case "Disminuir Cuotas (Metodo Aleman)":
+          this.metodoAleman();
+          break;
+
+        default:
+          break;
+      }
+    },
+    calcularTasa: function calcularTasa(valor) {
+      if (valor == "mensual") {
+        this.tasaAnual = this.tasaMensual * 12;
+        this.tasaAnual = this.tasaAnual.toFixed(2);
+      }
+
+      if (valor == "anual") {
+        this.tasaMensual = this.tasaAnual / 12;
+        this.tasaMensual = this.tasaMensual.toFixed(2);
+      }
+    },
+    formatNumber: function formatNumber(num) {
+      if (!num || num == 'NaN') return '-';
+      if (num == 'Infinity') return '&#x221e;';
+      num = num.toString().replace(/\$|\,/g, '');
+      if (isNaN(num)) num = "0";
+      var sign = num == (num = Math.abs(num));
+      num = Math.floor(num * 100 + 0.50000000001);
+      var cents = num % 100;
+      num = Math.floor(num / 100).toString();
+      if (cents < 10) cents = "0" + cents;
+
+      for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+        num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
+      }
+
+      return (sign ? '' : '-') + num + '.' + cents;
+    },
+    calcularInteres: function calcularInteres() {
+      //Calculo Mensual 
+      if (this.modalidadPago == "Mensual") {
+        this.rango = "months";
+        this.valor = 1;
+        this.interesMensual = this.tasaMensual / 100; // Interes mensual
+      } //Calculo Quincenal
+
+
+      if (this.modalidadPago == "Quincenal") {
+        this.rango = "days";
+        this.valor = 15;
+        this.interesMensual = this.tasaMensual / 100 / 2; // Interes mensual
+      } //semanal
+
+
+      if (this.modalidadPago == "Semanal") {
+        this.rango = "days";
+        this.valor = 7;
+        this.interesMensual = this.tasaMensual / 100 / 4; // Interes mensual 
+      }
+
+      if (this.modalidadPago == "Diario") {
+        this.rango = "days";
+        this.valor = 1;
+        this.interesMensual = this.tasaMensual / 100 / 30; // Interes mensual 
+      }
+    },
+    InteresFijo: function InteresFijo() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseInt(this.monto) / parseInt(this.cuotas); // Cuota sin intereses mensual 
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.interesMensual) * parseFloat(this.monto);
+      interesAnual = parseFloat(this.monto) * this.tasaAnual; // Interes anual
+
+      pagoTotal = parseFloat(pago) + parseFloat(inte); // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto) - pago; // capital restante 
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla 
+
+      for (var x = 1; x <= this.cuotas; x++) {
+        //add a la matrix 
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format('YYYY-MM-DD'),
+          totalPagar: this.formatNumber(pagoTotal.toFixed(2)),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante 
+
+        capitalRestante = capitalRestante - pago;
+        xs = this.valor;
+        this.sumaInteres += parseFloat(inte.toFixed(2));
+      }
+    },
+    capitalAlFinal: function capitalAlFinal() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = 0; // Cuota sin intereses mensual 
+
+      var interesMensual = 0;
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.monto) * parseFloat(this.interesMensual); // Interes anual
+
+      pagoTotal = inte; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto); // capital restante 
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla 
+
+      for (var x = 1; x <= this.cuotas; x++) {
+        if (x == this.cuotas) {
+          pagoTotal = parseFloat(this.monto) + inte;
+          pago = parseFloat(this.monto);
+          capitalRestante = capitalRestante - pago;
+        } //add a la matrix 
+
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format('YYYY-MM-DD'),
+          totalPagar: this.formatNumber(pagoTotal.toFixed(2)),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante 
+
+        this.sumaInteres += inte;
+        xs = this.valor;
+      }
+    },
+    metodoFrances: function metodoFrances() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = this.interesMensual + 1;
+      pago = Math.pow(pago, this.cuotas);
+      pago = pago - 1;
+      pago = this.interesMensual / pago;
+      pago = this.interesMensual + pago;
+      pago = parseInt(this.monto) * pago;
+      var capitalRestante = parseFloat(this.monto);
+      var xs = 0;
+      this.sumaInteres = 0;
+
+      for (var x = 1; x <= this.cuotas; x++) {
+        var inte = this.interesMensual * capitalRestante;
+        var capital = pago.toFixed(2) - inte;
+
+        if (x == this.cuotas) {
+          capitalRestante = capital;
+        }
+
+        var restante = capitalRestante.toFixed(2) - capital.toFixed(2); //add a la matrix 
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format('YYYY-MM-DD'),
+          totalPagar: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte),
+          abonoCapital: this.formatNumber(capital),
+          capitalRestante: this.formatNumber(restante.toFixed(2))
+        });
+        capitalRestante = capitalRestante - capital;
+        this.sumaInteres += inte;
+        xs = this.valor;
+      }
+    },
+    metodoAleman: function metodoAleman() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseFloat(this.monto) / this.cuotas; // Cuota sin intereses mensual 
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      this.sumaInteres = 0;
+      var inte = 0; // interesAnual =  this.monto * this.tasaAnual; // Interes anual
+      // pagoTotal = pago + interesMensual; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto.toFixed(2)); // capital restante 
+
+      var xs = 0; //calculando la tabla 
+
+      for (var x = 1; x <= this.cuotas; x++) {
+        inte = this.interesMensual * parseFloat(capitalRestante.toFixed(2));
+        var cuota = inte + pago;
+        capitalRestante = capitalRestante - pago; //add a la matrix 
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format('YYYY-MM-DD'),
+          totalPagar: this.formatNumber(cuota.toFixed(2)),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante 
+
+        xs = this.valor;
+        this.sumaInteres += parseFloat(inte);
+      }
+    },
+    imprimirPdf: function imprimirPdf() {
+      var me = this;
+      this.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('pdfcalculadora', {
+        'data': this.tablaAmortizada,
+        'monto': this.formatNumber(this.monto),
+        'interes': this.formatNumber(this.sumaInteres),
+        'cuotas': this.cuotas,
+        'pago': this.modalidadPago,
+        'amortizacion': this.amortizacion,
+        'anual': this.tasaAnual,
+        'mensual': this.tasaMensual,
+        'total': this.formatNumber(parseFloat(this.monto) + this.sumaInteres)
+      }).then(function (response) {
+        printJS('Coopress/public/pdf/calculadora1.pdf');
+        me.loading = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -4310,8 +4774,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4550,26 +5012,23 @@ __webpack_require__.r(__webpack_exports__);
       };
       var url = "/C-clientes/editar";
       var me = this;
-
-      if (this.metodo == "editar") {
-        axios.post(url, this.form, config).then(function (response) {
-          if (response.data.estado == false) {
-            me.$loading(false);
-          } else {
-            me.$router.push({
-              name: "clienteIndex",
-              params: {
-                estado: 2
-              }
-            });
-          }
-        })["catch"](function (error) {
-          if (error.response.data.errors) {
-            me.errorArray = error.response.data.errors;
-            me.$loading(false);
-          }
-        });
-      }
+      axios.post(url, this.form, config).then(function (response) {
+        if (response.data.estado == false) {
+          me.$loading(false);
+        } else {
+          me.$router.push({
+            name: "clienteIndex",
+            params: {
+              estado: 2
+            }
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response.data.errors) {
+          me.errorArray = error.response.data.errors;
+          me.$loading(false);
+        }
+      });
     },
     //Limpia campo
     limpiaCampos: function limpiaCampos() {
@@ -7383,7 +7842,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_1__);
@@ -7391,13 +7850,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-toast-notification */ "./node_modules/vue-toast-notification/dist/index.min.js");
 /* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/index.js");
-/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
-/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2/dist/sweetalert2.min.css */ "./node_modules/sweetalert2/dist/sweetalert2.min.css");
-/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
-/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_9__);
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue2-datepicker/index.css'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
+/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2/dist/sweetalert2.min.css */ "./node_modules/sweetalert2/dist/sweetalert2.min.css");
+/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_10__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -7411,17 +7872,20 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 
 
+
+
  // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use((vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default()));
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__.default); // using default options
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use((vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default()));
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__.default);
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuelidate'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())); // using default options
 
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_2__.default); // overwrite defaults
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_2__.default); // overwrite defaults
 
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_2__.default, {
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_2__.default, {
   dark: true,
   // default false
   text: 'Ladataan',
@@ -7433,8 +7897,8 @@ vue__WEBPACK_IMPORTED_MODULE_7__.default.use(vuejs_loading_plugin__WEBPACK_IMPOR
   classes: ['myclass'] // array, object or string
 
 });
-vue__WEBPACK_IMPORTED_MODULE_7__.default.component('v-select', (vue_select__WEBPACK_IMPORTED_MODULE_1___default()));
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use(v_tooltip__WEBPACK_IMPORTED_MODULE_0__.default);
+vue__WEBPACK_IMPORTED_MODULE_8__.default.component('v-select', (vue_select__WEBPACK_IMPORTED_MODULE_1___default()));
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use(v_tooltip__WEBPACK_IMPORTED_MODULE_0__.default);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -7445,9 +7909,9 @@ vue__WEBPACK_IMPORTED_MODULE_7__.default.use(v_tooltip__WEBPACK_IMPORTED_MODULE_
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-vue__WEBPACK_IMPORTED_MODULE_7__.default.component('home', __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_7__.default.component('Auth', __webpack_require__(/*! ./components/Auth.vue */ "./resources/js/components/Auth.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_7__.default.component('sidebar', __webpack_require__(/*! ./components/Sidebar.vue */ "./resources/js/components/Sidebar.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_8__.default.component('home', __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_8__.default.component('Auth', __webpack_require__(/*! ./components/Auth.vue */ "./resources/js/components/Auth.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_8__.default.component('sidebar', __webpack_require__(/*! ./components/Sidebar.vue */ "./resources/js/components/Sidebar.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -7456,9 +7920,9 @@ vue__WEBPACK_IMPORTED_MODULE_7__.default.component('sidebar', __webpack_require_
 
 
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_7__.default({
+var app = new vue__WEBPACK_IMPORTED_MODULE_8__.default({
   el: '#app',
-  router: _routes__WEBPACK_IMPORTED_MODULE_8__.default
+  router: _routes__WEBPACK_IMPORTED_MODULE_9__.default
 });
 
 /***/ }),
@@ -7574,6 +8038,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     path: '/editar/cliente',
     component: __webpack_require__(/*! ./components/modulos/cliente/editar.vue */ "./resources/js/components/modulos/cliente/editar.vue").default,
     name: 'clienteEditar'
+  }, {
+    path: '/calculadora',
+    component: __webpack_require__(/*! ./components/modulos/calculadora/calculadora.vue */ "./resources/js/components/modulos/calculadora/calculadora.vue").default,
+    name: 'calculadora'
   }],
   mode: 'history',
   linkActiveClass: 'active'
@@ -12160,6 +12628,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.mx-datepicker[data-v-4e826e02] {\r\n  \r\n    width: 80% !important;\n}\n.wold[data-v-4e826e02]{\r\nfont-weight: bold;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53867,6 +54359,47 @@ component.options.__file = "resources/js/components/Sidebar.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/modulos/calculadora/calculadora.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/modulos/calculadora/calculadora.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calculadora.vue?vue&type=template&id=4e826e02&scoped=true& */ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true&");
+/* harmony import */ var _calculadora_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calculadora.vue?vue&type=script&lang=js& */ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js&");
+/* harmony import */ var _calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& */ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _calculadora_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4e826e02",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modulos/calculadora/calculadora.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/modulos/cliente/crear.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/modulos/cliente/crear.vue ***!
@@ -54300,6 +54833,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./calculadora.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/modulos/cliente/crear.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/modulos/cliente/crear.vue?vue&type=script&lang=js& ***!
@@ -54545,6 +55094,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_template_id_4e826e02_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./calculadora.vue?vue&type=template&id=4e826e02&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/modulos/cliente/crear.vue?vue&type=template&id=6938a525&scoped=true&":
 /*!******************************************************************************************************!*\
   !*** ./resources/js/components/modulos/cliente/crear.vue?vue&type=template&id=6938a525&scoped=true& ***!
@@ -54727,6 +55293,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Auth_vue_vue_type_style_index_0_id_0e037eda_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Auth_vue_vue_type_style_index_0_id_0e037eda_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Auth_vue_vue_type_style_index_0_id_0e037eda_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Auth_vue_vue_type_style_index_0_id_0e037eda_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&":
+/*!******************************************************************************************************************************!*\
+  !*** ./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader/index.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_calculadora_vue_vue_type_style_index_0_id_4e826e02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
@@ -55552,7 +56135,26 @@ var render = function() {
                     1
                   )
                 ]
-              : _vm._e()
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item" },
+              [
+                _c("router-link", { attrs: { to: "/calculadora" } }, [
+                  _c("i", { staticClass: "bx bx-folder" }),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "menu-title text-truncate",
+                      attrs: { "data-i18n": "clientes" }
+                    },
+                    [_vm._v("calculadora")]
+                  )
+                ])
+              ],
+              1
+            )
           ],
           2
         )
@@ -55652,6 +56254,538 @@ var staticRenderFns = [
             ]
           )
         ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=template&id=4e826e02&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _vm.loading
+            ? _c("div", { staticClass: " row loading" }, [
+                _c("div", { staticClass: "img-loading" })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.monto.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Monto")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.monto,
+                        expression: "monto"
+                      }
+                    ],
+                    staticClass: "form-control form__input",
+                    attrs: { type: "number" },
+                    domProps: { value: _vm.monto },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.monto = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.monto.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Cuota requerida")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.monto.minValue
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Valor mayor que 999")
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.tasaMensual.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Tasa de Interes Mensual%")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tasaMensual,
+                        expression: "tasaMensual"
+                      }
+                    ],
+                    staticClass: "form-control form__input",
+                    attrs: { type: "number" },
+                    domProps: { value: _vm.tasaMensual },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.calcularTasa("mensual")
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.tasaMensual = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.tasaMensual.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Tasa requerida")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.tasaMensual.minValue
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Tasa mayor que 0")
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.tasaAnual.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Tasa de Interes Anual%")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tasaAnual,
+                        expression: "tasaAnual"
+                      }
+                    ],
+                    staticClass: "form-control form__input",
+                    attrs: { type: "number" },
+                    domProps: { value: _vm.tasaAnual },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.calcularTasa("anual")
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.tasaAnual = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.tasaAnual.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Tasa requerida")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.tasaAnual.minValue
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Tasa mayor que 0")
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.cuotas.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Numeros de Cuotas")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cuotas,
+                        expression: "cuotas"
+                      }
+                    ],
+                    staticClass: "form-control form__input",
+                    attrs: { type: "number" },
+                    domProps: { value: _vm.cuotas },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.cuotas = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.cuotas.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Cuota requerida")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.cuotas.minValue
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Cuota debe ser  mayor que 0")
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.modalidadPago.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Modalidad de Pago")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-select", {
+                    attrs: {
+                      options: ["Mensual", "Semanal", "Quincenal", "Diario"],
+                      placeholder: "Seleccione..."
+                    },
+                    model: {
+                      value: _vm.modalidadPago,
+                      callback: function($$v) {
+                        _vm.modalidadPago = $$v
+                      },
+                      expression: "modalidadPago"
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.cuotas.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Modalidad de pago requerida")
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.amortizacion.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Amortizacion")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-select", {
+                    staticClass: "form__input",
+                    attrs: {
+                      options: [
+                        "Disminuir Cuotas (Metodo Aleman)",
+                        "Cuotas Fijas (Metodo Frances)",
+                        "Capital al Final (Metodo Americano)",
+                        "Interes Fijo"
+                      ],
+                      placeholder: "Seleccione..."
+                    },
+                    model: {
+                      value: _vm.amortizacion,
+                      callback: function($$v) {
+                        _vm.amortizacion = $$v
+                      },
+                      expression: "amortizacion"
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.amortizacion.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Amortizacion requerida")
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  class: { form_group_error: _vm.$v.fechaPrimerPago.$error }
+                },
+                [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("Fecha primer pago")
+                  ]),
+                  _vm._v(" "),
+                  _c("datepicker", {
+                    attrs: { format: "YYYY-MM-DD", "value-type": "format" },
+                    model: {
+                      value: _vm.fechaPrimerPago,
+                      callback: function($$v) {
+                        _vm.fechaPrimerPago = $$v
+                      },
+                      expression: "fechaPrimerPago"
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.$v.fechaPrimerPago.required
+                    ? _c("div", { staticClass: "error none" }, [
+                        _vm._v("Fecha requerida")
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-uppercase",
+                  staticStyle: { "margin-top": "29px", padding: "11px" },
+                  attrs: { type: "button" },
+                  on: { click: _vm.checkInput }
+                },
+                [
+                  _c("i", {
+                    staticClass: "fas fa-calculator",
+                    staticStyle: { "margin-right": "6px" }
+                  }),
+                  _vm._v("Calcular\r\n                ")
+                ]
+              ),
+              _vm._v(" "),
+              _vm.tablaAmortizada.length > 0
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-info btn-uppercase",
+                      staticStyle: { "margin-top": "29px", padding: "11px" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.imprimirPdf }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fas fa-print",
+                        staticStyle: { "margin-right": "6px" }
+                      }),
+                      _vm._v("Imprimir\r\n                ")
+                    ]
+                  )
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "col-md-12",
+                staticStyle: {
+                  "border-top": "1px solid #cfd7e0",
+                  "margin-top": "21px"
+                }
+              },
+              [
+                _c(
+                  "h5",
+                  {
+                    staticStyle: {
+                      "padding-top": "26px",
+                      "padding-bottom": "1px",
+                      "text-align": "center"
+                    }
+                  },
+                  [_vm._v("Detalle del calculo del prestamos")]
+                ),
+                _vm._v(" "),
+                _vm.tablaAmortizada.length > 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "col-md-12",
+                        staticStyle: { "text-align": "center" }
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "wold",
+                            staticStyle: { "margin-right": "5px" }
+                          },
+                          [
+                            _vm._v("Capital: "),
+                            _c("span", {
+                              staticStyle: { "font-weight": "400" },
+                              domProps: {
+                                textContent: _vm._s(_vm.formatNumber(_vm.monto))
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "wold" }, [
+                          _vm._v("Cuotas: "),
+                          _c("span", {
+                            staticStyle: { "font-weight": "400" },
+                            domProps: { textContent: _vm._s(_vm.cuotas) }
+                          })
+                        ])
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  {
+                    staticClass: "table table-striped table-bordered col-md-12",
+                    attrs: { id: "myTable" }
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.tablaAmortizada, function(tabla) {
+                        return _c("tr", { key: tabla.numero }, [
+                          _c("td", {
+                            domProps: { textContent: _vm._s(tabla.numero) }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: { textContent: _vm._s(tabla.fecha) }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s("$" + tabla.totalPagar)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s("$" + tabla.intereses)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s("$" + tabla.abonoCapital)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s("$" + tabla.capitalRestante)
+                            }
+                          })
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-app" }, [
+      _c("h4", [_vm._v("Calculadora de Prestamos")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticStyle: { background: "#f9bc08" } }, [
+      _c("tr", [
+        _c("th", [_vm._v("#Cuota")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total a Pagar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Interes")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Abono Capital")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Capital Restante")])
       ])
     ])
   }
@@ -66933,6 +68067,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("5c782b33", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/calculadora/calculadora.vue?vue&type=style&index=0&id=4e826e02&scoped=true&lang=css&");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("72a54ef4", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
