@@ -179,6 +179,14 @@
             >
           </li>
         </template>
+         <li class="nav-item">
+            <router-link :to="'/calculadora'"
+              ><i class="bx bx-folder"></i
+              ><span class="menu-title text-truncate" data-i18n="clientes"
+                >calculadora</span
+              ></router-link
+            > 
+          </li>
       </ul>
     </div>
   </div>

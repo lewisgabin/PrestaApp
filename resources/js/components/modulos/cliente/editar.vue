@@ -934,7 +934,7 @@ export default {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
-      if (this.metodo == "editar") {
+  -
         axios
           .post(url, this.form, config)
           .then((response) => {
