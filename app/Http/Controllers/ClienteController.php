@@ -123,7 +123,7 @@ class ClienteController extends Controller
             $referencia = new Referencias();
 
             $referencia->nombre = $request->informacion[$i]['nombre'];
-            $referencia->apellidos = $request->informacion[$i]['apellido'];
+            $referencia->apellidos = $request->informacion[$i]['apellidos'];
 
             if(isset($request->informacion[$i]['telefono'])){
                 $referencia->telefono = $request->informacion[$i]['telefono'];
@@ -202,7 +202,7 @@ class ClienteController extends Controller
                 $fiador->celular = $request->F_celular;
                 $fiador->direccion = $request->F_direccion;
                 $fiador->id_cliente = $cliente->id;
-                $fiador->created_at = now();
+                $fiador->updated_at = now();
                 $fiador->update();
           
 
@@ -218,7 +218,62 @@ class ClienteController extends Controller
         }
 
  
-        return['estado' => $estado];
+        return['estado' => $estado, 'estado2' => $request->estado2, 'idCliente' => $cliente->id];
+    }
+
+    public function editarReferencia(Request $request)
+    {
+        //Se debe recorrer el arreglo de refencias por si se agrego una nueva referencia para guardarla
+        for($i = 0; $i < count($request->informacion); $i++){
+            if(!isset($request->informacion[$i]['id'])){
+                $ref = new Referencias();
+
+                $ref->nombre = $request->informacion[$i]['nombre'];
+                $ref->apellidos = $request->informacion[$i]['apellidos'];
+
+                if(isset($request->informacion[$i]['telefono'])){
+                    $ref->telefono = $request->informacion[$i]['telefono'];
+                }else{
+                    $ref->telefono = null;
+                }
+
+                if(isset($request->informacion[$i]['direccion'])){
+                    $ref->direccion = $request->informacion[$i]['direccion'];
+                }else{
+                    $ref->direccion = null;
+                }
+
+                $ref->parentesco = $request->informacion[$i]['parentesco'];
+                $ref->idCliente = $request->idCliente;
+                $ref->created_at = now();
+                $ref->save();
+            }
+        }
+        
+        $listReferencias = DB::select('select * from referencias where idCliente = ?', [$request->idCliente]);
+        
+        for ($i = 0; $i < count($listReferencias); $i++) {
+            $referencias = Referencias::findOrFail($listReferencias[$i]->id);
+            $referencias->nombre = $request->informacion[$i]['nombre'];
+            $referencias->apellidos = $request->informacion[$i]['apellidos'];
+
+            if(isset($request->informacion[$i]['telefono'])){
+                $referencias->telefono = $request->informacion[$i]['telefono'];
+            }else{
+                $referencias->telefono = null;
+            }
+
+            if(isset($request->informacion[$i]['direccion'])){
+                $referencias->direccion = $request->informacion[$i]['direccion'];
+            }else{
+                $referencias->direccion = null;
+            }
+
+            $referencias->parentesco = $request->informacion[$i]['parentesco'];
+            $referencias->idCliente = $request->idCliente;
+            $referencias->updated_at = now();
+            $referencias->update();
+        }
     }
 
     /**
@@ -230,8 +285,8 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente =  Cliente::find($id);
-   
-        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'fiador' => $cliente->fiador];
+        
+        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'fiador' => $cliente->fiador, 'referencias' => $cliente->referencia];
     }
 
     /**

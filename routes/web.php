@@ -46,6 +46,7 @@ Route::get('/GetProvincias', [ClienteController::class,'getProvincias']);
 Route::get('/GetMunicipios/{id}', [ClienteController::class,'getMunicipios']);
 Route::post('/C-clientes/editar', [ClienteController::class, 'editar']);
 Route::post('/C-clienteReferencia', [ClienteController::class, 'guardarReferencia']);
+Route::post('/C-clienteEditarReferencia', [ClienteController::class, 'editarReferencia']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');

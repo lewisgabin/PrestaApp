@@ -238,8 +238,8 @@
                       <fieldset>
                         <div class="radio radio-danger radio-glow">
                           <input
-                           v-model="cliente.sexo"
                             type="radio"
+                            v-model="cliente.sexo"
                             id="radioGlow2"
                             value="0"
                             name="radioGlow"
@@ -809,7 +809,6 @@
         </div>
       </div>
     </div>
-
     <!-- modal de errores -->
   </div>
 </template>
@@ -872,7 +871,6 @@ export default {
       },
       mensajeError: {},
       mensajeErrorR: [{ nombre: "", apellido: "", parentesco: "" }],
-      listRol: [],
       errorArray: [],
       mostrarModal: {
         display: "block",
@@ -882,7 +880,6 @@ export default {
         display: "none",
       },
       form: new FormData(),
-      clienteId: 0,
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
@@ -914,7 +911,7 @@ export default {
     },
     //metodo validar envio de datos
     validarRegistrarFiador() {
-      //;impio la variable de errores
+      //limpio la variable de errores
       this.mensajeError = { dev: "dev" };
       //valido si el esta vacio
       if (!this.fiador.nombre) {
@@ -934,7 +931,6 @@ export default {
         this.estado = false;
       }
     },
-
     //presenta la imagen en image input
     getFile(e) {
       this.cliente.foto = e.target.files[0];
@@ -1007,7 +1003,7 @@ export default {
             }
             if (!this.inputs[i].apellido) {
               this.mensajeErrorR[i].apellido =
-                "El apellido es un campo obligatorio";
+                "El Apellido es un campo obligatorio";
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
@@ -1092,7 +1088,6 @@ export default {
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
-      this.form.append("id", this.$route.params.idCliente);
       //DATOS FIADOR
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
@@ -1103,7 +1098,7 @@ export default {
       this.form.append("F_direccion", this.fiador.direccion);
       
       const config = { headers: { "Content-Type": "multipart/form-data" } };
-      var url = "/C-clientes/editar";
+
       let me = this;
       if (this.metodo == "crear") {
         axios
@@ -1173,24 +1168,6 @@ export default {
         (this.cliente.recomendado_por = ""),
         (this.cliente.comentario = ""),
         (this.errorArray = []);
-    },
-    obtenerUsuario(idC) {
-      var url = "/C-clientes/" + idC;
-      let me = this;
-      axios
-        .get(url)
-        .then((response) => {
-          me.cliente = response.data.cliente;
-          $("#imagePreview").css(
-            "background-image",
-            "url('" + "../storage/img/users/" + me.cliente.foto + "')"
-          );
-          me.$loading(false);
-          me.cliente.foto = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
   },
 };

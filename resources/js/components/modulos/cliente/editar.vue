@@ -224,8 +224,10 @@
                         <div class="radio radio-info radio-glow">
                           <input
                             type="radio"
+                            v-model="cliente.sexo"
                             id="radioGlow1"
                             name="radioGlow"
+                            value="1"
                             checked=""
                           />
                           <label for="radioGlow1">MASCULINO</label>
@@ -237,8 +239,10 @@
                         <div class="radio radio-danger radio-glow">
                           <input
                             type="radio"
+                            v-model="cliente.sexo"
                             id="radioGlow2"
                             name="radioGlow"
+                            value="0"
                           />
                           <label for="radioGlow2">FEMENINO</label>
                         </div>
@@ -664,7 +668,121 @@
             </div>
           </div>
           <div class="card-content collapse">
-            <div class="card-body" style=""></div>
+            <div class="card-body" style="">
+              <div class="row" style="margin-top: 10px">
+                <div
+                  class="row justify-content-between"
+                  v-for="(input, i) in inputs"
+                  :key="i"
+                  style="margin-top: 15px"
+                >
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label for="Nombre">NOMBRE </label>
+                    <input
+                      v-model="input.nombre"
+                      class="form-control shadow"
+                      placeholder="Enter Nombre"
+                      :class="{
+                        error: mensajeErrorR[i].nombre !== '',
+                      }"
+                    />
+                    <span class="error" v-if="mensajeErrorR[i].nombre">
+                      {{ mensajeErrorR[i].nombre }}
+                    </span>
+                  </div>
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label> APELLIDO</label>
+                    <input
+                      v-model="input.apellidos"
+                      class="form-control shadow"
+                      placeholder="Enter Apellido"
+                      :class="{
+                        error: mensajeErrorR[i].apellidos !== '',
+                      }"
+                    />
+                    <span class="error" v-if="mensajeErrorR[i].apellidos">
+                      {{ mensajeErrorR[i].apellidos }}
+                    </span>
+                  </div>
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label>TELEFONO</label>
+                    <input
+                      v-model="input.telefono"
+                      class="form-control shadow"
+                      placeholder="(000)-000-0000"
+                    />
+                  </div>
+                  <div class="col-md-6 col-sm-12 form-group">
+                    <label>DIRECCION</label>
+                    <input
+                      v-model="input.direccion"
+                      class="form-control shadow"
+                      placeholder="Enter Direccion"
+                    />
+                  </div>
+                  <div class="col-md-4 col-sm-12 form-group">
+                    <label for="gender">PARENTESCO</label>
+                    <select
+                      v-model="input.parentesco"
+                      class="form-control shadow"
+                      :class="{
+                        error: mensajeErrorR[i].parentesco !== '',
+                      }"
+                    >
+                      <option value="Padre">Padre</option>
+                      <option value="Madre">Madre</option>
+                      <option value="Tio">Tio</option>
+                      <option value="Amigo">Amigo</option>
+                      <option value="Familiar">Familiar</option>
+                      <option value="Conyugue">Conyugue</option>
+                      <option value=""></option>
+                    </select>
+                    <span class="error" v-if="mensajeErrorR[i].parentesco">
+                      {{ mensajeErrorR[0].parentesco }}
+                    </span>
+                  </div>
+
+                  <div
+                    class="
+                      col-md-2 col-sm-12
+                      form-group
+                      d-flex
+                      align-items-center
+                      pt-2
+                    "
+                  >
+                    <button
+                      class="btn btn-danger text-nowrap px-1"
+                      @click="remove(i)"
+                      v-show="i || (!i && inputs.length > 1)"
+                    >
+                      <i class="bx bxs-user-minus"></i>
+                    </button>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      style="
+                        width: 100%;
+                        border-bottom: 1px solid #dce1e6;
+                        height: 16px;
+                      "
+                    ></div>
+                  </div>
+                  <div class="col-md-12" style="margin-top: 15px">
+                    <div class="col p-0">
+                      <button
+                        class="btn btn-success"
+                        @click="add(i)"
+                        v-show="i == inputs.length - 1"
+                      >
+                        <i class="bx bxs-user-plus"></i>
+                        Agregar Otra
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -714,11 +832,11 @@ export default {
         headers: { "My-Awesome-Header": "header value" },
         addRemoveLinks: true,
       },
-      idCliente: 0,
       municipio: "",
       provincia: "",
       rutaa: "ruta",
       sector: "sector",
+      idCliente: 0,
       cliente: {
         nombre: "",
         apellidos: "",
@@ -727,7 +845,7 @@ export default {
         fecha_nacimiento: "",
         ocupacion: "",
         nacionalidad: "",
-        sexo: "1",
+        sexo: "",
         whatsapp: "",
         tel_principal: "",
         tel_otro: "",
@@ -749,11 +867,12 @@ export default {
         telefono: "",
         celular: "",
       },
+      refPersonal: {
+        informacion: [],
+      },
       mensajeError: {},
-      listRol: [],
+      mensajeErrorR: [{ nombre: "", apellidos: "", parentesco: "" }],
       errorArray: [],
-      textoComponet: "Crear Cliente",
-      modalShow: false,
       isLoading: false,
       fullPage: true,
       mostrarModal: {
@@ -764,11 +883,21 @@ export default {
         display: "none",
       },
       form: new FormData(),
-      clienteId: 0,
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
-      estado:true
+      erroresEnFiador: false,
+      estado: true,
+      estado2: true,
+      inputs: [
+        {
+          nombre: "",
+          apellidos: "",
+          telefono: "",
+          direccion: "",
+          parentesco: "",
+        },
+      ],
     };
   },
   mounted() {
@@ -782,11 +911,21 @@ export default {
     }
   },
   methods: {
+    add(index) {
+      this.inputs.push({ name: "" });
+      this.mensajeErrorR.push({ nombre: "", apellidos: "", parentesco: "" });
+    },
+    remove(index) {
+      this.inputs.splice(index, 1);
+      this.mensajeErrorR.splice(index, 1);
+    },
     //metodo validar envio de datos
-    validarRegistrarCliente() {
+    validarRegistrarFiador() {
+      //limpio la variable de errores
       this.mensajeError = { dev: "dev" };
-     this.estado = true;
-
+      this.estado = true;
+      
+      //valido si el campo esta vacio
       if (!this.fiador.nombre) {
         this.mensajeError.nombre = "El Nombre es un campo obligatorio";
         this.estado = false;
@@ -804,7 +943,7 @@ export default {
         this.estado = false;
       }
     
-     this.guardarCliente();
+     this.editarCliente();
     },
     //presenta la imagen en image input
     getFile(e) {
@@ -847,7 +986,7 @@ export default {
     },
     getMunicipio(provinciaSeleccionada, metodo) {
       if (!this.provincia == "") {
-        // metodo recibe el nombre ddel componete de donde a sido llamado el metodo --lewis
+        // metodo recibe el nombre del componente de donde a sido llamado el metodo --lewis
         if (metodo == "select") {
           provinciaSeleccionada = provinciaSeleccionada.id;
         }
@@ -860,7 +999,9 @@ export default {
     },
     // valida el envio al metodo guardar 
     registrarCliente() {
-  
+      this.estado = true;
+      this.estado2 = true;
+
       if (
         this.fiador.nombre  ||
         this.fiador.apellidos  ||
@@ -870,20 +1011,73 @@ export default {
         this.fiador.celular  ||
         this.fiador.direccion 
       ) {
-        this.validarRegistrarCliente();
-      } else {
-        this.estado = true;
+        this.validarRegistrarFiador();
+      } 
+      
+      if(true) {
+        // recorror el array input para saber cuanta referecia se van a agregar
+        for (var i = 0; i < this.inputs.length; i++) {
+          //valido si hay algunas llena
+          if (
+            this.inputs[i].nombre ||
+            this.inputs[i].apellido ||
+            this.inputs[i].parentesco ||
+            this.inputs[i].direccion ||
+            this.inputs[i].telefono
+          ) {
+            //si exite alguna llena entoces valido los campos
+            //si esta vacio el campo
+            if (!this.inputs[i].nombre) {
+              this.mensajeErrorR[i].nombre =
+                "El Nombre es un campo obligatorio";
+              this.estado2 = false;
+              //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
+            } else {
+              this.mensajeErrorR[i].nombre = "";
+              this.estado2 = true;
+            }
+            if (!this.inputs[i].apellido) {
+              this.mensajeErrorR[i].apellido =
+                "El Apellido es un campo obligatorio";
+              this.estado2 = false;
+            } else {
+              this.mensajeErrorR[i].apellido = "";
+              this.estado2 = true;
+            }
+            if (!this.inputs[i].parentesco) {
+              this.mensajeErrorR[i].parentesco =
+                "El Parentesco es un campo obligatorio";
+              this.estado2 = false;
+            } else {
+              this.mensajeErrorR[i].parentesco = "";
+              this.estado2 = true;
+            }
+            //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
+          } else {
+            this.mensajeErrorR[i].nombre = "";
+            this.mensajeErrorR[i].apellido = "";
+            this.mensajeErrorR[i].parentesco = "";
+          }
+        }
+      }
+      
+      //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO
+      if (this.estado == true) {
         this.mensajeError = { dev: "dev" };
-        this.guardarCliente();
-           
+        this.editarCliente();
+      } else {
+        this.editarCliente();
       }
     },
-    guardarCliente() {
+    editarCliente() {
       this.errorArray = [];
-
       this.$loading(true);
-      //Datos Cliente
+
+      //DATOS VALIDAR
       this.form.append("estado", this.estado);
+      this.form.append("estado2", this.estado2);
+      
+      //DATOS CLIENTE
       this.form.append("id_cliente", this.idCliente);
       this.form.append("nombre", this.cliente.nombre);
       this.form.append("apellidos", this.cliente.apellidos);
@@ -898,6 +1092,7 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
+      
       //por que si no se selecionan no de error --lewis
       if (!this.provincia == "") {
         this.form.append("id_provincia", this.provincia.id);
@@ -909,9 +1104,6 @@ export default {
       } else {
         this.form.append("id_municipio", "");
       }
-       if (!this.fiador == "") {
-        this.form.append("fiador_id", this.fiador.id);
-      }
 
       this.form.append("sector", this.sector);
       this.form.append("id_ruta", this.cliente.id_ruta);
@@ -919,8 +1111,11 @@ export default {
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
-      this.form.append("id", this.$route.params.idCliente);
-      //Datos Fiador
+        
+      //DATOS FIADOR
+      if (!this.fiador == "") {
+        this.form.append("fiador_id", this.fiador.id);
+      }
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
       this.form.append("F_apodo", this.fiador.apodo);
@@ -933,27 +1128,50 @@ export default {
       var url = "/C-clientes/editar";
       let me = this;
   
-        axios
-          .post(url, this.form, config)
-          .then((response) => {
-             if (response.data.estado == false) {
-                 me.$loading(false);
+      axios
+        .post(url, this.form, config)
+        .then((response) => {
+          if (
+            response.data.estado == false ||
+            response.data.estado2 == "false"
+          ) {
+            me.$loading(false);
+          } else {
+            if (response.data.idCliente > 0 && this.inputs[0].nombre) {
+              this.editarReferencias(response.data.idCliente);
             } else {
-                 me.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+              me.$router.push({
+                name: "clienteIndex",
+                params: { estado: 1 },
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          if (error.response.data.errors) {
+            me.errorArray = error.response.data.errors;
+            me.$loading(false);
+          }
+        });
+    },
+    //Editar las referencias personales
+    editarReferencias(idClienteGuardado){
+      //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
+      this.refPersonal.informacion = this.inputs.slice();
+      this.refPersonal.idCliente = idClienteGuardado;
 
-             }
+      axios
+          .post("/C-clienteEditarReferencia", this.refPersonal)
+          .then((response) => {
+            this.$router.push({name: "clienteIndex", params: { estado: 2 }});
           })
           .catch((error) => {
-            if (error.response.data.errors) {
-              me.errorArray = error.response.data.errors;
-              me.$loading(false);
-            }
+            console.log(error);
           });
-      },
-    
+    },
     //Limpia campo
     limpiaCampos() {
-      (this.cliente.nombre = ""),
+        (this.cliente.nombre = ""),
         (this.cliente.apellidos = ""),
         (this.cliente.apodo = ""),
         (this.cliente.cedula = ""),
@@ -990,6 +1208,21 @@ export default {
           }
           me.getMunicipio(response.data.provincia.id, "obtenerCliente");
           me.municipio = me.cliente.municipio; //--lewis
+          
+          console.log(response.data.referencias);
+          
+          if(response.data.referencias){
+            for (let i = 0; i < response.data.referencias.length; i++) {
+              
+              me.inputs[i].nombre = response.data.referencias[i].nombre;
+              me.inputs[i].apellidos = response.data.referencias[i].apellidos;
+              me.inputs[i].telefono = response.data.referencias[i].telefono;
+              me.inputs[i].direccion = response.data.referencias[i].direccion;
+              me.inputs[i].parentesco = response.data.referencias[i].parentesco;
+              
+            }
+          }
+          
           me.$loading(false);
 
           // $("#imagePreview").css(
