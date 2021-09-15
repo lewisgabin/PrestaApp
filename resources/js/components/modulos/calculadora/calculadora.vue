@@ -120,8 +120,9 @@
       </div>
      </div>
 </div>
-</template>
 
+</template>
+    
 <script>
 var moment = require('moment');
 import print from 'print-js'
