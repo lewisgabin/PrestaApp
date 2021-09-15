@@ -3871,7 +3871,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (true) {
-        // recorror el array input para saber cuanta referecia se van a agregar
+        this.estado2 = true; // recorror el array input para saber cuanta referecia se van a agregar
+
         for (var i = 0; i < this.inputs.length; i++) {
           //valido si hay algunas llena
           if (this.inputs[i].nombre || this.inputs[i].apellido || this.inputs[i].parentesco || this.inputs[i].direccion || this.inputs[i].telefono) {
@@ -3882,7 +3883,6 @@ __webpack_require__.r(__webpack_exports__);
               this.estado2 = false; //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
             } else {
               this.mensajeErrorR[i].nombre = "";
-              this.estado2 = true;
             }
 
             if (!this.inputs[i].apellido) {
@@ -3890,7 +3890,6 @@ __webpack_require__.r(__webpack_exports__);
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
-              this.estado2 = true;
             }
 
             if (!this.inputs[i].parentesco) {
@@ -3898,7 +3897,6 @@ __webpack_require__.r(__webpack_exports__);
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].parentesco = "";
-              this.estado2 = true;
             } //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
 
           } else {
@@ -4873,10 +4871,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4936,7 +4930,7 @@ __webpack_require__.r(__webpack_exports__);
       mensajeError: {},
       mensajeErrorR: [{
         nombre: "",
-        apellidos: "",
+        apellido: "",
         parentesco: ""
       }],
       errorArray: [],
@@ -4956,7 +4950,13 @@ __webpack_require__.r(__webpack_exports__);
       erroresEnFiador: false,
       estado: true,
       estado2: true,
-      inputs: []
+      inputs: [{
+        nombre: "",
+        apellidos: "",
+        telefono: "",
+        direccion: "",
+        parentesco: ""
+      }]
     };
   },
   mounted: function mounted() {
@@ -4966,7 +4966,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$loading(true);
       this.metodo = this.$route.params.metodo;
       this.idCliente = this.$route.params.idCliente;
-      this.obtenerCliente(this.$route.params.idCliente);
+      this.obtenerCliente(this.idCliente);
     }
   },
   methods: {
@@ -4976,7 +4976,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.mensajeErrorR.push({
         nombre: "",
-        apellidos: "",
+        apellido: "",
         parentesco: ""
       });
     },
@@ -5067,7 +5067,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    // valida el envio al metodo guardar 
+    // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
       this.estado = true;
       this.estado2 = true;
@@ -5078,6 +5078,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (true) {
         // recorror el array input para saber cuanta referecia se van a agregar
+        this.estado2 = true;
+
         for (var i = 0; i < this.inputs.length; i++) {
           //valido si hay algunas llena
           if (this.inputs[i].nombre || this.inputs[i].apellido || this.inputs[i].parentesco || this.inputs[i].direccion || this.inputs[i].telefono) {
@@ -5088,15 +5090,13 @@ __webpack_require__.r(__webpack_exports__);
               this.estado2 = false; //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
             } else {
               this.mensajeErrorR[i].nombre = "";
-              this.estado2 = true;
             }
 
-            if (!this.inputs[i].apellido) {
+            if (!this.inputs[i].apellidos) {
               this.mensajeErrorR[i].apellido = "El Apellido es un campo obligatorio";
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
-              this.estado2 = true;
             }
 
             if (!this.inputs[i].parentesco) {
@@ -5104,7 +5104,6 @@ __webpack_require__.r(__webpack_exports__);
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].parentesco = "";
-              this.estado2 = true;
             } //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
 
           } else {
@@ -5170,6 +5169,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.fiador == "") {
         this.form.append("fiador_id", this.fiador.id);
+      } else {
+        this.form.append("fiador_id", 0);
       }
 
       this.form.append("F_nombre", this.fiador.nombre);
@@ -5186,6 +5187,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       var url = "/C-clientes/editar";
       var me = this;
+      this.$loading(false);
       axios.post(url, this.form, config).then(function (response) {
         if (response.data.estado == false || response.data.estado2 == "false") {
           me.$loading(false);
@@ -5231,29 +5233,35 @@ __webpack_require__.r(__webpack_exports__);
       this.cliente.nombre = "", this.cliente.apellidos = "", this.cliente.apodo = "", this.cliente.cedula = "", this.cliente.fecha_nacimiento = Date.now(), this.cliente.ocupacion = "", this.cliente.nacionalidad = "", this.cliente.sexo = "1", this.cliente.whatsapp = "", this.cliente.tel_principal = "", this.cliente.tel_otro = "", this.cliente.email = "", this.cliente.direccion = "", this.cliente.id_provincia = 1, this.cliente.id_municipio = 1, this.cliente.sector = "", this.cliente.id_ruta = 1, this.cliente.direccion_trabajo = "", this.cliente.foto = "", this.cliente.recomendado_por = "", this.cliente.comentario = "", this.errorArray = [];
     },
     obtenerCliente: function obtenerCliente(idC) {
+      var _this5 = this;
+
       var url = "/C-clientes/" + idC;
       var me = this;
       axios.get(url).then(function (response) {
-        me.cliente = response.data.cliente;
+        me.cliente = _(response.data.cliente).mapValues(function (value) {
+          return _.isNull(value) ? "" : value;
+        }).value();
         me.provincia = response.data.provincia;
 
         if (response.data.fiador) {
           me.fiador = response.data.fiador;
         }
 
-        me.getMunicipio(response.data.provincia.id, "obtenerCliente");
-        me.municipio = me.cliente.municipio; //--lewis
+        if (response.data.provincia) {
+          me.getMunicipio(response.data.provincia.id, "obtenerCliente");
+          me.municipio = me.cliente.municipio; //--lewis
+        }
 
-        console.log(response.data.referencias[0].apellidos);
+        if (response.data.referencias.length >= 1) {
+          _this5.inputs = [];
+          _this5.mensajeErrorR = [];
+          me.inputs = response.data.referencias;
 
-        if (response.data.referencias) {
           for (var i = 0; i < response.data.referencias.length; i++) {
-            me.inputs.push({
-              nombre: response.data.referencias[0].nombre,
-              apellidos: response.data.referencias[0].apellidos,
-              telefono: response.data.referencias[0].telefono,
-              direccion: response.data.referencias[0].direccion,
-              parentesco: response.data.referencias[0].parentesco
+            _this5.mensajeErrorR.push({
+              nombre: "",
+              apellido: "",
+              parentesco: ""
             });
           }
         }
@@ -12858,7 +12866,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13026,7 +13034,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13098,7 +13106,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -82531,7 +82539,7 @@ var render = function() {
                           class: {
                             error: typeof _vm.errorArray.nombre !== "undefined"
                           },
-                          attrs: { type: "text", placeholder: "Nombre" },
+                          attrs: { placeholder: "Nombre" },
                           domProps: { value: _vm.cliente.nombre },
                           on: {
                             input: function($event) {
@@ -82587,7 +82595,7 @@ var render = function() {
                             error:
                               typeof _vm.errorArray.apellidos !== "undefined"
                           },
-                          attrs: { type: "text", placeholder: "Apellidos" },
+                          attrs: { placeholder: "Apellidos" },
                           domProps: { value: _vm.cliente.apellidos },
                           on: {
                             input: function($event) {
@@ -82639,7 +82647,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
-                          attrs: { type: "text", placeholder: "Apodo" },
+                          attrs: { placeholder: "Apodo" },
                           domProps: { value: _vm.cliente.apodo },
                           on: {
                             input: function($event) {
@@ -82679,10 +82687,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control shadow",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Ej: Numero de cedula"
-                          },
+                          attrs: { placeholder: "Ej: Numero de cedula" },
                           domProps: { value: _vm.cliente.cedula },
                           on: {
                             input: function($event) {
@@ -84002,7 +84007,7 @@ var render = function() {
                             ],
                             staticClass: "form-control shadow",
                             class: {
-                              error: _vm.mensajeErrorR[i].apellidos !== ""
+                              error: _vm.mensajeErrorR[i].apellido !== ""
                             },
                             attrs: { placeholder: "Enter Apellido" },
                             domProps: { value: input.apellidos },
@@ -84020,11 +84025,11 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _vm.mensajeErrorR[i].apellidos
+                          _vm.mensajeErrorR[i].apellido
                             ? _c("span", { staticClass: "error" }, [
                                 _vm._v(
                                   "\n                    " +
-                                    _vm._s(_vm.mensajeErrorR[i].apellidos) +
+                                    _vm._s(_vm.mensajeErrorR[i].apellido) +
                                     "\n                  "
                                 )
                               ])

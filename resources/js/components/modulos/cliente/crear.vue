@@ -980,6 +980,7 @@ export default {
         this.validarRegistrarFiador();
       }
       if (true) {
+           this.estado2 = true;
         // recorror el array input para saber cuanta referecia se van a agregar
         for (var i = 0; i < this.inputs.length; i++) {
           //valido si hay algunas llena
@@ -999,7 +1000,7 @@ export default {
               //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
             } else {
               this.mensajeErrorR[i].nombre = "";
-              this.estado2 = true;
+            
             }
             if (!this.inputs[i].apellido) {
               this.mensajeErrorR[i].apellido =
@@ -1007,7 +1008,7 @@ export default {
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
-              this.estado2 = true;
+            
             }
             if (!this.inputs[i].parentesco) {
               this.mensajeErrorR[i].parentesco =
@@ -1015,7 +1016,7 @@ export default {
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].parentesco = "";
-              this.estado2 = true;
+            
             }
             //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
           } else {

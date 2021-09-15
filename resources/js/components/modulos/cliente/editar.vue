@@ -92,7 +92,6 @@
                   <label for="first-name-icon">NOMBRE:</label>
                   <div class="form-label-group has-icon-left">
                     <input
-                      type="text"
                       v-model="cliente.nombre"
                       placeholder="Nombre"
                       class="form-control shadow"
@@ -114,7 +113,6 @@
                   <label for="first-name-icon">APELLIDOS:</label>
                   <div class="form-label-group has-icon-left">
                     <input
-                      type="text"
                       v-model="cliente.apellidos"
                       placeholder="Apellidos"
                       class="form-control shadow"
@@ -136,7 +134,6 @@
                   <label for="first-name-icon">APODO:</label>
                   <div class="form-label-group has-icon-left">
                     <input
-                      type="text"
                       v-model="cliente.apodo"
                       placeholder="Apodo"
                       class="form-control shadow"
@@ -150,7 +147,6 @@
                   <label for="first-name-icon">DOC.IDENTIDAD:</label>
                   <div class="form-label-group has-icon-left">
                     <input
-                      type="text"
                       v-model="cliente.cedula"
                       placeholder="Ej: Numero de cedula"
                       class="form-control shadow"
@@ -697,11 +693,11 @@
                       class="form-control shadow"
                       placeholder="Enter Apellido"
                       :class="{
-                        error: mensajeErrorR[i].apellidos !== '',
+                        error: mensajeErrorR[i].apellido !== '',
                       }"
                     />
-                    <span class="error" v-if="mensajeErrorR[i].apellidos">
-                      {{ mensajeErrorR[i].apellidos }}
+                    <span class="error" v-if="mensajeErrorR[i].apellido">
+                      {{ mensajeErrorR[i].apellido }}
                     </span>
                   </div>
                   <div class="col-md-4 col-sm-12 form-group">
@@ -871,7 +867,7 @@ export default {
         informacion: [],
       },
       mensajeError: {},
-      mensajeErrorR: [{ nombre: "", apellidos: "", parentesco: "" }],
+      mensajeErrorR: [{ nombre: "", apellido: "", parentesco: "" }],
       errorArray: [],
       isLoading: false,
       fullPage: true,
@@ -889,7 +885,15 @@ export default {
       erroresEnFiador: false,
       estado: true,
       estado2: true,
-      inputs: [],
+      inputs: [
+        {
+          nombre: "",
+          apellidos: "",
+          telefono: "",
+          direccion: "",
+          parentesco: "",
+        },
+      ],
     };
   },
   mounted() {
@@ -899,13 +903,13 @@ export default {
       this.$loading(true);
       this.metodo = this.$route.params.metodo;
       this.idCliente = this.$route.params.idCliente;
-      this.obtenerCliente(this.$route.params.idCliente);
+      this.obtenerCliente(this.idCliente);
     }
   },
   methods: {
     add(index) {
       this.inputs.push({ name: "" });
-      this.mensajeErrorR.push({ nombre: "", apellidos: "", parentesco: "" });
+      this.mensajeErrorR.push({ nombre: "", apellido: "", parentesco: "" });
     },
     remove(index) {
       this.inputs.splice(index, 1);
@@ -916,7 +920,7 @@ export default {
       //limpio la variable de errores
       this.mensajeError = { dev: "dev" };
       this.estado = true;
-      
+
       //valido si el campo esta vacio
       if (!this.fiador.nombre) {
         this.mensajeError.nombre = "El Nombre es un campo obligatorio";
@@ -934,8 +938,8 @@ export default {
         this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
         this.estado = false;
       }
-    
-     this.editarCliente();
+
+      this.editarCliente();
     },
     //presenta la imagen en image input
     getFile(e) {
@@ -989,25 +993,26 @@ export default {
         });
       }
     },
-    // valida el envio al metodo guardar 
+    // valida el envio al metodo guardar
     registrarCliente() {
       this.estado = true;
       this.estado2 = true;
 
       if (
-        this.fiador.nombre  ||
-        this.fiador.apellidos  ||
-        this.fiador.apodo  ||
-        this.fiador.cedula  ||
-        this.fiador.telefono  ||
-        this.fiador.celular  ||
-        this.fiador.direccion 
+        this.fiador.nombre ||
+        this.fiador.apellidos ||
+        this.fiador.apodo ||
+        this.fiador.cedula ||
+        this.fiador.telefono ||
+        this.fiador.celular ||
+        this.fiador.direccion
       ) {
         this.validarRegistrarFiador();
-      } 
-      
-      if(true) {
+      }
+
+      if (true) {
         // recorror el array input para saber cuanta referecia se van a agregar
+        this.estado2 = true;
         for (var i = 0; i < this.inputs.length; i++) {
           //valido si hay algunas llena
           if (
@@ -1023,18 +1028,17 @@ export default {
               this.mensajeErrorR[i].nombre =
                 "El Nombre es un campo obligatorio";
               this.estado2 = false;
+
               //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
             } else {
               this.mensajeErrorR[i].nombre = "";
-              this.estado2 = true;
             }
-            if (!this.inputs[i].apellido) {
+            if (!this.inputs[i].apellidos) {
               this.mensajeErrorR[i].apellido =
                 "El Apellido es un campo obligatorio";
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
-              this.estado2 = true;
             }
             if (!this.inputs[i].parentesco) {
               this.mensajeErrorR[i].parentesco =
@@ -1042,7 +1046,6 @@ export default {
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].parentesco = "";
-              this.estado2 = true;
             }
             //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
           } else {
@@ -1052,7 +1055,7 @@ export default {
           }
         }
       }
-      
+
       //EL ESTADO PERTENECE A FIADOR Y QUIERES DECIR QUE BIEN VALIDADO
       if (this.estado == true) {
         this.mensajeError = { dev: "dev" };
@@ -1068,7 +1071,7 @@ export default {
       //DATOS VALIDAR
       this.form.append("estado", this.estado);
       this.form.append("estado2", this.estado2);
-      
+
       //DATOS CLIENTE
       this.form.append("id_cliente", this.idCliente);
       this.form.append("nombre", this.cliente.nombre);
@@ -1084,7 +1087,7 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
-      
+
       //por que si no se selecionan no de error --lewis
       if (!this.provincia == "") {
         this.form.append("id_provincia", this.provincia.id);
@@ -1103,10 +1106,12 @@ export default {
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
       this.form.append("file", this.cliente.foto);
-        
+
       //DATOS FIADOR
       if (!this.fiador == "") {
         this.form.append("fiador_id", this.fiador.id);
+      }else{
+           this.form.append("fiador_id",0);
       }
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
@@ -1119,7 +1124,9 @@ export default {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       var url = "/C-clientes/editar";
       let me = this;
-  
+
+      this.$loading(false);
+
       axios
         .post(url, this.form, config)
         .then((response) => {
@@ -1147,23 +1154,23 @@ export default {
         });
     },
     //Editar las referencias personales
-    editarReferencias(idClienteGuardado){
+    editarReferencias(idClienteGuardado) {
       //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
       this.refPersonal.informacion = this.inputs.slice();
       this.refPersonal.idCliente = idClienteGuardado;
 
       axios
-          .post("/C-clienteEditarReferencia", this.refPersonal)
-          .then((response) => {
-            this.$router.push({name: "clienteIndex", params: { estado: 2 }});
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        .post("/C-clienteEditarReferencia", this.refPersonal)
+        .then((response) => {
+          this.$router.push({ name: "clienteIndex", params: { estado: 2 } });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     //Limpia campo
     limpiaCampos() {
-        (this.cliente.nombre = ""),
+      (this.cliente.nombre = ""),
         (this.cliente.apellidos = ""),
         (this.cliente.apodo = ""),
         (this.cliente.cedula = ""),
@@ -1192,39 +1199,43 @@ export default {
       axios
         .get(url)
         .then((response) => {
-          me.cliente = response.data.cliente;
+          me.cliente = _(response.data.cliente)
+            .mapValues((value) => (_.isNull(value) ? "" : value))
+            .value();
+
           me.provincia = response.data.provincia;
 
           if (response.data.fiador) {
             me.fiador = response.data.fiador;
           }
-          me.getMunicipio(response.data.provincia.id, "obtenerCliente");
-          me.municipio = me.cliente.municipio; //--lewis
-          
-         
-        
-          console.log( response.data.referencias[0].apellidos);
-           if(response.data.referencias){
-           for (let i = 0; i < response.data.referencias.length; i++) {
-               me.inputs.push({ nombre:  response.data.referencias[0].nombre,
-                apellidos : response.data.referencias[0].apellidos,
-                telefono : response.data.referencias[0].telefono,
-                direccion : response.data.referencias[0].direccion,
-                parentesco : response.data.referencias[0].parentesco
-                });
-  
-
+          if (response.data.provincia) {
+            me.getMunicipio(response.data.provincia.id, "obtenerCliente");
+            me.municipio = me.cliente.municipio; //--lewis
           }
-           }
-          
+
+      
+
+          if (response.data.referencias.length >= 1) {
+            this.inputs = [];
+            this.mensajeErrorR = [];
+            me.inputs = response.data.referencias;
+            for (let i = 0; i < response.data.referencias.length; i++) {
+              this.mensajeErrorR.push({
+                nombre: "",
+                apellido: "",
+                parentesco: "",
+              });
+            }
+          }
+
           me.$loading(false);
         })
         .catch((error) => {
           console.log(error);
         });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
