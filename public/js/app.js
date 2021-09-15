@@ -4956,13 +4956,7 @@ __webpack_require__.r(__webpack_exports__);
       erroresEnFiador: false,
       estado: true,
       estado2: true,
-      inputs: [{
-        nombre: "",
-        apellidos: "",
-        telefono: "",
-        direccion: "",
-        parentesco: ""
-      }]
+      inputs: []
     };
   },
   mounted: function mounted() {
@@ -5250,23 +5244,21 @@ __webpack_require__.r(__webpack_exports__);
         me.getMunicipio(response.data.provincia.id, "obtenerCliente");
         me.municipio = me.cliente.municipio; //--lewis
 
-        console.log(response.data.referencias);
+        console.log(response.data.referencias[0].apellidos);
 
         if (response.data.referencias) {
           for (var i = 0; i < response.data.referencias.length; i++) {
-            me.inputs[i].nombre = response.data.referencias[i].nombre;
-            me.inputs[i].apellidos = response.data.referencias[i].apellidos;
-            me.inputs[i].telefono = response.data.referencias[i].telefono;
-            me.inputs[i].direccion = response.data.referencias[i].direccion;
-            me.inputs[i].parentesco = response.data.referencias[i].parentesco;
+            me.inputs.push({
+              nombre: response.data.referencias[0].nombre,
+              apellidos: response.data.referencias[0].apellidos,
+              telefono: response.data.referencias[0].telefono,
+              direccion: response.data.referencias[0].direccion,
+              parentesco: response.data.referencias[0].parentesco
+            });
           }
         }
 
-        me.$loading(false); // $("#imagePreview").css(
-        //   "background-image",
-        //   "url('" + "../storage/img/users/" + me.cliente.foto + "')"
-        // );
-        // me.cliente.foto = false;
+        me.$loading(false);
       })["catch"](function (error) {
         console.log(error);
       });
