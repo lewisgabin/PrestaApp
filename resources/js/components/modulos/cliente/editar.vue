@@ -939,7 +939,7 @@ export default {
         this.estado = false;
       }
 
-      this.editarCliente();
+    
     },
     //presenta la imagen en image input
     getFile(e) {

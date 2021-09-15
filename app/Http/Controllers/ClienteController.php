@@ -194,8 +194,9 @@ class ClienteController extends Controller
         
             if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
                 
-            
+          
                 if($request->fiador_id !== "undefined"){
+                   
                     $fiador = Fiador::findOrfail($request->fiador_id);
                   
                 }else{
@@ -208,12 +209,13 @@ class ClienteController extends Controller
                 $fiador->telefono = $request->F_telefono;
                 $fiador->celular = $request->F_celular;
                 $fiador->direccion = $request->F_direccion;
-                $fiador->id_cliente = $cliente->id;
+                $fiador->id_cliente =  $idCliente;
                 $fiador->updated_at = now();
-                if($request->fiador_id){
+                if($request->fiador_id !== "undefined"){
                     $fiador->update();
                 }else{
-                    $fiador->save();
+
+                    $fiador->save(); 
                 }
             
           
