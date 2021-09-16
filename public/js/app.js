@@ -3998,7 +3998,7 @@ __webpack_require__.r(__webpack_exports__);
           if (response.data.estado == false || response.data.estado2 == "false") {
             me.$loading(false);
           } else {
-            if (response.data.idCliente > 0 && _this3.inputs[0].nombre) {
+            if (response.data.idCliente > 0 && me.comprobarReferencia()) {
               _this3.guardarReferencias(response.data.idCliente);
             } else {
               me.$router.push({
@@ -4016,6 +4016,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    comprobarReferencia: function comprobarReferencia() {
+      var saber = false;
+
+      for (var i = 0; i < this.inputs.length; i++) {
+        if (this.inputs[i].nombre) {
+          saber = true;
+        }
+      }
+
+      return saber;
     },
     //Guardar las referencias personales
     guardarReferencias: function guardarReferencias(idClienteGuardado) {
@@ -5011,8 +5022,6 @@ __webpack_require__.r(__webpack_exports__);
         this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
         this.estado = false;
       }
-
-      this.editarCliente();
     },
     //presenta la imagen en image input
     getFile: function getFile(e) {
@@ -5192,7 +5201,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.estado == false || response.data.estado2 == "false") {
           me.$loading(false);
         } else {
-          if (response.data.idCliente > 0 && _this3.inputs[0].nombre) {
+          if (response.data.idCliente > 0 && me.comprobarReferencia()) {
             _this3.editarReferencias(response.data.idCliente);
           } else {
             me.$router.push({
@@ -5209,6 +5218,17 @@ __webpack_require__.r(__webpack_exports__);
           me.$loading(false);
         }
       });
+    },
+    comprobarReferencia: function comprobarReferencia() {
+      var saber = false;
+
+      for (var i = 0; i < this.inputs.length; i++) {
+        if (this.inputs[i].nombre) {
+          saber = true;
+        }
+      }
+
+      return saber;
     },
     //Editar las referencias personales
     editarReferencias: function editarReferencias(idClienteGuardado) {

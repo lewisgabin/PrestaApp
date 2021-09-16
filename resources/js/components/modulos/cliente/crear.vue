@@ -980,7 +980,7 @@ export default {
         this.validarRegistrarFiador();
       }
       if (true) {
-           this.estado2 = true;
+        this.estado2 = true;
         // recorror el array input para saber cuanta referecia se van a agregar
         for (var i = 0; i < this.inputs.length; i++) {
           //valido si hay algunas llena
@@ -1000,7 +1000,6 @@ export default {
               //si esta lleno, entoces borro el mensaje ya que no se pueden borrar la variable mensajeErrorR
             } else {
               this.mensajeErrorR[i].nombre = "";
-            
             }
             if (!this.inputs[i].apellido) {
               this.mensajeErrorR[i].apellido =
@@ -1008,7 +1007,6 @@ export default {
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].apellido = "";
-            
             }
             if (!this.inputs[i].parentesco) {
               this.mensajeErrorR[i].parentesco =
@@ -1016,7 +1014,6 @@ export default {
               this.estado2 = false;
             } else {
               this.mensajeErrorR[i].parentesco = "";
-            
             }
             //SI NO HA LLENADO NIGUN CAMPO LE BORRAN LOS MENSAJE, EN CASO DE QUE ANTERIORMENTE SE ALLA VALIDADO
           } else {
@@ -1097,7 +1094,7 @@ export default {
       this.form.append("F_telefono", this.fiador.telefono);
       this.form.append("F_celular", this.fiador.celular);
       this.form.append("F_direccion", this.fiador.direccion);
-      
+
       const config = { headers: { "Content-Type": "multipart/form-data" } };
 
       let me = this;
@@ -1111,7 +1108,7 @@ export default {
             ) {
               me.$loading(false);
             } else {
-              if (response.data.idCliente > 0 && this.inputs[0].nombre) {
+              if (response.data.idCliente > 0 && me.comprobarReferencia()) {
                 this.guardarReferencias(response.data.idCliente);
               } else {
                 me.$router.push({
@@ -1130,24 +1127,34 @@ export default {
           });
       }
     },
+    comprobarReferencia() {
+      var saber = false;
+      for (var i = 0; i < this.inputs.length; i++) {
+        if (this.inputs[i].nombre) {
+          saber = true;
+        }
+      }
+
+      return saber;
+    },
     //Guardar las referencias personales
-    guardarReferencias(idClienteGuardado){
+    guardarReferencias(idClienteGuardado) {
       //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
       this.refPersonal.informacion = this.inputs.slice();
       this.refPersonal.idCliente = idClienteGuardado;
 
       axios
-          .post("/C-clienteReferencia", this.refPersonal)
-          .then((response) => {
-            this.$router.push({name: "clienteIndex", params: { estado: 1 }});
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        .post("/C-clienteReferencia", this.refPersonal)
+        .then((response) => {
+          this.$router.push({ name: "clienteIndex", params: { estado: 1 } });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     //Limpia campo
     limpiaCampos() {
-        (this.cliente.nombre = ""),
+      (this.cliente.nombre = ""),
         (this.cliente.apellidos = ""),
         (this.cliente.apodo = ""),
         (this.cliente.cedula = ""),
