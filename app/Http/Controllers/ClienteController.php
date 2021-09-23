@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Fiador;
 use App\Models\Referencias;
+use App\Models\Sector;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -142,6 +143,14 @@ class ClienteController extends Controller
             $referencia->created_at = now();
             $referencia->save();
         }
+    }
+
+    public function guardarSector(Request $request)
+    {
+        $sector = new Sector();
+        $sector->nombre = $request->nombre;
+        $sector->id_municipio = $request->idMunicipio;
+        $sector->save();
     }
 
     public function editar(ClienteRequest $request)
@@ -322,6 +331,13 @@ class ClienteController extends Controller
         $municipios = DB::table('municipio')->where('id_provincia', '=', $id)->get();
 
         return ['municipios' => $municipios];
+    }
+
+    public function getSectores($id)
+    {
+        $sectores = DB::table('sector')->where('id_municipio', '=', $id)->get();
+
+        return ['sectores' => $sectores];
     }
 
     public function destroy($id)

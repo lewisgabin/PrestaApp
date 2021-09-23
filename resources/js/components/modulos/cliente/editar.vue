@@ -391,6 +391,7 @@
                       v-model="municipio"
                       :options="listMunicipios"
                       label="nombre"
+                      @input="getSector"
                     ></v-select>
                   </fieldset>
                 </div>
@@ -401,9 +402,11 @@
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="sector"
-                      :options="['sector', 'slug']"
+                      :options="listSectores"
+                      label="nombre"
                     ></v-select>
-                  </fieldset>
+                  </fieldset>                  
+                  <button class="btn btn-primary" style="padding: 10px;" @click="abrirCerrarModal"><i class="bx bx-plus"></i></button>
                 </div>
                 <div class="col-md-6">
                   <label for="first-name-icon">RUTA:</label>
@@ -806,6 +809,76 @@
       </div>
     </div>
     <!-- modal de errores -->
+
+    <!-- modal de crear y editar -->
+    <div
+      class="modal fade text-left"
+      id="danger "
+      tabindex="-1"
+      :class="{ show: modalShow }"
+      :style="modalShow ? mostrarModal : ocultarModal"
+      aria-labelledby="myModalLabel120"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        id="modalError"
+      >
+        <div class="modal-content">
+          <div class="modal-header bg-primary">
+            <h5 class="modal-title white" id="myModalLabel120">
+              Crear nuevo sector
+            </h5>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              @click="modalShow = 0"
+            >
+              <i class="bx bx-x"></i>
+            </button>
+          </div>
+          <div class="modal-body" id="form">
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <label for="first-name-icon">NOMBRE</label>
+                <div class="form-label-group has-icon-left">
+                  <input
+                    v-model="sector.nombre"
+                    type="text"
+                    placeholder="Nombre"
+                    class="form-control"
+                  />
+                  <div class="form-control-position">
+                    <i class="bx bx-home"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light-secondary"
+              data-dismiss="modal"
+              @click="modalShow = 0"
+            >
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Cerrar</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary ml-1"
+              @click="guardarSector()"
+            >
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Guardar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -827,11 +900,12 @@ export default {
         maxFilesize: 3,
         headers: { "My-Awesome-Header": "header value" },
         addRemoveLinks: true,
-      },
+      },      
+      modalShow: false,
       municipio: "",
       provincia: "",
       rutaa: "ruta",
-      sector: "sector",
+      sector: "",
       idCliente: 0,
       cliente: {
         nombre: "",
@@ -882,6 +956,7 @@ export default {
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
+      listSectores: [],
       erroresEnFiador: false,
       estado: true,
       estado2: true,
@@ -894,6 +969,10 @@ export default {
           parentesco: "",
         },
       ],
+      sector: {
+        idMunicipio: 0,
+        nombre: "",
+      }
     };
   },
   mounted() {
@@ -972,6 +1051,11 @@ export default {
       //   div.querySelector('.card-content').classList.toggle('show');
       div.classList.toggle("card-fullscreen");
     },
+    //abrir y cerrar modal
+    abrirCerrarModal() {
+      this.modalShow = !this.modalShow;
+      this.sector.nombre = "";
+    },
     getProvincias() {
       this.$loading(true);
       var url = "/GetProvincias";
@@ -992,6 +1076,12 @@ export default {
           this.listMunicipios = response.data.municipios;
         });
       }
+    },
+    getSector(municipioSeleccionado){
+      var url = "/GetSectores/" + municipioSeleccionado.id;
+      axios.get(url).then((response) => {
+        this.listSectores = response.data.sectores;
+      });
     },
     // valida el envio al metodo guardar
     registrarCliente() {
@@ -1206,19 +1296,25 @@ export default {
           me.provincia = response.data.provincia;
 
           if (response.data.fiador) {
-            me.fiador = response.data.fiador;
+            me.fiador = _(response.data.fiador)
+              .mapValues((value) => (_.isNull(value) ? "" : value))
+              .value();
           }
           if (response.data.provincia) {
             me.getMunicipio(response.data.provincia.id, "obtenerCliente");
             me.municipio = me.cliente.municipio; //--lewis
           }
-
-      
+          if (response.data.provincia) {
+            me.getSector(response.data.municipio.id);
+            me.sector = me.cliente.sector;
+          }
 
           if (response.data.referencias.length >= 1) {
             this.inputs = [];
             this.mensajeErrorR = [];
-            me.inputs = response.data.referencias;
+            me.inputs = _(response.data.referencias)
+              .mapValues((value) => (_.isNull(value) ? "" : value))
+              .value();
             for (let i = 0; i < response.data.referencias.length; i++) {
               this.mensajeErrorR.push({
                 nombre: "",

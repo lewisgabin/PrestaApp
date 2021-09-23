@@ -2888,6 +2888,81 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3712,7 +3787,7 @@ __webpack_require__.r(__webpack_exports__);
     vueDropzone: (vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
-    return {
+    return _defineProperty({
       dropzoneOptions: {
         url: "https://httpbin.org/post4",
         thumbnailWidth: 200,
@@ -3722,10 +3797,11 @@ __webpack_require__.r(__webpack_exports__);
         },
         addRemoveLinks: true
       },
+      modalShow: false,
       municipio: "",
       provincia: "",
       rutaa: "ruta",
-      sector: "sector",
+      sector: "",
       cliente: {
         nombre: "",
         apellidos: "",
@@ -3777,6 +3853,7 @@ __webpack_require__.r(__webpack_exports__);
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
+      listSectores: [],
       erroresEnFiador: false,
       estado: true,
       estado2: true,
@@ -3787,7 +3864,10 @@ __webpack_require__.r(__webpack_exports__);
         direccion: "",
         parentesco: ""
       }]
-    };
+    }, "sector", {
+      idMunicipio: 0,
+      nombre: ""
+    });
   },
   mounted: function mounted() {
     this.getProvincias();
@@ -3860,6 +3940,29 @@ __webpack_require__.r(__webpack_exports__);
 
       div.classList.toggle("card-fullscreen");
     },
+    //abrir y cerrar modal
+    abrirCerrarModal: function abrirCerrarModal() {
+      this.modalShow = !this.modalShow;
+      this.sector.nombre = "";
+    },
+    guardarSector: function guardarSector() {
+      var _this = this;
+
+      this.sector.idMunicipio = this.municipio.id;
+      axios.post("/C-clienteSector", this.sector).then(function (response) {
+        _this.modalShow = 0;
+
+        _this.$toast.open({
+          message: "Sector creado con exito!",
+          type: "success",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right"
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
       this.estado = true;
@@ -3918,26 +4021,34 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getProvincias: function getProvincias() {
-      var _this = this;
+      var _this2 = this;
 
       this.$loading(true);
       var url = "/GetProvincias";
       axios.get(url).then(function (response) {
-        _this.listProvincias = response.data.provincias;
+        _this2.listProvincias = response.data.provincias;
 
-        _this.$loading(false);
+        _this2.$loading(false);
       });
     },
     getMunicipio: function getMunicipio(provinciaSeleccionada) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = "/GetMunicipios/" + provinciaSeleccionada.id;
       axios.get(url).then(function (response) {
-        _this2.listMunicipios = response.data.municipios;
+        _this3.listMunicipios = response.data.municipios;
+      });
+    },
+    getSector: function getSector(municipioSeleccionado) {
+      var _this4 = this;
+
+      var url = "/GetSectores/" + municipioSeleccionado.id;
+      axios.get(url).then(function (response) {
+        _this4.listSectores = response.data.sectores;
       });
     },
     guardarCliente: function guardarCliente() {
-      var _this3 = this;
+      var _this5 = this;
 
       //validando  referencias
       this.errorArray = [];
@@ -3972,7 +4083,13 @@ __webpack_require__.r(__webpack_exports__);
         this.form.append("id_municipio", "");
       }
 
-      this.form.append("sector", this.sector);
+      if (!this.sector == "") {
+        this.form.append("sector", this.sector.nombre);
+      } else {
+        this.form.append("sector", "");
+      }
+
+      $route('home');
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
@@ -3998,8 +4115,8 @@ __webpack_require__.r(__webpack_exports__);
           if (response.data.estado == false || response.data.estado2 == "false") {
             me.$loading(false);
           } else {
-            if (response.data.idCliente > 0 && _this3.inputs[0].nombre) {
-              _this3.guardarReferencias(response.data.idCliente);
+            if (response.data.idCliente > 0 && _this5.inputs[0].nombre) {
+              _this5.guardarReferencias(response.data.idCliente);
             } else {
               me.$router.push({
                 name: "clienteIndex",
@@ -4019,13 +4136,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Guardar las referencias personales
     guardarReferencias: function guardarReferencias(idClienteGuardado) {
-      var _this4 = this;
+      var _this6 = this;
 
       //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
       this.refPersonal.informacion = this.inputs.slice();
       this.refPersonal.idCliente = idClienteGuardado;
       axios.post("/C-clienteReferencia", this.refPersonal).then(function (response) {
-        _this4.$router.push({
+        _this6.$router.push({
           name: "clienteIndex",
           params: {
             estado: 1
@@ -4059,6 +4176,81 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4879,7 +5071,7 @@ __webpack_require__.r(__webpack_exports__);
     vueDropzone: (vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
-    return {
+    return _defineProperty({
       dropzoneOptions: {
         url: "https://httpbin.org/post4",
         thumbnailWidth: 200,
@@ -4889,10 +5081,11 @@ __webpack_require__.r(__webpack_exports__);
         },
         addRemoveLinks: true
       },
+      modalShow: false,
       municipio: "",
       provincia: "",
       rutaa: "ruta",
-      sector: "sector",
+      sector: "",
       idCliente: 0,
       cliente: {
         nombre: "",
@@ -4947,6 +5140,7 @@ __webpack_require__.r(__webpack_exports__);
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
+      listSectores: [],
       erroresEnFiador: false,
       estado: true,
       estado2: true,
@@ -4957,7 +5151,10 @@ __webpack_require__.r(__webpack_exports__);
         direccion: "",
         parentesco: ""
       }]
-    };
+    }, "sector", {
+      idMunicipio: 0,
+      nombre: ""
+    });
   },
   mounted: function mounted() {
     this.getProvincias();
@@ -5011,8 +5208,6 @@ __webpack_require__.r(__webpack_exports__);
         this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
         this.estado = false;
       }
-
-      this.editarCliente();
     },
     //presenta la imagen en image input
     getFile: function getFile(e) {
@@ -5040,6 +5235,11 @@ __webpack_require__.r(__webpack_exports__);
 
       div.classList.toggle("card-fullscreen");
     },
+    //abrir y cerrar modal
+    abrirCerrarModal: function abrirCerrarModal() {
+      this.modalShow = !this.modalShow;
+      this.sector.nombre = "";
+    },
     getProvincias: function getProvincias() {
       var _this = this;
 
@@ -5066,6 +5266,14 @@ __webpack_require__.r(__webpack_exports__);
           _this2.listMunicipios = response.data.municipios;
         });
       }
+    },
+    getSector: function getSector(municipioSeleccionado) {
+      var _this3 = this;
+
+      var url = "/GetSectores/" + municipioSeleccionado.id;
+      axios.get(url).then(function (response) {
+        _this3.listSectores = response.data.sectores;
+      });
     },
     // valida el envio al metodo guardar
     registrarCliente: function registrarCliente() {
@@ -5125,7 +5333,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     editarCliente: function editarCliente() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.errorArray = [];
       this.$loading(true); //DATOS VALIDAR
@@ -5192,8 +5400,8 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.estado == false || response.data.estado2 == "false") {
           me.$loading(false);
         } else {
-          if (response.data.idCliente > 0 && _this3.inputs[0].nombre) {
-            _this3.editarReferencias(response.data.idCliente);
+          if (response.data.idCliente > 0 && _this4.inputs[0].nombre) {
+            _this4.editarReferencias(response.data.idCliente);
           } else {
             me.$router.push({
               name: "clienteIndex",
@@ -5212,13 +5420,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Editar las referencias personales
     editarReferencias: function editarReferencias(idClienteGuardado) {
-      var _this4 = this;
+      var _this5 = this;
 
       //Se hace una copia del arreglo en la propiedad informacion del objeto refPersonal
       this.refPersonal.informacion = this.inputs.slice();
       this.refPersonal.idCliente = idClienteGuardado;
       axios.post("/C-clienteEditarReferencia", this.refPersonal).then(function (response) {
-        _this4.$router.push({
+        _this5.$router.push({
           name: "clienteIndex",
           params: {
             estado: 2
@@ -5233,7 +5441,7 @@ __webpack_require__.r(__webpack_exports__);
       this.cliente.nombre = "", this.cliente.apellidos = "", this.cliente.apodo = "", this.cliente.cedula = "", this.cliente.fecha_nacimiento = Date.now(), this.cliente.ocupacion = "", this.cliente.nacionalidad = "", this.cliente.sexo = "1", this.cliente.whatsapp = "", this.cliente.tel_principal = "", this.cliente.tel_otro = "", this.cliente.email = "", this.cliente.direccion = "", this.cliente.id_provincia = 1, this.cliente.id_municipio = 1, this.cliente.sector = "", this.cliente.id_ruta = 1, this.cliente.direccion_trabajo = "", this.cliente.foto = "", this.cliente.recomendado_por = "", this.cliente.comentario = "", this.errorArray = [];
     },
     obtenerCliente: function obtenerCliente(idC) {
-      var _this5 = this;
+      var _this6 = this;
 
       var url = "/C-clientes/" + idC;
       var me = this;
@@ -5244,7 +5452,9 @@ __webpack_require__.r(__webpack_exports__);
         me.provincia = response.data.provincia;
 
         if (response.data.fiador) {
-          me.fiador = response.data.fiador;
+          me.fiador = _(response.data.fiador).mapValues(function (value) {
+            return _.isNull(value) ? "" : value;
+          }).value();
         }
 
         if (response.data.provincia) {
@@ -5252,13 +5462,20 @@ __webpack_require__.r(__webpack_exports__);
           me.municipio = me.cliente.municipio; //--lewis
         }
 
+        if (response.data.provincia) {
+          me.getSector(response.data.municipio.id);
+          me.sector = me.cliente.sector;
+        }
+
         if (response.data.referencias.length >= 1) {
-          _this5.inputs = [];
-          _this5.mensajeErrorR = [];
-          me.inputs = response.data.referencias;
+          _this6.inputs = [];
+          _this6.mensajeErrorR = [];
+          me.inputs = _(response.data.referencias).mapValues(function (value) {
+            return _.isNull(value) ? "" : value;
+          }).value();
 
           for (var i = 0; i < response.data.referencias.length; i++) {
-            _this5.mensajeErrorR.push({
+            _this6.mensajeErrorR.push({
               nombre: "",
               apellido: "",
               parentesco: ""
@@ -12866,7 +13083,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13034,7 +13251,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13106,7 +13323,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -81103,6 +81320,7 @@ var render = function() {
                     [
                       _c("v-select", {
                         attrs: { options: _vm.listMunicipios, label: "nombre" },
+                        on: { input: _vm.getSector },
                         model: {
                           value: _vm.municipio,
                           callback: function($$v) {
@@ -81128,7 +81346,7 @@ var render = function() {
                     { staticClass: "form-group shadow" },
                     [
                       _c("v-select", {
-                        attrs: { options: ["sector", "slug"] },
+                        attrs: { options: _vm.listSectores, label: "nombre" },
                         model: {
                           value: _vm.sector,
                           callback: function($$v) {
@@ -81139,6 +81357,16 @@ var render = function() {
                       })
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      staticStyle: { padding: "10px" },
+                      on: { click: _vm.abrirCerrarModal }
+                    },
+                    [_c("i", { staticClass: "bx bx-plus" })]
                   )
                 ]),
                 _vm._v(" "),
@@ -82089,7 +82317,147 @@ var render = function() {
           )
         ]
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade text-left",
+        class: { show: _vm.modalShow },
+        staticStyle: { display: "none" },
+        style: _vm.modalShow ? _vm.mostrarModal : _vm.ocultarModal,
+        attrs: {
+          id: "danger ",
+          tabindex: "-1",
+          "aria-labelledby": "myModalLabel120",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "modal-dialog modal-dialog-centered modal-dialog-scrollable",
+            attrs: { id: "modalError" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header bg-primary" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title white",
+                    attrs: { id: "myModalLabel120" }
+                  },
+                  [_vm._v("\n            Crear nuevo sector\n          ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        _vm.modalShow = 0
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "bx bx-x" })]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body", attrs: { id: "form" } }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12 col-12" }, [
+                    _c("label", { attrs: { for: "first-name-icon" } }, [
+                      _vm._v("NOMBRE")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-label-group has-icon-left" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.sector.nombre,
+                              expression: "sector.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Nombre" },
+                          domProps: { value: _vm.sector.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.sector,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(29)
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.modalShow = 0
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v("Cerrar")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary ml-1",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.guardarSector()
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-check d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v("Guardar")
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -82367,6 +82735,14 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-control-position" }, [
+      _c("i", { staticClass: "bx bx-home" })
+    ])
   }
 ]
 render._withStripped = true
@@ -83289,6 +83665,7 @@ var render = function() {
                     [
                       _c("v-select", {
                         attrs: { options: _vm.listMunicipios, label: "nombre" },
+                        on: { input: _vm.getSector },
                         model: {
                           value: _vm.municipio,
                           callback: function($$v) {
@@ -83314,7 +83691,7 @@ var render = function() {
                     { staticClass: "form-group shadow" },
                     [
                       _c("v-select", {
-                        attrs: { options: ["sector", "slug"] },
+                        attrs: { options: _vm.listSectores, label: "nombre" },
                         model: {
                           value: _vm.sector,
                           callback: function($$v) {
@@ -83325,6 +83702,16 @@ var render = function() {
                       })
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      staticStyle: { padding: "10px" },
+                      on: { click: _vm.abrirCerrarModal }
+                    },
+                    [_c("i", { staticClass: "bx bx-plus" })]
                   )
                 ]),
                 _vm._v(" "),
@@ -84302,7 +84689,147 @@ var render = function() {
           )
         ]
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade text-left",
+        class: { show: _vm.modalShow },
+        staticStyle: { display: "none" },
+        style: _vm.modalShow ? _vm.mostrarModal : _vm.ocultarModal,
+        attrs: {
+          id: "danger ",
+          tabindex: "-1",
+          "aria-labelledby": "myModalLabel120",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "modal-dialog modal-dialog-centered modal-dialog-scrollable",
+            attrs: { id: "modalError" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header bg-primary" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title white",
+                    attrs: { id: "myModalLabel120" }
+                  },
+                  [_vm._v("\n            Crear nuevo sector\n          ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        _vm.modalShow = 0
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "bx bx-x" })]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body", attrs: { id: "form" } }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12 col-12" }, [
+                    _c("label", { attrs: { for: "first-name-icon" } }, [
+                      _vm._v("NOMBRE")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-label-group has-icon-left" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.sector.nombre,
+                              expression: "sector.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Nombre" },
+                          domProps: { value: _vm.sector.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.sector,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(30)
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.modalShow = 0
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v("Cerrar")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary ml-1",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.guardarSector()
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-check d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v("Guardar")
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -84601,6 +85128,14 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-control-position" }, [
+      _c("i", { staticClass: "bx bx-home" })
+    ])
   }
 ]
 render._withStripped = true
