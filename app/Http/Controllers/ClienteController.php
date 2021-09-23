@@ -121,6 +121,7 @@ class ClienteController extends Controller
     public function guardarReferencia(Request $request)
     {
         for ($i = 0; $i < count($request->informacion); $i++) {
+            if(isset($request->informacion[$i]['nombre'])){
             $referencia = new Referencias();
 
             $referencia->nombre = $request->informacion[$i]['nombre'];
@@ -142,7 +143,7 @@ class ClienteController extends Controller
             $referencia->idCliente = $request->idCliente;
             $referencia->created_at = now();
             $referencia->save();
-        }
+        }}
     }
 
     public function guardarSector(Request $request)
@@ -188,7 +189,7 @@ class ClienteController extends Controller
             $cliente->recomendado_por = $request->recomendado_por;
             $cliente->comentario = $request->comentario;
             $cliente->estado = 1;
-          //ESTE METODO VALIDA SI TIENE UN ARCHIVO O ES SIMPLEMENTE UN STRING -lewis
+            //ESTE METODO VALIDA SI TIENE UN ARCHIVO O ES SIMPLEMENTE UN STRING -lewis
             if ($request->hasFile($request->file)) {
                 $subNombre = Str::random(10);
                 $fileName = $file->getClientOriginalName();
@@ -250,9 +251,8 @@ class ClienteController extends Controller
         $listReferencias = DB::table("referencias")->where('idCliente','=',$request->idCliente)->delete();
         //Se debe recorrer el arreglo de refencias por si se agrego una nueva referencia para guardarla lewis
         for($i = 0; $i < count($request->informacion); $i++){
-           
+            if(isset($request->informacion[$i]['nombre'])){
                 $ref = new Referencias();
-
                 $ref->nombre = $request->informacion[$i]['nombre'];
                 $ref->apellidos = $request->informacion[$i]['apellidos'];
 
@@ -275,7 +275,7 @@ class ClienteController extends Controller
             
         }
         
-      
+    }
     
        
        

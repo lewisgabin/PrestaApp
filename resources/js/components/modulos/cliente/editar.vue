@@ -1017,8 +1017,6 @@ export default {
         this.mensajeError.telefono = "El Teléfono es un campo obligatorio";
         this.estado = false;
       }
-
-    
     },
     //presenta la imagen en image input
     getFile(e) {
@@ -1200,8 +1198,8 @@ export default {
       //DATOS FIADOR
       if (!this.fiador == "") {
         this.form.append("fiador_id", this.fiador.id);
-      }else{
-           this.form.append("fiador_id",0);
+      } else {
+        this.form.append("fiador_id", 0);
       }
       this.form.append("F_nombre", this.fiador.nombre);
       this.form.append("F_apellidos", this.fiador.apellidos);
@@ -1226,7 +1224,8 @@ export default {
           ) {
             me.$loading(false);
           } else {
-            if (response.data.idCliente > 0 && this.inputs[0].nombre) {
+         
+            if (response.data.idCliente > 0 && me.comprobarReferencia()) {
               this.editarReferencias(response.data.idCliente);
             } else {
               me.$router.push({
@@ -1242,6 +1241,16 @@ export default {
             me.$loading(false);
           }
         });
+    },
+    comprobarReferencia() {
+      var saber = false;
+      for (var i = 0; i < this.inputs.length; i++) {
+         if(this.inputs[i].nombre){
+          saber = true;
+         }
+      }
+
+      return saber;
     },
     //Editar las referencias personales
     editarReferencias(idClienteGuardado) {
