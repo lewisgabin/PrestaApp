@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Provincia extends Model
 {
     use HasFactory;
-    protected $table = 'Provincia';
+    protected $table = 'provincia';
 
     public function cliente()
     {

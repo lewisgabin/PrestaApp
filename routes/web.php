@@ -45,9 +45,11 @@ Route::apiResource('/C-clientes', ClienteController::class);
 Route::get('/GetProvincias', [ClienteController::class,'getProvincias']);
 Route::get('/GetMunicipios/{id}', [ClienteController::class,'getMunicipios']);
 Route::get('/GetSectores/{id}', [ClienteController::class,'getSectores']);
+Route::get('/GetRutas', [ClienteController::class,'getRutas']);
 Route::post('/C-clientes/editar', [ClienteController::class, 'editar']);
 Route::post('/C-clienteReferencia', [ClienteController::class, 'guardarReferencia']);
 Route::post('/C-clienteSector', [ClienteController::class, 'guardarSector']);
+Route::post('/C-clienteRuta', [ClienteController::class, 'guardarRuta']);
 Route::post('/C-clienteEditarReferencia', [ClienteController::class, 'editarReferencia']);
 
 Route::get('/{optional?}', function () {

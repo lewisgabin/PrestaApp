@@ -1312,11 +1312,10 @@ export default {
           if (response.data.provincia) {
             me.getMunicipio(response.data.provincia.id, "obtenerCliente");
             me.municipio = me.cliente.municipio; //--lewis
-          }
-          if (response.data.provincia) {
+            
             me.getSector(response.data.municipio.id);
             me.sector = me.cliente.sector;
-          }
+          }            
 
           if (response.data.referencias.length >= 1) {
             this.inputs = [];

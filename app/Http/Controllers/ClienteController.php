@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Fiador;
 use App\Models\Referencias;
 use App\Models\Sector;
+use App\Models\Ruta;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -154,6 +155,13 @@ class ClienteController extends Controller
         $sector->save();
     }
 
+    public function guardarRuta(Request $request)
+    {
+        $ruta = new Ruta();
+        $ruta->nombre = $request->ruta;
+        $ruta->save();
+    }
+
     public function editar(ClienteRequest $request)
     {
         $estado = false;
@@ -228,8 +236,6 @@ class ClienteController extends Controller
                     $fiador->save(); 
                 }
             
-          
-
             }
             $estado = true;
             DB::commit();
@@ -277,7 +283,6 @@ class ClienteController extends Controller
         
     }
     
-       
        
     }
 
@@ -338,6 +343,13 @@ class ClienteController extends Controller
         $sectores = DB::table('sector')->where('id_municipio', '=', $id)->get();
 
         return ['sectores' => $sectores];
+    }
+
+    public function getRutas()
+    {
+        $rutas = DB::table('ruta')->get();
+
+        return ['rutas' => $rutas];
     }
 
     public function destroy($id)

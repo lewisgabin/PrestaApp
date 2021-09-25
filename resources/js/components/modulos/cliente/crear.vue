@@ -394,13 +394,13 @@
                       v-model="municipio"
                       :options="listMunicipios"
                       label="nombre"
-                      @input="getSector"
+                      @input="getSector(municipio, 'select')"
                     ></v-select>
                   </fieldset>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <label for="first-name-icon">SECTOR:</label>
                   <fieldset class="form-group shadow">
                     <v-select
@@ -409,18 +409,20 @@
                       label="nombre"
                     ></v-select>
                   </fieldset>
-                  <button class="btn btn-primary" style="padding: 10px;" @click="abrirCerrarModal"><i class="bx bx-plus"></i></button>
                 </div>
-                <div class="col-md-6">
+                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModal"><i class="bx bx-plus"></i></button>
+                
+                <div class="col-md-5">
                   <label for="first-name-icon">RUTA:</label>
-
                   <fieldset class="form-group shadow">
                     <v-select
                       v-model="rutaa"
-                      :options="['ruta', 'slug']"
+                      :options="listRutas"
+                      label="nombre"
                     ></v-select>
                   </fieldset>
                 </div>
+                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModalRuta"><i class="bx bx-plus"></i></button>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -812,9 +814,8 @@
         </div>
       </div>
     </div>
-    <!-- modal de errores -->
 
-    <!-- modal de crear y editar -->
+    <!-- modal de crear y editar Sector -->
     <div
       class="modal fade text-left"
       id="danger "
@@ -849,7 +850,7 @@
                 <label for="first-name-icon">NOMBRE</label>
                 <div class="form-label-group has-icon-left">
                   <input
-                    v-model="sector.nombre"
+                    v-model="nombreSector"
                     type="text"
                     placeholder="Nombre"
                     class="form-control"
@@ -859,6 +860,32 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-12">
+                  <label for="first-name-icon">PROVINCIA:</label>
+                  <fieldset class="form-group">
+                    <v-select
+                      v-model="provincia"
+                      :options="listProvincias"
+                      label="nombre"
+                      @input="getMunicipio"
+                    ></v-select>
+                  </fieldset>
+                </div>
+            </div>
+            <div class="row">              
+                <div class="col-md-12 col-12">
+                  <label for="first-name-icon">MUNICIPIO:</label>
+                  <fieldset class="form-group">
+                    <v-select
+                      v-model="municipio"
+                      :options="listMunicipios"
+                      label="nombre"
+                      @input="getSector"
+                    ></v-select>
+                  </fieldset>
+                </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -880,6 +907,76 @@
               <span class="d-none d-sm-block">Guardar</span>
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal de crear y editar Ruta -->
+    <div
+      class="modal fade text-left"
+      id="danger "
+      tabindex="-1"
+      :class="{ show: modalShowRuta }"
+      :style="modalShowRuta ? mostrarModalRuta : ocultarModalRuta"
+      aria-labelledby="myModalLabel120"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        id="modalError"
+      >
+        <div class="modal-content">
+          <div class="modal-header bg-primary">
+            <h5 class="modal-title white" id="myModalLabel120">
+              Crear nueva ruta
+            </h5>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              @click="modalShowRuta = 0"
+            >
+              <i class="bx bx-x"></i>
+            </button>
+          </div>
+          <div class="modal-body" id="form">
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <label for="first-name-icon">NOMBRE</label>
+                <div class="form-label-group has-icon-left">
+                  <input
+                    v-model="nombreRuta"
+                    type="text"
+                    placeholder="Nombre"
+                    class="form-control"
+                  />
+                  <div class="form-control-position">
+                    <i class="bx bx-home"></i>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light-secondary"
+              data-dismiss="modal"
+              @click="modalShowRuta = 0"
+            >
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Cerrar</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary ml-1"
+              @click="guardarRuta()"
+            >
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Guardar</span>
+            </button>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -906,10 +1003,17 @@ export default {
         addRemoveLinks: true,
       },
       modalShow: false,
+      modalShowRuta: false,
       municipio: "",
       provincia: "",
-      rutaa: "ruta",
-      sector: "",
+      rutaa: "",
+      sector: {
+        id: 0,
+        idMunicipio: 0,
+        nombre: "",
+      },
+      nombreSector: "",
+      nombreRuta: "",
       cliente: {
         nombre: "",
         apellidos: "",
@@ -953,11 +1057,19 @@ export default {
       ocultarModal: {
         display: "none",
       },
+      mostrarModalRuta: {
+        display: "block",
+        background: "#0000006b",
+      },
+      ocultarModalRuta: {
+        display: "none",
+      },
       form: new FormData(),
       metodo: "crear",
       listProvincias: [],
       listMunicipios: [],
       listSectores: [],
+      listRutas: [],
       erroresEnFiador: false,
       estado: true,
       estado2: true,
@@ -970,14 +1082,11 @@ export default {
           parentesco: "",
         },
       ],
-      sector: {
-        idMunicipio: 0,
-        nombre: "",
-      }
     };
   },
   mounted() {
     this.getProvincias();
+    this.getRutas();
   },
   methods: {
     add(index) {
@@ -1044,16 +1153,41 @@ export default {
     //abrir y cerrar modal
     abrirCerrarModal() {
       this.modalShow = !this.modalShow;
-      this.sector.nombre = "";
+      this.nombreSector = "";
+    },
+    //abrir y cerrar modal
+    abrirCerrarModalRuta() {
+      this.modalShowRuta = !this.modalShowRuta;
+      this.nombreRuta = "";
     },
     guardarSector(){
       this.sector.idMunicipio = this.municipio.id;
+      this.sector.nombre = this.nombreSector;
       axios
           .post("/C-clienteSector", this.sector)
           .then((response) => {
+            this.getSector(this.municipio, "guardarSector");
             this.modalShow = 0;
             this.$toast.open({
               message: "Sector creado con exito!",
+              type: "success",
+              duration: 2000,
+              dismissible: true,
+              position: "top-right",
+            });
+          })
+          .catch((error) => {
+              console.log(error);
+          });
+    },
+    guardarRuta(){
+      axios
+          .post("/C-clienteRuta", {ruta: this.nombreRuta})
+          .then((response) => {
+            this.getRuta("guardarRuta");
+            this.modalShowRuta = 0;
+            this.$toast.open({
+              message: "Ruta creada con exito!",
               type: "success",
               duration: 2000,
               dismissible: true,
@@ -1142,15 +1276,30 @@ export default {
       });
     },
     getMunicipio(provinciaSeleccionada) {
+      this.municipio = "";
+      this.sector.nombre = "";
+
       var url = "/GetMunicipios/" + provinciaSeleccionada.id;
       axios.get(url).then((response) => {
         this.listMunicipios = response.data.municipios;
       });
     },
-    getSector(municipioSeleccionado){
+    getSector(municipioSeleccionado, metodo){
+      if(metodo == "select"){
+        this.sector.nombre = "";
+      }
+
       var url = "/GetSectores/" + municipioSeleccionado.id;
       axios.get(url).then((response) => {
         this.listSectores = response.data.sectores;
+      });
+    },
+    getRutas(){
+      this.rutaa = "";
+
+      var url = "/GetRutas";
+      axios.get(url).then((response) => {
+        this.listRutas = response.data.rutas;
       });
     },
     guardarCliente() {
@@ -1187,12 +1336,12 @@ export default {
       } else {
         this.form.append("id_municipio", "");
       }
-      if (!this.sector == "") {
-        this.form.append("sector", this.sector.nombre);
+      if (!this.sector.nombre == "") {
+        this.form.append("sector", this.sectorSeleccionado.nombre);
       } else {
         this.form.append("sector", "");
       }
-$route('home')
+
       this.form.append("id_ruta", this.cliente.id_ruta);
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
