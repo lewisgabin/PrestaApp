@@ -26,40 +26,23 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
           @endif
 
           <ul class="nav navbar-nav bookmark-icons">
-            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{asset('sk-layout-1-column')}}" data-toggle="tooltip" data-placement="top" title="1-Column"><i class="ficon bx bx-file"></i></a></li>
-            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{asset('sk-layout-2-columns')}}" data-toggle="tooltip" data-placement="top" title="2-Columns"><i class="ficon bx bx-sidebar"></i></a></li>
-            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{asset('sk-layout-static')}}" data-toggle="tooltip" data-placement="top" title="Static Layout"><i class="ficon bx bx-align-middle"></i></a></li>
+            
         </ul>
-          <ul class="nav navbar-nav">
-            <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon bx bx-star warning"></i></a>
-              <div class="bookmark-input search-input">
-                <div class="bookmark-input-icon"><i class="bx bx-search primary"></i></div>
-                <input class="form-control input" type="text" placeholder="Explore Frest..." tabindex="0" data-search="starter-list">
-                <ul class="search-list"></ul>
-              </div>
-            </li>
-          </ul>
+        <li class="nav-item d-none d-lg-block">
+        <a href="/calculadora" type="button" class="" style="color: #475F7B;">
+          <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Calculator.svg--><svg style="width:28px !important" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <rect x="0" y="0" width="24" height="24"/>
+                <rect fill="#000000" opacity="0.3" x="7" y="4" width="10" height="4"/>
+                <path d="M7,2 L17,2 C18.1045695,2 19,2.8954305 19,4 L19,20 C19,21.1045695 18.1045695,22 17,22 L7,22 C5.8954305,22 5,21.1045695 5,20 L5,4 C5,2.8954305 5.8954305,2 7,2 Z M8,12 C8.55228475,12 9,11.5522847 9,11 C9,10.4477153 8.55228475,10 8,10 C7.44771525,10 7,10.4477153 7,11 C7,11.5522847 7.44771525,12 8,12 Z M8,16 C8.55228475,16 9,15.5522847 9,15 C9,14.4477153 8.55228475,14 8,14 C7.44771525,14 7,14.4477153 7,15 C7,15.5522847 7.44771525,16 8,16 Z M12,12 C12.5522847,12 13,11.5522847 13,11 C13,10.4477153 12.5522847,10 12,10 C11.4477153,10 11,10.4477153 11,11 C11,11.5522847 11.4477153,12 12,12 Z M12,16 C12.5522847,16 13,15.5522847 13,15 C13,14.4477153 12.5522847,14 12,14 C11.4477153,14 11,14.4477153 11,15 C11,15.5522847 11.4477153,16 12,16 Z M16,12 C16.5522847,12 17,11.5522847 17,11 C17,10.4477153 16.5522847,10 16,10 C15.4477153,10 15,10.4477153 15,11 C15,11.5522847 15.4477153,12 16,12 Z M16,16 C16.5522847,16 17,15.5522847 17,15 C17,14.4477153 16.5522847,14 16,14 C15.4477153,14 15,14.4477153 15,15 C15,15.5522847 15.4477153,16 16,16 Z M16,20 C16.5522847,20 17,19.5522847 17,19 C17,18.4477153 16.5522847,18 16,18 C15.4477153,18 15,18.4477153 15,19 C15,19.5522847 15.4477153,20 16,20 Z M8,18 C7.44771525,18 7,18.4477153 7,19 C7,19.5522847 7.44771525,20 8,20 L12,20 C12.5522847,20 13,19.5522847 13,19 C13,18.4477153 12.5522847,18 12,18 L8,18 Z M7,4 L7,8 L17,8 L17,4 L7,4 Z" fill="#000000"/>
+            </g>
+        </svg><!--end::Svg Icon--></span>
+        <span>Calculadora</span>
+        </a>
+      </li>
         </div>
         <ul class="nav navbar-nav float-right">
-          <li class="dropdown dropdown-language nav-item">
-            <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdown-flag">
-              <a class="dropdown-item" href="{{url('lang/en')}}" data-language="en">
-                <i class="flag-icon flag-icon-us mr-50"></i> English
-              </a>
-              <a class="dropdown-item" href="{{url('lang/fr')}}" data-language="fr">
-                <i class="flag-icon flag-icon-fr mr-50"></i> French
-              </a>
-              <a class="dropdown-item" href="{{url('lang/de')}}" data-language="de">
-                <i class="flag-icon flag-icon-de mr-50"></i> German
-              </a>
-              <a class="dropdown-item" href="{{url('lang/pt')}}" data-language="pt">
-                <i class="flag-icon flag-icon-pt mr-50"></i> Portuguese
-              </a>
-            </div>
-          </li>
+    
           <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon bx bx-fullscreen"></i></a></li>
           <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon bx bx-search"></i></a>
             <div class="search-input">
