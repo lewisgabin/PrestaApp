@@ -1006,7 +1006,10 @@ export default {
       modalShowRuta: false,
       municipio: "",
       provincia: "",
-      rutaa: "",
+      rutaa: {
+        id: 0,
+        nombre: "",
+      },
       sector: {
         id: 0,
         idMunicipio: 0,
@@ -1086,7 +1089,7 @@ export default {
   },
   mounted() {
     this.getProvincias();
-    this.getRutas();
+    this.getRutas("", "montandoVista");
   },
   methods: {
     add(index) {
@@ -1184,7 +1187,7 @@ export default {
       axios
           .post("/C-clienteRuta", {ruta: this.nombreRuta})
           .then((response) => {
-            this.getRuta("guardarRuta");
+            this.getRutas(this.nombreRuta, "guardarRuta");
             this.modalShowRuta = 0;
             this.$toast.open({
               message: "Ruta creada con exito!",
@@ -1294,8 +1297,10 @@ export default {
         this.listSectores = response.data.sectores;
       });
     },
-    getRutas(){
-      this.rutaa = "";
+    getRutas(rutaGuardada, metodo){
+      if(metodo == "guardarRuta"){
+        this.rutaa.nombre = rutaGuardada;
+      }
 
       var url = "/GetRutas";
       axios.get(url).then((response) => {

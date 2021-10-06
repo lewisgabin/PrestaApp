@@ -4387,7 +4387,10 @@ __webpack_require__.r(__webpack_exports__);
       modalShowRuta: false,
       municipio: "",
       provincia: "",
-      rutaa: "",
+      rutaa: {
+        id: 0,
+        nombre: ""
+      },
       sector: {
         id: 0,
         idMunicipio: 0,
@@ -4469,7 +4472,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getProvincias();
-    this.getRutas();
+    this.getRutas("", "montandoVista");
   },
   methods: {
     add: function add(index) {
@@ -4576,7 +4579,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/C-clienteRuta", {
         ruta: this.nombreRuta
       }).then(function (response) {
-        _this2.getRuta("guardarRuta");
+        _this2.getRutas(_this2.nombreRuta, "guardarRuta");
 
         _this2.modalShowRuta = 0;
 
@@ -4681,10 +4684,13 @@ __webpack_require__.r(__webpack_exports__);
         _this5.listSectores = response.data.sectores;
       });
     },
-    getRutas: function getRutas() {
+    getRutas: function getRutas(rutaGuardada, metodo) {
       var _this6 = this;
 
-      this.rutaa = "";
+      if (metodo == "guardarRuta") {
+        this.rutaa.nombre = rutaGuardada;
+      }
+
       var url = "/GetRutas";
       axios.get(url).then(function (response) {
         _this6.listRutas = response.data.rutas;

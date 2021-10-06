@@ -26,7 +26,7 @@ class ClienteController extends Controller
         $cliente= Cliente::get();
       
 
-        return ["data" =>$cliente] ;
+        return ["data" => $cliente] ;
     }
 
     // /**
