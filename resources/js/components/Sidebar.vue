@@ -697,7 +697,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .kt-menu__link {
   padding-left: 0px !important;
   margin-left: 0 !important;

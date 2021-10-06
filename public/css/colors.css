@@ -8088,3 +8088,14 @@ input:focus ~ .bg-danger {
   background: #ffd3d7;
   background: rgba(255, 211, 215, 0.6);
 }
+.vs__dropdown-toggle,.mx-input{
+  height:39px !important;
+}
+.vs__select,.mx-input{
+
+  border: 1px solid #DFE3E7  !important;
+}
+.vs__selected,.mx-input{
+  color: #475F7B !important;
+ 
+}

@@ -1,56 +1,67 @@
 <template>
 <div>
-    
-    <div class="title-app">
-         <h4>Calculadora de Prestamos</h4>               
+ <div class="content-header row">
+      <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="breadcrumbs-top">
+          <h5 class="content-header-title float-left pr-1 mb-0">Calculadora De Prestamos</h5>
+          <div class="breadcrumb-wrapper d-none d-sm-block">
+            <ol class="breadcrumb p-0 mb-0 pl-1">
+              <li class="breadcrumb-item">
+                <a href="index.html"><i class="bx bx-home-alt"></i></a>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
+
      <div class="card">
       <div class="card-body">
         <div class="col-md-12">
                 <div v-if="loading" class=" row loading" style=""> <div class="img-loading"></div> </div>
             <div class="row">
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.monto.$error }" >
                   <label class="form__label">Monto</label>
-                  <input type="number" class="form-control form__input" v-model="monto"/>
+                  <input type="number" class="form-control form__input shadow" v-model="monto"/>
                    <div class="error none" v-if="!$v.monto.required">Cuota requerida</div>
                     <div class="error none" v-if="!$v.monto.minValue">Valor mayor que 999</div>
                 </div>
               </div>
 
-               <div class="col-md-2" >
+               <div class="col-md-4" >
                 <div class="form-group" :class="{ 'form_group_error': $v.tasaMensual.$error }">
-                  <label class="form__label">Tasa de Interes Mensual%</label>
-                  <input type="number" class="form-control form__input" v-model="tasaMensual" v-on:keyup="calcularTasa('mensual')" />
+                  <label class="form__label">Interes Mensual%</label>
+                  <input type="number" class="form-control form__input shadow" v-model="tasaMensual" v-on:keyup="calcularTasa('mensual')" />
                      <div class="error none" v-if="!$v.tasaMensual.required">Tasa requerida</div>
                     <div class="error none" v-if="!$v.tasaMensual.minValue">Tasa mayor que 0</div>
                 </div>
               </div>
 
-                 <div class="col-md-2" >
+                 <div class="col-md-4" >
                 <div class="form-group" :class="{ 'form_group_error': $v.tasaAnual.$error }">
-                  <label class="form__label">Tasa de Interes Anual%</label>
-                  <input type="number" class="form-control form__input" v-model="tasaAnual"  v-on:keyup="calcularTasa('anual')" />
+                  <label class="form__label">Interes Anual%</label>
+                  <input type="number" class="form-control form__input shadow" v-model="tasaAnual"  v-on:keyup="calcularTasa('anual')" />
                      <div class="error none" v-if="!$v.tasaAnual.required">Tasa requerida</div>
                     <div class="error none" v-if="!$v.tasaAnual.minValue">Tasa mayor que 0</div>
                 </div>
               </div>
 
               
-               <div class="col-md-2">
+               <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.cuotas.$error }">
                   <label class="form__label">Numeros de Cuotas</label>
-                  <input type="number" class="form-control form__input" v-model="cuotas" />
+                  <input type="number" class="form-control form__input shadow" v-model="cuotas" />
                     <div class="error none" v-if="!$v.cuotas.required">Cuota requerida</div>
                     <div class="error none" v-if="!$v.cuotas.minValue">Cuota debe ser  mayor que 0</div>
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.modalidadPago.$error }">
                   <label class="form__label">Modalidad de Pago</label>
-                   <v-select v-model="modalidadPago" :options="['Mensual','Semanal','Quincenal','Diario']" placeholder="Seleccione..."> </v-select>
+                   <v-select v-model="modalidadPago" :options="['Mensual','Semanal','Quincenal','Diario']"  class="form__input shadow"  placeholder="Seleccione..."> </v-select>
                   <div class="error none" v-if="!$v.cuotas.required">Modalidad de pago requerida</div>
                 </div>
               </div>
@@ -58,7 +69,7 @@
               <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.amortizacion.$error }">
                   <label class="form__label">Amortizacion</label>
-                   <v-select v-model="amortizacion" class="form__input" :options="['Disminuir Cuotas (Metodo Aleman)','Cuotas Fijas (Metodo Frances)','Capital al Final (Metodo Americano)','Interes Fijo']" placeholder="Seleccione..."> </v-select>
+                   <v-select v-model="amortizacion" class="form__input shadow" :options="['Disminuir Cuotas (Metodo Aleman)','Cuotas Fijas (Metodo Frances)','Capital al Final (Metodo Americano)','Interes Fijo']" placeholder="Seleccione..."> </v-select>
                  <div class="error none" v-if="!$v.amortizacion.required">Amortizacion requerida</div>
                 </div>
               </div>
@@ -66,7 +77,7 @@
             <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.fechaPrimerPago.$error }">
                   <label class="form__label">Fecha primer pago</label>
-                  <datepicker   v-model="fechaPrimerPago" :format="'YYYY-MM-DD'"  :value-type="'format'"></datepicker>
+                  <datepicker   class=" shadow"  v-model="fechaPrimerPago" :format="'YYYY-MM-DD'"  :value-type="'format'"></datepicker>
                      <div class="error none" v-if="!$v.fechaPrimerPago.required">Fecha requerida</div>
                 </div>
               </div>
@@ -83,13 +94,16 @@
                 <div class="col-md-12" style="border-top: 1px solid #cfd7e0;margin-top: 21px;">
                   <h5 style="padding-top: 26px;padding-bottom: 1px;text-align: center;">Detalle del calculo del prestamos</h5>
                   <div style="text-align: center;" class="col-md-12" v-if="tablaAmortizada.length > 0" >
-                      <label style="margin-right:5px;" class="wold">Capital: <span style="font-weight:400;" v-text="formatNumber(monto)"></span></label>
-                      <label class="wold">Cuotas: <span style="font-weight:400;" v-text="cuotas"></span></label>
+                      <label style="margin-right:5px; font-size:15px;" class="wold">
+                        Capital: 
+                        <span style="font-weight:200;" v-text="formatNumber(monto)"></span>
+                  </label>
+                      <label class="wold" style="font-size:15px;">Cuotas: <span style="font-weight:200;" v-text="cuotas"></span></label>
                   
                   </div>
               
-                <table id="myTable" class="table table-striped table-bordered col-md-12">
-                    <thead style="background: #f9bc08;">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
                       <tr>
                         <th>#Cuota</th>
                         <th>Fecha</th>
@@ -419,7 +433,7 @@ export default {
 <style scoped>
 .mx-datepicker {
   
-    width: 80% !important;
+    width: 100% !important;
 }
 .wold{
 font-weight: bold;
