@@ -253,7 +253,6 @@ class ClienteController extends Controller
 
     public function editarReferencia(Request $request)
     {
-        
         $listReferencias = DB::table("referencias")->where('idCliente','=',$request->idCliente)->delete();
         //Se debe recorrer el arreglo de refencias por si se agrego una nueva referencia para guardarla lewis
         for($i = 0; $i < count($request->informacion); $i++){
@@ -278,12 +277,8 @@ class ClienteController extends Controller
                 $ref->idCliente = $request->idCliente;
                 $ref->created_at = now();
                 $ref->save();
-            
+            }
         }
-        
-    }
-    
-       
     }
 
     /**
@@ -295,9 +290,8 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente =  Cliente::find($id);
-    
         
-        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'fiador' => $cliente->fiador, 'referencias' => $cliente->referencia];
+        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'ruta' => $cliente->ruta, 'fiador' => $cliente->fiador, 'referencias' => $cliente->referencia];
     }
 
     /**

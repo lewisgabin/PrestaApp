@@ -44,11 +44,17 @@ class Cliente extends Model
     {
         return $this->belongsTo(Municipio::class, 'id_municipio');
     }
+
+    public function ruta()
+    {
+        return $this->belongsTo(Ruta::class, 'id_ruta');
+    }
+
     public function fiador() {
         return $this->hasOne(Fiador::class, 'id_cliente');
-      }
+    }
 
-      public function referencia() {
+    public function referencia() {
         return $this->hasMany(Referencias::class, 'idCliente');
-      }
+    }
 }
