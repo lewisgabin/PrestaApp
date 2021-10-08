@@ -449,7 +449,7 @@
           <i class="bx bxs-calculator"></i> <span class="ml-25">CALCULAR</span>
         </button>
          </div>
-        <div class="col-md-12" id="tableDiv" v-if="verTablaPrestamo">
+        <div class="col-md-12" id="tableDiv" v-if="verTablaPrestamo" style="    padding-bottom: 40px;">
            <div class="divider">
             <div class="divider-text" >Tabla de Amortizacion</div>
           </div>

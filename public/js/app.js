@@ -90802,98 +90802,112 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.verTablaPrestamo
-        ? _c("div", { staticClass: "col-md-12", attrs: { id: "tableDiv" } }, [
-            _vm._m(4),
-            _vm._v(" "),
-            _c(
-              "table",
-              {
-                staticClass: "table dataTable table-striped",
-                staticStyle: { width: "98% !important" },
-                attrs: { id: "prestamosTable" }
-              },
-              [
-                _vm._m(5),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  { staticStyle: { "text-align": "center" } },
-                  _vm._l(_vm.tablaAmortizada, function(tabla) {
-                    return _c("tr", { key: tabla.numero }, [
-                      _c("td", {
-                        domProps: { textContent: _vm._s(tabla.numero) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        staticStyle: { width: "17%" },
-                        domProps: { textContent: _vm._s(tabla.fecha) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s("$" + tabla.intereses) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s("$" + tabla.abonoCapital)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        staticClass: "bcPago",
-                        domProps: {
-                          textContent: _vm._s("$" + tabla.totalPagar)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s("$" + tabla.capitalRestante)
-                        }
-                      })
-                    ])
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _c("tfoot", [
+        ? _c(
+            "div",
+            {
+              staticClass: "col-md-12",
+              staticStyle: { "padding-bottom": "40px" },
+              attrs: { id: "tableDiv" }
+            },
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass: "table dataTable table-striped",
+                  staticStyle: { width: "98% !important" },
+                  attrs: { id: "prestamosTable" }
+                },
+                [
+                  _vm._m(5),
+                  _vm._v(" "),
                   _c(
-                    "tr",
-                    {
-                      staticStyle: {
-                        "font-weight": "500",
-                        "text-align": "center"
-                      }
-                    },
-                    [
-                      _c("th"),
-                      _vm._v(" "),
-                      _c("th"),
-                      _vm._v(" "),
-                      _c("th", [
-                        _vm._v(
-                          "$" +
-                            _vm._s(_vm.formatNumber(_vm.sumaInteres.toFixed(2)))
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("th", [
-                        _vm._v("$" + _vm._s(_vm.formatNumber(_vm.sumaCapital)))
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "bcPago" }, [
-                        _vm._v(
-                          "$" + _vm._s(_vm.formatNumber(_vm.totalPrestamo))
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("$0.00")])
-                    ]
-                  )
-                ])
-              ]
-            )
-          ])
+                    "tbody",
+                    { staticStyle: { "text-align": "center" } },
+                    _vm._l(_vm.tablaAmortizada, function(tabla) {
+                      return _c("tr", { key: tabla.numero }, [
+                        _c("td", {
+                          domProps: { textContent: _vm._s(tabla.numero) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          staticStyle: { width: "17%" },
+                          domProps: { textContent: _vm._s(tabla.fecha) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.intereses)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.abonoCapital)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          staticClass: "bcPago",
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.totalPagar)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.capitalRestante)
+                          }
+                        })
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("tfoot", [
+                    _c(
+                      "tr",
+                      {
+                        staticStyle: {
+                          "font-weight": "500",
+                          "text-align": "center"
+                        }
+                      },
+                      [
+                        _c("th"),
+                        _vm._v(" "),
+                        _c("th"),
+                        _vm._v(" "),
+                        _c("th", [
+                          _vm._v(
+                            "$" +
+                              _vm._s(
+                                _vm.formatNumber(_vm.sumaInteres.toFixed(2))
+                              )
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", [
+                          _vm._v(
+                            "$" + _vm._s(_vm.formatNumber(_vm.sumaCapital))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "bcPago" }, [
+                          _vm._v(
+                            "$" + _vm._s(_vm.formatNumber(_vm.totalPrestamo))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("$0.00")])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
         : _vm._e()
     ])
   ])
