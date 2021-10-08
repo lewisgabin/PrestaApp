@@ -135,14 +135,31 @@
 
           <ul class="menu-content">
             <li>
-              <a
-                class="d-flex align-items-center"
-                href="../../../starter-kit/ltr/vertical-menu-boxicons-template/sk-layout-1-column.html"
-                ><i class="bx bx-right-arrow-alt"></i
-                ><span class="menu-item text-truncate" data-i18n="1 column"
-                  >1 column</span
-                ></a
-              >
+                <router-link class="d-flex align-items-center" :to="'/permiso'"
+                  ><i class="bx bx-right-arrow-alt"></i
+                  ><span class="menu-item text-truncate"
+                    >Mis prestamos</span
+                  ></router-link
+                >
+         
+            </li>
+               <li>
+                <router-link class="d-flex align-items-center" :to="'/nuevo/prestamo'"
+                  ><i class="bx bx-right-arrow-alt"></i
+                  ><span class="menu-item text-truncate"
+                    >Nuevo prestamos</span
+                  ></router-link
+                >
+         
+            </li>
+               <li>
+                <router-link class="d-flex align-items-center" :to="'/permiso'"
+                  ><i class="bx bx-right-arrow-alt"></i
+                  ><span class="menu-item text-truncate"
+                    >Pedientes</span
+                  ></router-link
+                >
+         
             </li>
           </ul>
         </li>
@@ -602,7 +619,7 @@
             <li>
               <template v-if="listRolPermiso.includes('index.permiso')">
                 <router-link class="d-flex align-items-center" :to="'/permiso'"
-                  ><i class="bx bx-folder"></i
+                  ><i class="bx bx-right-arrow-alt"></i
                   ><span class="menu-item text-truncate"
                     >Permisos</span
                   ></router-link
@@ -612,7 +629,7 @@
             <li>
               <template v-if="listRolPermiso.includes('index.rol')">
                 <router-link class="d-flex align-items-center" :to="'/rol'"
-                  ><i class="bx bx-folder"></i
+                  ><i class="bx bx-right-arrow-alt"></i
                   ><span class="menu-item text-truncate" data-i18n="Rol"
                     >Rol</span
                   ></router-link

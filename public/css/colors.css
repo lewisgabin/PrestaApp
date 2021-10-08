@@ -8099,3 +8099,7 @@ input:focus ~ .bg-danger {
   color: #475F7B !important;
  
 }
+.mx-datepicker {
+  
+  width: 100% !important;
+}

@@ -7,6 +7,8 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PrestamosCrontroller;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +53,9 @@ Route::post('/C-clienteReferencia', [ClienteController::class, 'guardarReferenci
 Route::post('/C-clienteSector', [ClienteController::class, 'guardarSector']);
 Route::post('/C-clienteRuta', [ClienteController::class, 'guardarRuta']);
 Route::post('/C-clienteEditarReferencia', [ClienteController::class, 'editarReferencia']);
+
+//prestamos
+Route::get('C-prestamo/getClientes',[PrestamosCrontroller::class, 'listClientes']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
