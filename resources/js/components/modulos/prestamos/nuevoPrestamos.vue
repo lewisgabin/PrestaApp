@@ -417,7 +417,6 @@
               <div class="error" v-if="!$v.porcentajePagoMinimo.required">
                 Este campo es requerido!.
               </div>
-            
             </div>
             <div class="col-md-12">
               <label for="">COMENTARIOS:</label>
@@ -449,14 +448,65 @@
         >
           <i class="bx bxs-calculator"></i> <span class="ml-25">CALCULAR</span>
         </button>
-      </div>
+         </div>
+        <div class="col-md-12" id="tableDiv" v-if="verTablaPrestamo">
+           <div class="divider">
+            <div class="divider-text" >Tabla de Amortizacion</div>
+          </div>
+          <table
+            class="table dataTable table-striped"
+            style="width: 98% !important"
+            id="prestamosTable"
+          >
+            <thead style="background:#5a8dee;text-align:center">
+              <tr>
+                <th >#Cuota</th>
+                <th  style="width:17%">Fecha</th>
+                <th  >Interes</th>
+                <th  >Capital</th>
+                <th  >Cuota a Pagar</th>
+                <th  >Capital Restante</th>
+              </tr>
+            </thead>
+            <tbody style="text-align:center">
+              <tr v-for="tabla in tablaAmortizada" :key="tabla.numero">
+                <td v-text="tabla.numero"></td>
+                <td style="width:17%" v-text="tabla.fecha"></td>
+                <td v-text="'$' + tabla.intereses"></td>
+                <td v-text="'$' + tabla.abonoCapital"></td>
+                <td class="bcPago" v-text="'$' + tabla.totalPagar"></td>
+                <td v-text="'$' + tabla.capitalRestante"></td>
+              </tr>
+            </tbody>
+            
+            <tfoot>
+              
+              <tr style="font-weight: 500;text-align:center">
+                
+                <th></th>
+                <th></th>
+                <th>${{formatNumber(sumaInteres.toFixed(2)) }}</th>
+                <th>${{ formatNumber(sumaCapital)}}</th>
+                <th class="bcPago">${{ formatNumber(totalPrestamo)}}</th>
+                <th>$0.00</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+     
     </div>
   </div>
 </template>
 
 <script>
 import datepicker from "vue2-datepicker";
-import { required, minValue, requiredIf ,between,maxValue} from "vuelidate/lib/validators";
+import {
+  required,
+  minValue,
+  requiredIf,
+  between,
+  maxValue,
+} from "vuelidate/lib/validators";
 var moment = require("moment");
 export default {
   data: function () {
@@ -465,9 +515,9 @@ export default {
       clienteId: 0,
       fechaPrimerPago: moment().format("YYYY-MM-DD"),
       monto: 1000,
-      tasa: 0,
+      tasa: 8,
       cuota: 0,
-      numeroCuota: 1,
+      numeroCuota: 8,
       amortizacion: "ABSOLUTO",
       modalidadPago: "Semanal",
       moraDiara: 0,
@@ -486,6 +536,16 @@ export default {
       verOpcion: 0,
       checkPorcentaje: 0,
       listRutas: [],
+      tablaAmortizada: new Array(),
+      rango: "",
+      valor: 0,
+      interesAcumulado: 0,
+      sumaInteres: 0.0,
+      interesMensual: 0,
+      sumaCapital:0,
+      totalPrestamo:0,
+      verTablaPrestamo:false,
+
     };
   },
   components: {
@@ -523,8 +583,8 @@ export default {
       required,
     },
     porcentajePagoMinimo: {
-     between:between(1, 100),
-     required
+      between: between(1, 100),
+      required,
     },
   },
   mounted() {
@@ -563,12 +623,270 @@ export default {
     },
     //activar validacion
     checkInput() {
+      
       if (this.clienteId == 0) {
         this.clienteId = "";
       }
       this.$v.$touch();
       if (!this.$v.$error) {
+        this.calcularPrestamos();
+        this.verTablaPrestamo = true;
+        this.verOpcion = false;
+        
+      }else{
+         this.verTablaPrestamo = false;
+          this.$toast.open({
+        message: "Ops!, Faltan campos por llenar",
+        type: "error",
+        class:'shadow',
+        duration: 4000,
+        dismissible: true,
+        position: "top",
+      });
       }
+    },
+    //activar la dataTable
+    dataTable() {
+      this.$nextTick(() => {
+        $("#prestamosTable").DataTable({
+          language: {
+            url: "http://prestaapp.test/css/es.json",
+          },
+          scrollY: false,
+          order: [1, 'asc'],
+          columnDefs: [
+    { orderable: false, targets: 0 }
+  ],
+          scrollX: false,
+          processing: true,
+          dom: "Blfrtip",
+          buttons: ["copy", "pdf", "print", "excel"],
+        });
+      });
+    },
+    //determinar calculo del prestamos
+    calcularPrestamos() {
+      var table = $('#prestamosTable').DataTable();
+       table.destroy();
+        this.sumaInteres=0;
+        this.sumaCapital =0;
+          this.totalPrestamo =0;
+      this.tablaAmortizada = new Array();
+      switch (this.amortizacion) {
+        case "ABSOLUTO":
+          this.absoluto();
+          break;
+        case "CAPITAL AL FINAL (Linea de credito)":
+          this.capitalAlFinal();
+          break;
+        case "INSOLUTO (Cuotas Fijas)":
+          this.insolutoFijo();
+          break;
+        case "INSOLUTO":
+          this.insoluto();
+          break;
+
+        default:
+          break;
+      }
+    },
+    calcularInteres() {
+      //Calculo Mensual
+       
+      if (this.modalidadPago == "Mensual") {
+   
+        this.rango = "months";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100; // Interes mensual
+      
+      }
+      //Calculo Quincenal
+      if (this.modalidadPago == "Quincenal") {
+        this.rango = "days";
+        this.valor = 15;
+        this.interesMensual = this.tasa / 100 / 2; // Interes mensual
+      } //semanal
+      if (this.modalidadPago == "Semanal") {
+        this.rango = "days";
+        this.valor = 7;
+        this.interesMensual = this.tasa / 100 / 4; // Interes mensual
+      }
+      if (this.modalidadPago == "Diario") {
+        this.rango = "days";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100 / 30; // Interes mensual
+      }
+    },
+    absoluto() {
+    
+      this.calcularInteres();
+     
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+      var pago = parseInt(this.monto) / parseInt(this.numeroCuota); // Cuota sin intereses mensual
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.interesMensual) * parseFloat(this.monto);
+
+      interesAnual = parseFloat(this.monto) * this.tasaAnual; // Interes anual
+      pagoTotal = parseFloat(pago) + parseFloat(inte); // Cuota mensual con intereses
+      capitalRestante = parseFloat(this.monto) - pago; // capital restante
+      var xs = 0;
+      this.sumaInteres = 0;
+      //calculando la tabla
+  
+      for (let x = 1; x <= this.numeroCuota; x++) {
+        //add a la matrix
+         
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2)),
+        });
+       
+        // resta el capital restante
+        capitalRestante = capitalRestante - pago;
+        xs = this.valor;
+    
+        this.sumaInteres += inte;
+      
+        this.sumaCapital += pago;
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+      }
+      this.dataTable();
+    },
+    capitalAlFinal() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+      var pago = 0; // Cuota sin intereses mensual
+      var interesMensual = 0;
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.monto) * parseFloat(this.interesMensual); // Interes anual
+      pagoTotal = inte; // Cuota mensual con intereses
+      capitalRestante = parseFloat(this.monto); // capital restante
+      var xs = 0;
+      this.sumaInteres = 0;
+      //calculando la tabla
+      for (let x = 1; x <= this.numeroCuota; x++) {
+        if (x == this.numeroCuota) {
+          pagoTotal = parseFloat(this.monto) + inte;
+          pago = parseFloat(this.monto);
+          capitalRestante = capitalRestante - pago;
+        }
+
+        //add a la matrix
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2)),
+        });
+        // resta el capital restante
+        this.sumaInteres += inte;
+           this.sumaCapital +=parseFloat(pago.toFixed(2));
+           this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+        xs = this.valor;
+      }
+         this.dataTable();
+    },
+    insolutoFijo() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+      var pago = this.interesMensual + 1;
+      pago = Math.pow(pago, this.numeroCuota);
+      pago = pago - 1;
+      pago = this.interesMensual / pago;
+      pago = this.interesMensual + pago;
+      pago = parseInt(this.monto) * pago;
+      var capitalRestante = parseFloat(this.monto);
+
+      var xs = 0;
+      this.sumaInteres = 0;
+    
+      for (let x = 1; x <= this.numeroCuota; x++) {
+        var inte = this.interesMensual * capitalRestante;
+        var capital = pago.toFixed(2) - inte;
+
+        if (x == this.numeroCuota) {
+          capitalRestante = capital;
+        }
+        var restante = capitalRestante.toFixed(2) - capital.toFixed(2);
+        //add a la matrix
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pago.toFixed()),
+          intereses: this.formatNumber(inte),
+          abonoCapital: this.formatNumber(capital),
+          capitalRestante: this.formatNumber(restante.toFixed(2)),
+        });
+        capitalRestante = capitalRestante - capital;
+        this.sumaInteres += inte;
+           this.sumaCapital +=parseFloat(pago.toFixed(2));
+           this.totalPrestamo += parseFloat(pago.toFixed());
+        xs = this.valor;
+      }
+         this.dataTable();
+    },
+    insoluto() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+      var pago = parseFloat(this.monto) / this.numeroCuota; // Cuota sin intereses mensual
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      this.sumaInteres = 0;
+      var inte = 0;
+      // interesAnual =  this.monto * this.tasaAnual; // Interes anual
+      // pagoTotal = pago + interesMensual; // Cuota mensual con intereses
+      capitalRestante = parseFloat(this.monto); // capital restante
+      var xs = 0;
+      //calculando la tabla
+      for (let x = 1; x <= this.numeroCuota; x++) {
+        inte = this.interesMensual * parseFloat(capitalRestante.toFixed(2));
+        var cuota = inte + pago;
+        capitalRestante = capitalRestante - pago;
+        //add a la matrix
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(cuota.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2)),
+        });
+        // resta el capital restante
+
+        xs = this.valor;
+        this.sumaInteres += parseFloat(inte);
+        this.sumaCapital +=parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(cuota.toFixed());
+      }
+         this.dataTable();
+    }, // FORMAT NUMBER
+    formatNumber(num) {
+      if (!num || num == "NaN") return "-";
+      if (num == "Infinity") return "&#x221e;";
+      num = num.toString().replace(/\$|\,/g, "");
+      if (isNaN(num)) num = "0";
+      var sign = num == (num = Math.abs(num));
+      num = Math.floor(num * 100 + 0.50000000001);
+      var cents = num % 100;
+      num = Math.floor(num / 100).toString();
+      if (cents < 10) cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+        num =
+          num.substring(0, num.length - (4 * i + 3)) +
+          "," +
+          num.substring(num.length - (4 * i + 3));
+      return (sign ? "" : "-") + num + "." + cents;
     },
   },
 };
@@ -578,4 +896,47 @@ export default {
 .vs__search {
   color: #475f7b !important;
 }
+#tableDiv .dt-buttons {
+   
+    top: 46px !important;
+ 
+}
+#tableDiv  .table.dataTable thead .sorting:after {
+  color:white !important;
+}
+#tableDiv  .table.dataTable thead .sorting:before {
+  color:white !important;
+}
+#tableDiv .table.dataTable thead .sorting_asc:before{
+ color:white !important;
+}
+#tableDiv .table.dataTable thead .sorting_desc:after{
+  color:white !important;
+}
+#tableDiv .table.dataTable thead .sorting_desc:before{
+  color:white !important;
+}
+.v-toast__item--error {
+    background-color: #fb5b5b !important;
+}
+#tableDiv .table.dataTable thead .sorting_asc:after{
+    color:white !important;
+}
+#tableDiv #prestamosTable_wrapper{
+      margin-top: 42px;
+}
+#tableDiv   .table td ,#tableDiv .table tfoot th{
+    padding: 0.60rem 1rem;
+    }
+
+    #tableDiv   .table td ,#tableDiv .table tfoot th{
+    padding: 0.60rem 1rem;
+    }
+.bcPago{
+      background-color: #fef1df;
+}
+
+</style>
+<style scoped>
+
 </style>

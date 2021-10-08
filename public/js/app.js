@@ -7601,6 +7601,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7613,9 +7657,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       clienteId: 0,
       fechaPrimerPago: moment().format("YYYY-MM-DD"),
       monto: 1000,
-      tasa: 0,
+      tasa: 8,
       cuota: 0,
-      numeroCuota: 1,
+      numeroCuota: 8,
       amortizacion: "ABSOLUTO",
       modalidadPago: "Semanal",
       moraDiara: 0,
@@ -7633,7 +7677,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       checkFijar: false,
       verOpcion: 0,
       checkPorcentaje: 0,
-      listRutas: []
+      listRutas: [],
+      tablaAmortizada: new Array(),
+      rango: "",
+      valor: 0,
+      interesAcumulado: 0,
+      sumaInteres: 0.0,
+      interesMensual: 0,
+      sumaCapital: 0,
+      totalPrestamo: 0,
+      verTablaPrestamo: false
     };
   },
   components: {
@@ -7723,7 +7776,280 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
       this.$v.$touch();
 
-      if (!this.$v.$error) {}
+      if (!this.$v.$error) {
+        this.calcularPrestamos();
+        this.verTablaPrestamo = true;
+        this.verOpcion = false;
+      } else {
+        this.verTablaPrestamo = false;
+        this.$toast.open({
+          message: "Ops!, Faltan campos por llenar",
+          type: "error",
+          "class": 'shadow',
+          duration: 4000,
+          dismissible: true,
+          position: "top"
+        });
+      }
+    },
+    //activar la dataTable
+    dataTable: function dataTable() {
+      this.$nextTick(function () {
+        $("#prestamosTable").DataTable({
+          language: {
+            url: "http://prestaapp.test/css/es.json"
+          },
+          scrollY: false,
+          order: [1, 'asc'],
+          columnDefs: [{
+            orderable: false,
+            targets: 0
+          }],
+          scrollX: false,
+          processing: true,
+          dom: "Blfrtip",
+          buttons: ["copy", "pdf", "print", "excel"]
+        });
+      });
+    },
+    //determinar calculo del prestamos
+    calcularPrestamos: function calcularPrestamos() {
+      var table = $('#prestamosTable').DataTable();
+      table.destroy();
+      this.sumaInteres = 0;
+      this.sumaCapital = 0;
+      this.totalPrestamo = 0;
+      this.tablaAmortizada = new Array();
+
+      switch (this.amortizacion) {
+        case "ABSOLUTO":
+          this.absoluto();
+          break;
+
+        case "CAPITAL AL FINAL (Linea de credito)":
+          this.capitalAlFinal();
+          break;
+
+        case "INSOLUTO (Cuotas Fijas)":
+          this.insolutoFijo();
+          break;
+
+        case "INSOLUTO":
+          this.insoluto();
+          break;
+
+        default:
+          break;
+      }
+    },
+    calcularInteres: function calcularInteres() {
+      //Calculo Mensual
+      if (this.modalidadPago == "Mensual") {
+        this.rango = "months";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100; // Interes mensual
+      } //Calculo Quincenal
+
+
+      if (this.modalidadPago == "Quincenal") {
+        this.rango = "days";
+        this.valor = 15;
+        this.interesMensual = this.tasa / 100 / 2; // Interes mensual
+      } //semanal
+
+
+      if (this.modalidadPago == "Semanal") {
+        this.rango = "days";
+        this.valor = 7;
+        this.interesMensual = this.tasa / 100 / 4; // Interes mensual
+      }
+
+      if (this.modalidadPago == "Diario") {
+        this.rango = "days";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100 / 30; // Interes mensual
+      }
+    },
+    absoluto: function absoluto() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseInt(this.monto) / parseInt(this.numeroCuota); // Cuota sin intereses mensual
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.interesMensual) * parseFloat(this.monto);
+      interesAnual = parseFloat(this.monto) * this.tasaAnual; // Interes anual
+
+      pagoTotal = parseFloat(pago) + parseFloat(inte); // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto) - pago; // capital restante
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        //add a la matrix
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        capitalRestante = capitalRestante - pago;
+        xs = this.valor;
+        this.sumaInteres += inte;
+        this.sumaCapital += pago;
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+      }
+
+      this.dataTable();
+    },
+    capitalAlFinal: function capitalAlFinal() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = 0; // Cuota sin intereses mensual
+
+      var interesMensual = 0;
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.monto) * parseFloat(this.interesMensual); // Interes anual
+
+      pagoTotal = inte; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto); // capital restante
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        if (x == this.numeroCuota) {
+          pagoTotal = parseFloat(this.monto) + inte;
+          pago = parseFloat(this.monto);
+          capitalRestante = capitalRestante - pago;
+        } //add a la matrix
+
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        this.sumaInteres += inte;
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+        xs = this.valor;
+      }
+
+      this.dataTable();
+    },
+    insolutoFijo: function insolutoFijo() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = this.interesMensual + 1;
+      pago = Math.pow(pago, this.numeroCuota);
+      pago = pago - 1;
+      pago = this.interesMensual / pago;
+      pago = this.interesMensual + pago;
+      pago = parseInt(this.monto) * pago;
+      var capitalRestante = parseFloat(this.monto);
+      var xs = 0;
+      this.sumaInteres = 0;
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        var inte = this.interesMensual * capitalRestante;
+        var capital = pago.toFixed(2) - inte;
+
+        if (x == this.numeroCuota) {
+          capitalRestante = capital;
+        }
+
+        var restante = capitalRestante.toFixed(2) - capital.toFixed(2); //add a la matrix
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pago.toFixed()),
+          intereses: this.formatNumber(inte),
+          abonoCapital: this.formatNumber(capital),
+          capitalRestante: this.formatNumber(restante.toFixed(2))
+        });
+        capitalRestante = capitalRestante - capital;
+        this.sumaInteres += inte;
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pago.toFixed());
+        xs = this.valor;
+      }
+
+      this.dataTable();
+    },
+    insoluto: function insoluto() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseFloat(this.monto) / this.numeroCuota; // Cuota sin intereses mensual
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      this.sumaInteres = 0;
+      var inte = 0; // interesAnual =  this.monto * this.tasaAnual; // Interes anual
+      // pagoTotal = pago + interesMensual; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto); // capital restante
+
+      var xs = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        inte = this.interesMensual * parseFloat(capitalRestante.toFixed(2));
+        var cuota = inte + pago;
+        capitalRestante = capitalRestante - pago; //add a la matrix
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(cuota.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        xs = this.valor;
+        this.sumaInteres += parseFloat(inte);
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(cuota.toFixed());
+      }
+
+      this.dataTable();
+    },
+    // FORMAT NUMBER
+    formatNumber: function formatNumber(num) {
+      if (!num || num == "NaN") return "-";
+      if (num == "Infinity") return "&#x221e;";
+      num = num.toString().replace(/\$|\,/g, "");
+      if (isNaN(num)) num = "0";
+      var sign = num == (num = Math.abs(num));
+      num = Math.floor(num * 100 + 0.50000000001);
+      var cents = num % 100;
+      num = Math.floor(num / 100).toString();
+      if (cents < 10) cents = "0" + cents;
+
+      for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+        num = num.substring(0, num.length - (4 * i + 3)) + "," + num.substring(num.length - (4 * i + 3));
+      }
+
+      return (sign ? "" : "-") + num + "." + cents;
     }
   }
 });
@@ -14549,7 +14875,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14717,7 +15043,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n   \r\n    top: 46px !important;\n}\n#tableDiv  .table.dataTable thead .sorting:after {\r\n  color:white !important;\n}\n#tableDiv  .table.dataTable thead .sorting:before {\r\n  color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before{\r\n color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after{\r\n  color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before{\r\n  color:white !important;\n}\n.v-toast__item--error {\r\n    background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after{\r\n    color:white !important;\n}\n#tableDiv #prestamosTable_wrapper{\r\n      margin-top: 42px;\n}\n#tableDiv   .table td ,#tableDiv .table tfoot th{\r\n    padding: 0.60rem 1rem;\n}\n#tableDiv   .table td ,#tableDiv .table tfoot th{\r\n    padding: 0.60rem 1rem;\n}\n.bcPago{\r\n      background-color: #fef1df;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14765,7 +15091,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14837,7 +15163,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -79702,7 +80028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=template&id=033bb6d5& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&");
+/* harmony import */ var _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&");
 /* harmony import */ var _nuevoPrestamos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=script&lang=js& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=script&lang=js&");
 /* harmony import */ var _nuevoPrestamos_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
@@ -79716,11 +80042,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _nuevoPrestamos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.render,
-  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "033bb6d5",
   null
   
 )
@@ -80363,19 +80689,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5& ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& ***!
+  \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./nuevoPrestamos.vue?vue&type=template&id=033bb6d5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&");
 
 
 /***/ }),
@@ -89342,10 +89668,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&":
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5& ***!
-  \********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -90473,7 +90799,102 @@ var render = function() {
             _c("span", { staticClass: "ml-25" }, [_vm._v("CALCULAR")])
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.verTablaPrestamo
+        ? _c("div", { staticClass: "col-md-12", attrs: { id: "tableDiv" } }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c(
+              "table",
+              {
+                staticClass: "table dataTable table-striped",
+                staticStyle: { width: "98% !important" },
+                attrs: { id: "prestamosTable" }
+              },
+              [
+                _vm._m(5),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticStyle: { "text-align": "center" } },
+                  _vm._l(_vm.tablaAmortizada, function(tabla) {
+                    return _c("tr", { key: tabla.numero }, [
+                      _c("td", {
+                        domProps: { textContent: _vm._s(tabla.numero) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        staticStyle: { width: "17%" },
+                        domProps: { textContent: _vm._s(tabla.fecha) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s("$" + tabla.intereses) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s("$" + tabla.abonoCapital)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        staticClass: "bcPago",
+                        domProps: {
+                          textContent: _vm._s("$" + tabla.totalPagar)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s("$" + tabla.capitalRestante)
+                        }
+                      })
+                    ])
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c("tfoot", [
+                  _c(
+                    "tr",
+                    {
+                      staticStyle: {
+                        "font-weight": "500",
+                        "text-align": "center"
+                      }
+                    },
+                    [
+                      _c("th"),
+                      _vm._v(" "),
+                      _c("th"),
+                      _vm._v(" "),
+                      _c("th", [
+                        _vm._v(
+                          "$" +
+                            _vm._s(_vm.formatNumber(_vm.sumaInteres.toFixed(2)))
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [
+                        _vm._v("$" + _vm._s(_vm.formatNumber(_vm.sumaCapital)))
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "bcPago" }, [
+                        _vm._v(
+                          "$" + _vm._s(_vm.formatNumber(_vm.totalPrestamo))
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("$0.00")])
+                    ]
+                  )
+                ])
+              ]
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -90525,6 +90946,40 @@ var staticRenderFns = [
         attrs: { name: "comment", id: "", cols: "10" }
       })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "divider" }, [
+      _c("div", { staticClass: "divider-text" }, [
+        _vm._v("Tabla de Amortizacion")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "thead",
+      { staticStyle: { background: "#5a8dee", "text-align": "center" } },
+      [
+        _c("tr", [
+          _c("th", [_vm._v("#Cuota")]),
+          _vm._v(" "),
+          _c("th", { staticStyle: { width: "17%" } }, [_vm._v("Fecha")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Interes")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Capital")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Cuota a Pagar")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Capital Restante")])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
