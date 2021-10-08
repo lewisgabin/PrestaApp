@@ -8103,3 +8103,14 @@ input:focus ~ .bg-danger {
   
   width: 100% !important;
 }
+.error {
+  color: #ff5b5c;
+  font-size: small;
+  margin-top: -15px;
+  padding-bottom: 15px;
+
+}
+
+.error1{
+  border-color: #ff5b5c !important;
+}

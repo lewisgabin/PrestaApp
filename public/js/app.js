@@ -3093,7 +3093,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       tasaAnual: 6,
       tasaMensual: 5,
       cuotas: 6,
-      amortizacion: "Interes Fijo",
+      amortizacion: "ABSOLUTO",
       modalidadPago: "Mensual",
       fechaPrimerPago: moment().format('YYYY-MM-DD'),
       tablaAmortizada: new Array(),
@@ -3146,19 +3146,19 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.tablaAmortizada = new Array();
 
       switch (this.amortizacion) {
-        case "Interes Fijo":
+        case "ABSOLUTO":
           this.InteresFijo();
           break;
 
-        case "Capital al Final (Metodo Americano)":
+        case "CAPITAL AL FINAL (Linea de credito)":
           this.capitalAlFinal();
           break;
 
-        case "Cuotas Fijas (Metodo Frances)":
+        case "INSOLUTO (Cuotas Fijas)":
           this.metodoFrances();
           break;
 
-        case "Disminuir Cuotas (Metodo Aleman)":
+        case "INSOLUTO":
           this.metodoAleman();
           break;
 
@@ -6979,6 +6979,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 //
 //
 //
@@ -7220,6 +7221,222 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -7228,29 +7445,74 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   data: function data() {
     return {
       listCliente: [],
-      prestamo: {
-        clienteId: "",
-        fechaPrimerPago: moment().format("YYYY-MM-DD"),
-        monto: 0,
-        tasa: 0,
-        cuota: 0,
-        numeroCuota: 0,
-        amortizacion: "",
-        modalidadPago: "Semanal",
-        moraDiara: 0,
-        moraLuego: 0,
-        cuotasCobrada: 0
-      },
-      checkCuotas: 0,
-      checkFijar: 0,
-      verOpcion: 0
+      clienteId: 0,
+      fechaPrimerPago: moment().format("YYYY-MM-DD"),
+      monto: 1000,
+      tasa: 0,
+      cuota: 0,
+      numeroCuota: 1,
+      amortizacion: "ABSOLUTO",
+      modalidadPago: "Semanal",
+      moraDiara: 0,
+      moraLuego: 0,
+      cuotasCobrada: 0,
+      gastoCierre: 0,
+      cartera: "Sin Cartera",
+      garantia: "SIN GARANTIA",
+      garante: "",
+      porcentajePagoMinimo: 100,
+      pagoMinimo: true,
+      tipoPagoMinimo: "Pago al Interes",
+      ruta: "",
+      checkCuotas: false,
+      checkFijar: false,
+      verOpcion: 0,
+      checkPorcentaje: 0,
+      listRutas: []
     };
   },
   components: {
     datepicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  validations: {
+    monto: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(1000),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    clienteId: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    tasa: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(0),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    numeroCuota: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(1),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    modalidadPago: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    amortizacion: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    fechaPrimerPago: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    moraDiara: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    moraLuego: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    porcentajePagoMinimo: {
+      between: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.between)(1, 100),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    }
+  },
   mounted: function mounted() {
     this.getClientes();
+    this.getRutas();
   },
   methods: {
     //obtener todos los clientes
@@ -7261,8 +7523,42 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         _this.listCliente = response.data.data;
       });
     },
+    // para ver opciones
     verOpciones: function verOpciones() {
       this.verOpcion = !this.verOpcion;
+    },
+    //funcionamiento de todos lo checkbock
+    checkbox: function checkbox(nombre) {
+      if (nombre == 1) {
+        this.checkFijar = !this.checkFijar;
+      }
+
+      if (nombre == 2) {
+        this.checkCuotas = !this.checkCuotas;
+      }
+
+      if (nombre == 3) {
+        this.checkPorcentaje = !this.checkPorcentaje;
+      }
+    },
+    //get lista de rutas
+    getRutas: function getRutas() {
+      var _this2 = this;
+
+      var url = "/GetRutas";
+      axios.get(url).then(function (response) {
+        _this2.listRutas = response.data.rutas;
+      });
+    },
+    //activar validacion
+    checkInput: function checkInput() {
+      if (this.clienteId == 0) {
+        this.clienteId = "";
+      }
+
+      this.$v.$touch();
+
+      if (!this.$v.$error) {}
     }
   }
 });
@@ -14160,7 +14456,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\n.error[data-v-6938a525] {\r\n  color: #ff5b5c;\r\n  font-size: small;\r\n  border-color: #ff5b5c;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -82399,10 +82695,10 @@ var render = function() {
                     staticClass: "form__input shadow",
                     attrs: {
                       options: [
-                        "Disminuir Cuotas (Metodo Aleman)",
-                        "Cuotas Fijas (Metodo Frances)",
-                        "Capital al Final (Metodo Americano)",
-                        "Interes Fijo"
+                        "INSOLUTO",
+                        "INSOLUTO (Cuotas Fijas)",
+                        "CAPITAL AL FINAL (Linea de credito)",
+                        "ABSOLUTO"
                       ],
                       placeholder: "Seleccione..."
                     },
@@ -88723,22 +89019,29 @@ var render = function() {
               { staticClass: "form-label-group has-icon-left shadow" },
               [
                 _c("v-select", {
+                  class: { error1: _vm.$v.clienteId.$error },
                   attrs: {
                     label: "nombre",
                     options: _vm.listCliente,
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.clienteId,
+                    value: _vm.clienteId,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "clienteId", $$v)
+                      _vm.clienteId = $$v
                     },
-                    expression: "prestamo.clienteId"
+                    expression: "clienteId"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.clienteId.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            Cliente es requerido!\n          ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88747,32 +89050,65 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "input-group form-label-group shadow" }, [
-              _vm._m(1),
+              _c("div", { staticClass: "input-group-prepend" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.monto.$error }
+                  },
+                  [_vm._v("$RD")]
+                )
+              ]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.monto,
-                    expression: "prestamo.monto"
+                    value: _vm.monto,
+                    expression: "monto"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.monto },
+                class: { error1: _vm.$v.monto.$error },
+                attrs: { type: "number", onclick: "select()" },
+                domProps: { value: _vm.monto },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "monto", $event.target.value)
+                    _vm.monto = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(2)
-            ])
+              _c("div", { staticClass: "input-group-append" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.monto.$error }
+                  },
+                  [_vm._v(".00")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.monto.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            Cuota es requerida!\n          ")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.monto.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            La Cuota debe ser mayor a 999 pesos!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88786,25 +89122,51 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.numeroCuota,
-                    expression: "prestamo.numeroCuota"
+                    value: _vm.numeroCuota,
+                    expression: "numeroCuota"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.numeroCuota },
+                class: { error1: _vm.$v.numeroCuota.$error },
+                attrs: { type: "number", onclick: "select()" },
+                domProps: { value: _vm.numeroCuota },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "numeroCuota", $event.target.value)
+                    _vm.numeroCuota = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(3)
-            ])
+              _c("div", { staticClass: "input-group-append" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.numeroCuota.$error }
+                  },
+                  [_vm._v("CUOTAS")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.numeroCuota.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            Numero de Cuota es requerida!\n          "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.numeroCuota.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El numero de Cuota debe ser mayor a 1!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88813,29 +89175,56 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "input-group form-label-group shadow" }, [
-              _vm._m(4),
+              _c("div", { staticClass: "input-group-prepend" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.tasa.$error }
+                  },
+                  [_vm._v("%")]
+                )
+              ]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.tasa,
-                    expression: "prestamo.tasa"
+                    value: _vm.tasa,
+                    expression: "tasa"
                   }
                 ],
                 staticClass: "form-control",
-                domProps: { value: _vm.prestamo.tasa },
+                class: { error1: _vm.$v.tasa.$error },
+                attrs: { onclick: "select()" },
+                domProps: { value: _vm.tasa },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "tasa", $event.target.value)
+                    _vm.tasa = $event.target.value
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.tasa.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El porsiento de la tasa debe ser igual o mayor a 0!.\n          "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.tasa.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El porsiento de la tasa es requerido!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88849,22 +89238,31 @@ var render = function() {
               [
                 _c("v-select", {
                   staticClass: "form__input",
+                  class: { error1: _vm.$v.modalidadPago.$error },
                   staticStyle: { color: "#475f7b !important" },
                   attrs: {
                     options: ["Mensual", "Semanal", "Quincenal", "Diario"],
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.modalidadPago,
+                    value: _vm.modalidadPago,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "modalidadPago", $$v)
+                      _vm.modalidadPago = $$v
                     },
-                    expression: "prestamo.modalidadPago"
+                    expression: "modalidadPago"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.modalidadPago.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            Modalidad de pago es requerido!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88878,18 +89276,25 @@ var render = function() {
               [
                 _c("datepicker", {
                   staticClass: "shadow",
+                  class: { error1: _vm.$v.fechaPrimerPago.$error },
                   attrs: { format: "YYYY-MM-DD", "value-type": "format" },
                   model: {
-                    value: _vm.prestamo.fechaPrimerPago,
+                    value: _vm.fechaPrimerPago,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "fechaPrimerPago", $$v)
+                      _vm.fechaPrimerPago = $$v
                     },
-                    expression: "prestamo.fechaPrimerPago"
+                    expression: "fechaPrimerPago"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.fechaPrimerPago.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            La fecha es requerida!.\n          ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88906,24 +89311,32 @@ var render = function() {
                   staticStyle: { color: "#475f7b !important" },
                   attrs: {
                     options: [
-                      "Disminuir Cuotas (Metodo Aleman)",
-                      "Cuotas Fijas (Metodo Frances)",
-                      "Capital al Final (Metodo Americano)",
-                      "Interes Fijo"
+                      "INSOLUTO",
+                      "INSOLUTO (Cuotas Fijas)",
+                      "CAPITAL AL FINAL (Linea de credito)",
+                      "ABSOLUTO"
                     ],
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.amortizacion,
+                    value: _vm.amortizacion,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "amortizacion", $$v)
+                      _vm.amortizacion = $$v
                     },
-                    expression: "prestamo.amortizacion"
+                    expression: "amortizacion"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.amortizacion.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            La amortizacion es requerida!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -88931,42 +89344,137 @@ var render = function() {
               _vm._v("MONTO DE CUOTA:")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group shadow" }, [
-              _vm._m(5),
+            _c("div", { staticClass: "input-group form-label-group shadow" }, [
+              _vm._m(1),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.cuota,
-                    expression: "prestamo.cuota"
+                    value: _vm.cuota,
+                    expression: "cuota"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.cuota },
+                attrs: {
+                  type: "number",
+                  onclick: "select()",
+                  readonly: _vm.checkFijar == 0
+                },
+                domProps: { value: _vm.cuota },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "cuota", $event.target.value)
+                    _vm.cuota = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(6)
+              _c("div", { staticClass: "input-group-append" }, [
+                _c("span", { staticClass: "input-group-text" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "checkbox checkbox-primary checkbox-glow bg-primar",
+                      on: {
+                        click: function($event) {
+                          return _vm.checkbox(1)
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.checkFijar,
+                            expression: "checkFijar"
+                          }
+                        ],
+                        staticClass: "bg-primar",
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.checkFijar)
+                            ? _vm._i(_vm.checkFijar, null) > -1
+                            : _vm.checkFijar
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.checkFijar,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.checkFijar = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.checkFijar = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.checkFijar = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticStyle: {
+                            "margin-left": "29px",
+                            "font-size": "0.8rem !important"
+                          },
+                          attrs: { for: "checkboxGlow1" }
+                        },
+                        [_vm._v("\n                    FIJAR CUOTA")]
+                      )
+                    ]
+                  )
+                ])
+              ])
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 col-12" }, [
+            _c("label", { attrs: { for: "first-name-icon" } }, [
+              _vm._v("RUTA:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "fieldset",
+              { staticClass: "form-label-group shadow" },
+              [
+                _c("v-select", {
+                  attrs: { options: _vm.listRutas, label: "nombre" },
+                  model: {
+                    value: _vm.ruta,
+                    callback: function($$v) {
+                      _vm.ruta = $$v
+                    },
+                    expression: "ruta"
+                  }
+                })
+              ],
+              1
+            )
           ])
         ]),
         _vm._v(" "),
         _vm.verOpcion
           ? _c("div", [
-              _vm._m(7),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-3 col-12" }, [
+                _c("div", { staticClass: "col-md-4 col-12" }, [
                   _c("label", { attrs: { for: "first-name-icon" } }, [
                     _vm._v("MORA LUEGO:")
                   ]),
@@ -88980,33 +89488,47 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.prestamo.moraLuego,
-                            expression: "prestamo.moraLuego"
+                            value: _vm.moraLuego,
+                            expression: "moraLuego"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "number" },
-                        domProps: { value: _vm.prestamo.moraLuego },
+                        class: { error1: _vm.$v.moraLuego.$error },
+                        attrs: { type: "number", onclick: "select()" },
+                        domProps: { value: _vm.moraLuego },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(
-                              _vm.prestamo,
-                              "moraLuego",
-                              $event.target.value
-                            )
+                            _vm.moraLuego = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm._m(8)
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "input-group-text",
+                            class: { error1: _vm.$v.moraLuego.$error }
+                          },
+                          [_vm._v("DIAS")]
+                        )
+                      ])
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  !_vm.$v.moraLuego.required
+                    ? _c("div", { staticClass: "error" }, [
+                        _vm._v(
+                          "\n              Este campo es requerido requerida!\n            "
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-3 col-12" }, [
+                _c("div", { staticClass: "col-md-4 col-12" }, [
                   _c("label", { attrs: { for: "first-name-icon" } }, [
                     _vm._v("MORA DIARIA:")
                   ]),
@@ -89020,30 +89542,44 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.prestamo.moraDiaria,
-                            expression: "prestamo.moraDiaria"
+                            value: _vm.moraDiara,
+                            expression: "moraDiara"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "number" },
-                        domProps: { value: _vm.prestamo.moraDiaria },
+                        class: { error1: _vm.$v.moraDiara.$error },
+                        attrs: { type: "number", onclick: "select()" },
+                        domProps: { value: _vm.moraDiara },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(
-                              _vm.prestamo,
-                              "moraDiaria",
-                              $event.target.value
-                            )
+                            _vm.moraDiara = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm._m(9)
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "input-group-text",
+                            class: { error1: _vm.$v.moraDiara.$error }
+                          },
+                          [_vm._v("%")]
+                        )
+                      ])
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  !_vm.$v.moraDiara.required
+                    ? _c("div", { staticClass: "error" }, [
+                        _vm._v(
+                          "\n              Este campo es requerido requerida!\n            "
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89051,99 +89587,466 @@ var render = function() {
                     _vm._v("PRESTAMOS VIEJOS:")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "input-group shadow" }, [
-                    _c("div", { staticClass: "input-group-prepend" }, [
-                      _c("span", { staticClass: "input-group-text" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "checkbox checkbox-primary checkbox-glow bg-primar"
-                          },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.checkCuotas,
-                                  expression: "checkCuotas"
-                                }
-                              ],
-                              staticClass: "bg-primar",
-                              attrs: { type: "checkbox" },
-                              domProps: {
-                                checked: Array.isArray(_vm.checkCuotas)
-                                  ? _vm._i(_vm.checkCuotas, null) > -1
-                                  : _vm.checkCuotas
-                              },
+                  _c(
+                    "div",
+                    { staticClass: "input-group form-label-group shadow" },
+                    [
+                      _c("div", { staticClass: "input-group-prepend" }, [
+                        _c("span", { staticClass: "input-group-text" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "checkbox checkbox-primary checkbox-glow bg-primar",
                               on: {
-                                change: function($event) {
-                                  var $$a = _vm.checkCuotas,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        (_vm.checkCuotas = $$a.concat([$$v]))
-                                    } else {
-                                      $$i > -1 &&
-                                        (_vm.checkCuotas = $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1)))
-                                    }
-                                  } else {
-                                    _vm.checkCuotas = $$c
-                                  }
+                                click: function($event) {
+                                  return _vm.checkbox(2)
                                 }
                               }
-                            }),
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.checkCuotas,
+                                    expression: "checkCuotas"
+                                  }
+                                ],
+                                staticClass: "bg-primar",
+                                attrs: {
+                                  type: "checkbox",
+                                  id: "colorCheckbox2"
+                                },
+                                domProps: {
+                                  checked: Array.isArray(_vm.checkCuotas)
+                                    ? _vm._i(_vm.checkCuotas, null) > -1
+                                    : _vm.checkCuotas
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.checkCuotas,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          (_vm.checkCuotas = $$a.concat([$$v]))
+                                      } else {
+                                        $$i > -1 &&
+                                          (_vm.checkCuotas = $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1)))
+                                      }
+                                    } else {
+                                      _vm.checkCuotas = $$c
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "29px",
+                                    "font-size": "0.8rem !important"
+                                  },
+                                  attrs: { for: "checkboxGlow1" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                      CUOTAS COBRADAS"
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cuotasCobrada,
+                            expression: "cuotasCobrada"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          readonly: _vm.checkCuotas == 0,
+                          onclick: "select()"
+                        },
+                        domProps: { value: _vm.cuotasCobrada },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.cuotasCobrada = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("GARANTE:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group has-icon-left shadow" },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          label: "nombre",
+                          options: _vm.listCliente,
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.garante,
+                          callback: function($$v) {
+                            _vm.garante = $$v
+                          },
+                          expression: "garante"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("CARTERA:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group shadow" },
+                    [
+                      _c("v-select", {
+                        staticClass: "form__input",
+                        staticStyle: { color: "#475f7b !important" },
+                        attrs: {
+                          options: ["Sin cartera"],
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.cartera,
+                          callback: function($$v) {
+                            _vm.cartera = $$v
+                          },
+                          expression: "cartera"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("TIPO DE GARANTIA:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group shadow" },
+                    [
+                      _c("v-select", {
+                        staticClass: "form__input",
+                        staticStyle: { color: "#475f7b !important" },
+                        attrs: {
+                          options: [
+                            "CON GARANTIA",
+                            "SIN GARANTIA",
+                            "VEHICULO",
+                            "MOTOR"
+                          ],
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.garantia,
+                          callback: function($$v) {
+                            _vm.garantia = $$v
+                          },
+                          expression: "garantia"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("GASTO DE CIERRE:")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticStyle: { float: "right" } }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "checkbox checkbox-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.checkbox(3)
+                          }
+                        }
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.checkPorcentaje,
+                              expression: "checkPorcentaje"
+                            }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.checkPorcentaje)
+                              ? _vm._i(_vm.checkPorcentaje, null) > -1
+                              : _vm.checkPorcentaje
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.checkPorcentaje,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    (_vm.checkPorcentaje = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.checkPorcentaje = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.checkPorcentaje = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticStyle: { "font-size": "0.9rem !important" },
+                            attrs: { for: "colorCheckbox1" }
+                          },
+                          [_vm._v("Porcentaje?")]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-group form-label-group shadow" },
+                    [
+                      _c("div", { staticClass: "input-group-prepend" }, [
+                        _vm.checkPorcentaje == 0
+                          ? _c("span", { staticClass: "input-group-text" }, [
+                              _vm._v("$RD")
+                            ])
+                          : _c("span", { staticClass: "input-group-text" }, [
+                              _vm._v("%")
+                            ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.gastoCierre,
+                            expression: "gastoCierre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { onclick: "select()" },
+                        domProps: { value: _vm.gastoCierre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.gastoCierre = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("PAGO MINIMO:")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-label-group shadow" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pagoMinimo,
+                            expression: "pagoMinimo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.pagoMinimo = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { domProps: { value: true } }, [
+                          _vm._v("SI")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { domProps: { value: false } }, [
+                          _vm._v("NO")
+                        ])
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.pagoMinimo == 1
+                  ? _c("div", { staticClass: "col-md-3 col-12" }, [
+                      _c("label", { attrs: { for: "first-name-icon" } }, [
+                        _vm._v("TIPO DE PAGO MINIMO:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-label-group shadow" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipoPagoMinimo,
+                                expression: "tipoPagoMinimo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.tipoPagoMinimo = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "Pago al Interes" } },
+                              [_vm._v("Pago al Interes")]
+                            ),
                             _vm._v(" "),
                             _c(
-                              "label",
-                              {
-                                staticStyle: {
-                                  "margin-left": "29px",
-                                  "font-size": "0.8rem !important"
-                                },
-                                attrs: { for: "checkboxGlow1" }
-                              },
-                              [_vm._v("\n                     CUOTAS COBRADAS")]
+                              "option",
+                              { attrs: { value: "Pago al Capital" } },
+                              [_vm._v("Pago al Capital")]
                             )
                           ]
                         )
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.prestamo.cuotasCobrada,
-                          expression: "prestamo.cuotasCobrada"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number", readonly: _vm.checkCuotas == 0 },
-                      domProps: { value: _vm.prestamo.cuotasCobrada },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.pagoMinimo == 1
+                  ? _c("div", { staticClass: "col-md-3 col-12" }, [
+                      _c("label", { attrs: { for: "first-name-icon" } }, [
+                        _vm._v("PORCENTAJE DE PAGO MINIMO:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-label-group shadow" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.porcentajePagoMinimo,
+                              expression: "porcentajePagoMinimo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { error1: _vm.$v.porcentajePagoMinimo.$error },
+                          attrs: { id: "", onclick: "select()" },
+                          domProps: { value: _vm.porcentajePagoMinimo },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.porcentajePagoMinimo = $event.target.value
+                            }
                           }
-                          _vm.$set(
-                            _vm.prestamo,
-                            "cuotasCobrada",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ])
+                        })
+                      ]),
+                      _vm._v(" "),
+                      !_vm.$v.porcentajePagoMinimo.between
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v(
+                              "\n              Debe estar dentro de 1 y 100!.\n            "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.$v.porcentajePagoMinimo.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v(
+                              "\n              Este campo es requerido!.\n            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(3)
               ])
             ])
           : _vm._e()
@@ -89169,7 +90072,21 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(10)
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-light-primary mr-1 mb-1 col-md-12",
+            attrs: { type: "button" },
+            on: { click: _vm.checkInput }
+          },
+          [
+            _c("i", { staticClass: "bx bxs-calculator" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "ml-25" }, [_vm._v("CALCULAR")])
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -89200,70 +90117,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v(".00")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("CUOTAS")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("%")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("$RD")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [
-        _c(
-          "div",
-          { staticClass: "checkbox checkbox-primary checkbox-glow bg-primar" },
-          [
-            _c("input", {
-              staticClass: "bg-primar",
-              attrs: { type: "checkbox", id: "checkboxGlow1" }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticStyle: {
-                  "margin-left": "29px",
-                  "font-size": "0.8rem !important"
-                },
-                attrs: { for: "checkboxGlow1" }
-              },
-              [_vm._v("\n                    FIJAR CUOTA")]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "divider " }, [
+    return _c("div", { staticClass: "divider" }, [
       _c(
         "div",
         { staticClass: "divider-text", staticStyle: { color: "#5a8dee" } },
@@ -89275,35 +90129,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("DIAS")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("%")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-12" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-light-primary mr-1 mb-1 col-md-12",
-          attrs: { type: "button" }
-        },
-        [
-          _c("i", { staticClass: "bx bxs-calculator" }),
-          _vm._v(" "),
-          _c("span", { staticClass: "ml-25" }, [_vm._v("CALCULAR")])
-        ]
-      )
+      _c("label", { attrs: { for: "" } }, [_vm._v("COMENTARIOS:")]),
+      _vm._v(" "),
+      _c("textarea", {
+        staticClass: "form-control shadow",
+        staticStyle: { width: "100%" },
+        attrs: { name: "comment", id: "", cols: "10" }
+      })
     ])
   }
 ]

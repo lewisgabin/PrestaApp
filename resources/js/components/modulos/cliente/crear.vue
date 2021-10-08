@@ -1520,9 +1520,5 @@ export default {
 .bx-2 {
   font-size: 1.5rem !important;
 }
-.error {
-  color: #ff5b5c;
-  font-size: small;
-  border-color: #ff5b5c;
-}
+
 </style>
