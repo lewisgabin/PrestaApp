@@ -448,52 +448,139 @@
         >
           <i class="bx bxs-calculator"></i> <span class="ml-25">CALCULAR</span>
         </button>
-         </div>
-        <div class="col-md-12" id="tableDiv" v-if="verTablaPrestamo" style="    padding-bottom: 40px;">
-           <div class="divider">
-            <div class="divider-text" >Tabla de Amortizacion</div>
-          </div>
-          <table
-            class="table dataTable table-striped"
-            style="width: 98% !important"
-            id="prestamosTable"
-          >
-            <thead style="background:#5a8dee;text-align:center">
-              <tr>
-                <th >#Cuota</th>
-                <th  style="width:17%">Fecha</th>
-                <th  >Interes</th>
-                <th  >Capital</th>
-                <th  >Cuota a Pagar</th>
-                <th  >Capital Restante</th>
-              </tr>
-            </thead>
-            <tbody style="text-align:center">
-              <tr v-for="tabla in tablaAmortizada" :key="tabla.numero">
-                <td v-text="tabla.numero"></td>
-                <td style="width:17%" v-text="tabla.fecha"></td>
-                <td v-text="'$' + tabla.intereses"></td>
-                <td v-text="'$' + tabla.abonoCapital"></td>
-                <td class="bcPago" v-text="'$' + tabla.totalPagar"></td>
-                <td v-text="'$' + tabla.capitalRestante"></td>
-              </tr>
-            </tbody>
-            
-            <tfoot>
-              
-              <tr style="font-weight: 500;text-align:center">
-                
-                <th></th>
-                <th></th>
-                <th>${{formatNumber(sumaInteres.toFixed(2)) }}</th>
-                <th>${{ formatNumber(sumaCapital)}}</th>
-                <th class="bcPago">${{ formatNumber(totalPrestamo)}}</th>
-                <th>$0.00</th>
-              </tr>
-            </tfoot>
-          </table>
+      </div>
+      <div
+        class="col-md-12"
+        id="tableDiv"
+        v-if="verTablaPrestamo"
+        style="padding-bottom: 40px"
+      >
+        <div class="divider">
+          <div class="divider-text">Tabla de Amortizacion</div>
         </div>
-     
+        <table
+          class="table dataTable table-striped"
+          style="width: 98% !important"
+          id="prestamosTable"
+        >
+          <thead style="background: #5a8dee; text-align: center">
+            <tr>
+              <th>#Cuota</th>
+              <th style="width: 17%">Fecha</th>
+              <th>Interes</th>
+              <th>Capital</th>
+              <th>Cuota a Pagar</th>
+              <th>Capital Restante</th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center">
+            <tr v-for="tabla in tablaAmortizada" :key="tabla.numero">
+              <td v-text="tabla.numero"></td>
+              <td style="width: 17%" v-text="tabla.fecha"></td>
+              <td v-text="'$' + tabla.intereses"></td>
+              <td v-text="'$' + tabla.abonoCapital"></td>
+              <td class="bcPago" v-text="'$' + tabla.totalPagar"></td>
+              <td v-text="'$' + tabla.capitalRestante"></td>
+            </tr>
+          </tbody>
+
+          <tfoot>
+            <tr style="font-weight: 500; text-align: center">
+              <th></th>
+              <th></th>
+              <th>${{ formatNumber(sumaInteres.toFixed(2)) }}</th>
+              <th>${{ formatNumber(sumaCapital) }}</th>
+              <th class="bcPago">${{ formatNumber(totalPrestamo) }}</th>
+              <th>$0.00</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="row" id="datallePrestamos"  v-if="verTablaPrestamo">
+      <div class="col-md-4">
+        <div class="card" style="padding-right: 18px;padding-left: 18px;">
+          <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Cuotas</h4>
+            <small class="text-muted">Cantidad de cuotas.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal warning mb-0">{{numeroCuota}}</h5>
+            
+          </div>
+          
+        </div>
+       <hr>
+         <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Total Capital</h4>
+            <small class="text-muted">Capital Prestado.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal warning mb-0">RD${{formatNumber(monto)}}</h5>
+            
+          </div>
+          
+        </div>
+        </div>
+      </div>
+       <div class="col-md-4">
+        <div class="card" style="padding-right: 18px;padding-left: 18px;">
+          <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Total Interes</h4>
+            <small class="text-muted">Interes Generado.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal primary mb-0">RD${{formatNumber(sumaInteres.toFixed(2))}}</h5>
+            
+          </div>
+          
+        </div>
+       <hr>
+         <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Total a Cobrar</h4>
+            <small class="text-muted">Total del Prestamo.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal primary mb-0">RD${{formatNumber(totalPrestamo)}}</h5>
+            
+          </div>
+          
+        </div>
+        </div>
+      </div>
+       <div class="col-md-4">
+        <div class="card" style="padding-right: 18px;padding-left: 18px;">
+          <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Gasto de Cierre</h4>
+            <small class="text-muted">Gasto de cieere de prestamo.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal success mb-0">{{numeroCuota}}</h5>
+            
+          </div>
+          
+        </div>
+      <hr>
+         <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="card-title">Total a Entregar</h4>
+            <small class="text-muted">Cantidad de dinero a entregar.</small>
+          </div>
+          <div class="d-flex align-items-center widget-followers-heading-right">
+            <h5 class="mr-2 font-weight-normal success mb-0">{{numeroCuota}}</h5>
+            
+          </div>
+          
+        </div>
+        </div>
+      </div>
+      
+       
     </div>
   </div>
 </template>
@@ -542,10 +629,9 @@ export default {
       interesAcumulado: 0,
       sumaInteres: 0.0,
       interesMensual: 0,
-      sumaCapital:0,
-      totalPrestamo:0,
-      verTablaPrestamo:false,
-
+      sumaCapital: 0,
+      totalPrestamo: 0,
+      verTablaPrestamo: false,
     };
   },
   components: {
@@ -623,7 +709,6 @@ export default {
     },
     //activar validacion
     checkInput() {
-      
       if (this.clienteId == 0) {
         this.clienteId = "";
       }
@@ -632,17 +717,16 @@ export default {
         this.calcularPrestamos();
         this.verTablaPrestamo = true;
         this.verOpcion = false;
-        
-      }else{
-         this.verTablaPrestamo = false;
-          this.$toast.open({
-        message: "Ops!, Faltan campos por llenar",
-        type: "error",
-        class:'shadow',
-        duration: 4000,
-        dismissible: true,
-        position: "top",
-      });
+      } else {
+        this.verTablaPrestamo = false;
+        this.$toast.open({
+          message: "Ops!, Faltan campos por llenar",
+          type: "error",
+          class: "shadow",
+          duration: 4000,
+          dismissible: true,
+          position: "top",
+        });
       }
     },
     //activar la dataTable
@@ -653,10 +737,8 @@ export default {
             url: "http://prestaapp.test/css/es.json",
           },
           scrollY: false,
-          order: [1, 'asc'],
-          columnDefs: [
-    { orderable: false, targets: 0 }
-  ],
+          order: [1, "asc"],
+          columnDefs: [{ orderable: false, targets: 0 }],
           scrollX: false,
           processing: true,
           dom: "Blfrtip",
@@ -666,11 +748,11 @@ export default {
     },
     //determinar calculo del prestamos
     calcularPrestamos() {
-      var table = $('#prestamosTable').DataTable();
-       table.destroy();
-        this.sumaInteres=0;
-        this.sumaCapital =0;
-          this.totalPrestamo =0;
+      var table = $("#prestamosTable").DataTable();
+      table.destroy();
+      this.sumaInteres = 0;
+      this.sumaCapital = 0;
+      this.totalPrestamo = 0;
       this.tablaAmortizada = new Array();
       switch (this.amortizacion) {
         case "ABSOLUTO":
@@ -692,13 +774,11 @@ export default {
     },
     calcularInteres() {
       //Calculo Mensual
-       
+
       if (this.modalidadPago == "Mensual") {
-   
         this.rango = "months";
         this.valor = 1;
         this.interesMensual = this.tasa / 100; // Interes mensual
-      
       }
       //Calculo Quincenal
       if (this.modalidadPago == "Quincenal") {
@@ -718,9 +798,8 @@ export default {
       }
     },
     absoluto() {
-    
       this.calcularInteres();
-     
+
       var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
       var pago = parseInt(this.monto) / parseInt(this.numeroCuota); // Cuota sin intereses mensual
       var interesAnual = 0;
@@ -734,10 +813,10 @@ export default {
       var xs = 0;
       this.sumaInteres = 0;
       //calculando la tabla
-  
+
       for (let x = 1; x <= this.numeroCuota; x++) {
         //add a la matrix
-         
+
         this.tablaAmortizada.push({
           numero: x,
           fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
@@ -746,13 +825,13 @@ export default {
           abonoCapital: this.formatNumber(pago.toFixed(2)),
           intereses: this.formatNumber(inte.toFixed(2)),
         });
-       
+
         // resta el capital restante
         capitalRestante = capitalRestante - pago;
         xs = this.valor;
-    
+
         this.sumaInteres += inte;
-      
+
         this.sumaCapital += pago;
         this.totalPrestamo += parseFloat(pagoTotal.toFixed());
       }
@@ -790,11 +869,11 @@ export default {
         });
         // resta el capital restante
         this.sumaInteres += inte;
-           this.sumaCapital +=parseFloat(pago.toFixed(2));
-           this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
         xs = this.valor;
       }
-         this.dataTable();
+      this.dataTable();
     },
     insolutoFijo() {
       this.calcularInteres();
@@ -809,7 +888,7 @@ export default {
 
       var xs = 0;
       this.sumaInteres = 0;
-    
+
       for (let x = 1; x <= this.numeroCuota; x++) {
         var inte = this.interesMensual * capitalRestante;
         var capital = pago.toFixed(2) - inte;
@@ -829,11 +908,11 @@ export default {
         });
         capitalRestante = capitalRestante - capital;
         this.sumaInteres += inte;
-           this.sumaCapital +=parseFloat(pago.toFixed(2));
-           this.totalPrestamo += parseFloat(pago.toFixed());
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pago.toFixed());
         xs = this.valor;
       }
-         this.dataTable();
+      this.dataTable();
     },
     insoluto() {
       this.calcularInteres();
@@ -866,10 +945,10 @@ export default {
 
         xs = this.valor;
         this.sumaInteres += parseFloat(inte);
-        this.sumaCapital +=parseFloat(pago.toFixed(2));
+        this.sumaCapital += parseFloat(pago.toFixed(2));
         this.totalPrestamo += parseFloat(cuota.toFixed());
       }
-         this.dataTable();
+      this.dataTable();
     }, // FORMAT NUMBER
     formatNumber(num) {
       if (!num || num == "NaN") return "-";
@@ -897,46 +976,55 @@ export default {
   color: #475f7b !important;
 }
 #tableDiv .dt-buttons {
-   
-    top: 46px !important;
- 
+  top: 46px !important;
 }
-#tableDiv  .table.dataTable thead .sorting:after {
-  color:white !important;
+#tableDiv .table.dataTable thead .sorting:after {
+  color: white !important;
 }
-#tableDiv  .table.dataTable thead .sorting:before {
-  color:white !important;
+#tableDiv .table.dataTable thead .sorting:before {
+  color: white !important;
 }
-#tableDiv .table.dataTable thead .sorting_asc:before{
- color:white !important;
+#tableDiv .table.dataTable thead .sorting_asc:before {
+  color: white !important;
 }
-#tableDiv .table.dataTable thead .sorting_desc:after{
-  color:white !important;
+#tableDiv .table.dataTable thead .sorting_desc:after {
+  color: white !important;
 }
-#tableDiv .table.dataTable thead .sorting_desc:before{
-  color:white !important;
+#tableDiv .table.dataTable thead .sorting_desc:before {
+  color: white !important;
 }
 .v-toast__item--error {
-    background-color: #fb5b5b !important;
+  background-color: #fb5b5b !important;
 }
-#tableDiv .table.dataTable thead .sorting_asc:after{
-    color:white !important;
+#tableDiv .table.dataTable thead .sorting_asc:after {
+  color: white !important;
 }
-#tableDiv #prestamosTable_wrapper{
-      margin-top: 42px;
+#tableDiv #prestamosTable_wrapper {
+  margin-top: 42px;
 }
-#tableDiv   .table td ,#tableDiv .table tfoot th{
-    padding: 0.60rem 1rem;
-    }
+#tableDiv .table td,
+#tableDiv .table tfoot th {
+  padding: 0.6rem 1rem;
+}
 
-    #tableDiv   .table td ,#tableDiv .table tfoot th{
-    padding: 0.60rem 1rem;
-    }
-.bcPago{
-      background-color: #fef1df;
+#tableDiv .table td,
+#tableDiv .table tfoot th {
+  padding: 0.6rem 1rem;
+}
+.bcPago {
+  background-color: #fef1df;
+}
+
+#datallePrestamos .card .card-header {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+#datallePrestamos hr{
+      margin-top:0;
+    margin-bottom: 0;
 }
 
 </style>
 <style scoped>
-
 </style>

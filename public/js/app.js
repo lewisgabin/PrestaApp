@@ -7645,6 +7645,93 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7785,7 +7872,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.$toast.open({
           message: "Ops!, Faltan campos por llenar",
           type: "error",
-          "class": 'shadow',
+          "class": "shadow",
           duration: 4000,
           dismissible: true,
           position: "top"
@@ -7800,7 +7887,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
             url: "http://prestaapp.test/css/es.json"
           },
           scrollY: false,
-          order: [1, 'asc'],
+          order: [1, "asc"],
           columnDefs: [{
             orderable: false,
             targets: 0
@@ -7814,7 +7901,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     },
     //determinar calculo del prestamos
     calcularPrestamos: function calcularPrestamos() {
-      var table = $('#prestamosTable').DataTable();
+      var table = $("#prestamosTable").DataTable();
       table.destroy();
       this.sumaInteres = 0;
       this.sumaCapital = 0;
@@ -15043,7 +15130,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n   \r\n    top: 46px !important;\n}\n#tableDiv  .table.dataTable thead .sorting:after {\r\n  color:white !important;\n}\n#tableDiv  .table.dataTable thead .sorting:before {\r\n  color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before{\r\n color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after{\r\n  color:white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before{\r\n  color:white !important;\n}\n.v-toast__item--error {\r\n    background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after{\r\n    color:white !important;\n}\n#tableDiv #prestamosTable_wrapper{\r\n      margin-top: 42px;\n}\n#tableDiv   .table td ,#tableDiv .table tfoot th{\r\n    padding: 0.60rem 1rem;\n}\n#tableDiv   .table td ,#tableDiv .table tfoot th{\r\n    padding: 0.60rem 1rem;\n}\n.bcPago{\r\n      background-color: #fef1df;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\r\n  color: white !important;\n}\n.v-toast__item--error {\r\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\r\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\r\n  margin-top: 42px;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n.bcPago {\r\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\r\n    padding-top: 12px !important;\r\n    padding-bottom: 12px !important;\n}\n#datallePrestamos hr{\r\n      margin-top:0;\r\n    margin-bottom: 0;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -90909,7 +90996,230 @@ var render = function() {
             ]
           )
         : _vm._e()
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.verTablaPrestamo
+      ? _c("div", { staticClass: "row", attrs: { id: "datallePrestamos" } }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal warning mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal warning mb-0"
+                          },
+                          [_vm._v("RD$" + _vm._s(_vm.formatNumber(_vm.monto)))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal primary mb-0"
+                          },
+                          [
+                            _vm._v(
+                              "RD$" +
+                                _vm._s(
+                                  _vm.formatNumber(_vm.sumaInteres.toFixed(2))
+                                )
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal primary mb-0"
+                          },
+                          [
+                            _vm._v(
+                              "RD$" +
+                                _vm._s(_vm.formatNumber(_vm.totalPrestamo))
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal success mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal success mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -90994,6 +91304,74 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Cuotas")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Cantidad de cuotas.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total Capital")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [_vm._v("Capital Prestado.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total Interes")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [_vm._v("Interes Generado.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total a Cobrar")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Total del Prestamo.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Gasto de Cierre")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Gasto de cieere de prestamo.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total a Entregar")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Cantidad de dinero a entregar.")
+      ])
+    ])
   }
 ]
 render._withStripped = true
