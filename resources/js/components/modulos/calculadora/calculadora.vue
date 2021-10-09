@@ -69,7 +69,7 @@
               <div class="col-md-4">
                 <div class="form-group" :class="{ 'form_group_error': $v.amortizacion.$error }">
                   <label class="form__label">Amortizacion</label>
-                   <v-select v-model="amortizacion" class="form__input shadow" :options="['Disminuir Cuotas (Metodo Aleman)','Cuotas Fijas (Metodo Frances)','Capital al Final (Metodo Americano)','Interes Fijo']" placeholder="Seleccione..."> </v-select>
+                   <v-select v-model="amortizacion" class="form__input shadow" :options="['INSOLUTO','INSOLUTO (Cuotas Fijas)','CAPITAL AL FINAL (Linea de credito)','ABSOLUTO']" placeholder="Seleccione..."> </v-select>
                  <div class="error none" v-if="!$v.amortizacion.required">Amortizacion requerida</div>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default {
             tasaAnual:6,
             tasaMensual:5,
             cuotas:6,
-            amortizacion:"Interes Fijo",
+            amortizacion:"ABSOLUTO",
             modalidadPago:"Mensual",
             fechaPrimerPago:moment().format('YYYY-MM-DD'),
             tablaAmortizada:new Array(),
@@ -195,16 +195,16 @@ export default {
         },calcularPrestamos(){
             this.tablaAmortizada = new Array();
             switch (this.amortizacion) {
-              case "Interes Fijo":
+              case "ABSOLUTO":
                   this.InteresFijo();
                 break;
-            case "Capital al Final (Metodo Americano)":
+            case "CAPITAL AL FINAL (Linea de credito)":
                   this.capitalAlFinal();
                 break;
-            case "Cuotas Fijas (Metodo Frances)":
+            case "INSOLUTO (Cuotas Fijas)":
                   this.metodoFrances();
                 break;
-            case "Disminuir Cuotas (Metodo Aleman)":
+            case "INSOLUTO":
                   this.metodoAleman();
                 break;
            

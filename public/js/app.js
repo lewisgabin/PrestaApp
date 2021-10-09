@@ -3093,7 +3093,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       tasaAnual: 6,
       tasaMensual: 5,
       cuotas: 6,
-      amortizacion: "Interes Fijo",
+      amortizacion: "ABSOLUTO",
       modalidadPago: "Mensual",
       fechaPrimerPago: moment().format('YYYY-MM-DD'),
       tablaAmortizada: new Array(),
@@ -3146,19 +3146,19 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.tablaAmortizada = new Array();
 
       switch (this.amortizacion) {
-        case "Interes Fijo":
+        case "ABSOLUTO":
           this.InteresFijo();
           break;
 
-        case "Capital al Final (Metodo Americano)":
+        case "CAPITAL AL FINAL (Linea de credito)":
           this.capitalAlFinal();
           break;
 
-        case "Cuotas Fijas (Metodo Frances)":
+        case "INSOLUTO (Cuotas Fijas)":
           this.metodoFrances();
           break;
 
-        case "Disminuir Cuotas (Metodo Aleman)":
+        case "INSOLUTO":
           this.metodoAleman();
           break;
 
@@ -7150,6 +7150,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 //
 //
 //
@@ -7391,6 +7392,353 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -7399,29 +7747,83 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   data: function data() {
     return {
       listCliente: [],
-      prestamo: {
-        clienteId: "",
-        fechaPrimerPago: moment().format("YYYY-MM-DD"),
-        monto: 0,
-        tasa: 0,
-        cuota: 0,
-        numeroCuota: 0,
-        amortizacion: "",
-        modalidadPago: "Semanal",
-        moraDiara: 0,
-        moraLuego: 0,
-        cuotasCobrada: 0
-      },
-      checkCuotas: 0,
-      checkFijar: 0,
-      verOpcion: 0
+      clienteId: 0,
+      fechaPrimerPago: moment().format("YYYY-MM-DD"),
+      monto: 1000,
+      tasa: 8,
+      cuota: 0,
+      numeroCuota: 8,
+      amortizacion: "ABSOLUTO",
+      modalidadPago: "Semanal",
+      moraDiara: 0,
+      moraLuego: 0,
+      cuotasCobrada: 0,
+      gastoCierre: 0,
+      cartera: "Sin Cartera",
+      garantia: "SIN GARANTIA",
+      garante: "",
+      porcentajePagoMinimo: 100,
+      pagoMinimo: true,
+      tipoPagoMinimo: "Pago al Interes",
+      ruta: "",
+      checkCuotas: false,
+      checkFijar: false,
+      verOpcion: 0,
+      checkPorcentaje: 0,
+      listRutas: [],
+      tablaAmortizada: new Array(),
+      rango: "",
+      valor: 0,
+      interesAcumulado: 0,
+      sumaInteres: 0.0,
+      interesMensual: 0,
+      sumaCapital: 0,
+      totalPrestamo: 0,
+      verTablaPrestamo: false
     };
   },
   components: {
     datepicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  validations: {
+    monto: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(1000),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    clienteId: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    tasa: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(0),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    numeroCuota: {
+      minValue: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minValue)(1),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    modalidadPago: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    amortizacion: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    fechaPrimerPago: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    moraDiara: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    moraLuego: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    },
+    porcentajePagoMinimo: {
+      between: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.between)(1, 100),
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+    }
+  },
   mounted: function mounted() {
     this.getClientes();
+    this.getRutas();
   },
   methods: {
     //obtener todos los clientes
@@ -7432,8 +7834,315 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         _this.listCliente = response.data.data;
       });
     },
+    // para ver opciones
     verOpciones: function verOpciones() {
       this.verOpcion = !this.verOpcion;
+    },
+    //funcionamiento de todos lo checkbock
+    checkbox: function checkbox(nombre) {
+      if (nombre == 1) {
+        this.checkFijar = !this.checkFijar;
+      }
+
+      if (nombre == 2) {
+        this.checkCuotas = !this.checkCuotas;
+      }
+
+      if (nombre == 3) {
+        this.checkPorcentaje = !this.checkPorcentaje;
+      }
+    },
+    //get lista de rutas
+    getRutas: function getRutas() {
+      var _this2 = this;
+
+      var url = "/GetRutas";
+      axios.get(url).then(function (response) {
+        _this2.listRutas = response.data.rutas;
+      });
+    },
+    //activar validacion
+    checkInput: function checkInput() {
+      if (this.clienteId == 0) {
+        this.clienteId = "";
+      }
+
+      this.$v.$touch();
+
+      if (!this.$v.$error) {
+        this.calcularPrestamos();
+        this.verTablaPrestamo = true;
+        this.verOpcion = false;
+      } else {
+        this.verTablaPrestamo = false;
+        this.$toast.open({
+          message: "Ops!, Faltan campos por llenar",
+          type: "error",
+          "class": "shadow",
+          duration: 4000,
+          dismissible: true,
+          position: "top"
+        });
+      }
+    },
+    //activar la dataTable
+    dataTable: function dataTable() {
+      this.$nextTick(function () {
+        $("#prestamosTable").DataTable({
+          language: {
+            url: "http://prestaapp.test/css/es.json"
+          },
+          scrollY: false,
+          order: [1, "asc"],
+          columnDefs: [{
+            orderable: false,
+            targets: 0
+          }],
+          scrollX: false,
+          processing: true,
+          dom: "Blfrtip",
+          buttons: ["copy", "pdf", "print", "excel"]
+        });
+      });
+    },
+    //determinar calculo del prestamos
+    calcularPrestamos: function calcularPrestamos() {
+      var table = $("#prestamosTable").DataTable();
+      table.destroy();
+      this.sumaInteres = 0;
+      this.sumaCapital = 0;
+      this.totalPrestamo = 0;
+      this.tablaAmortizada = new Array();
+
+      switch (this.amortizacion) {
+        case "ABSOLUTO":
+          this.absoluto();
+          break;
+
+        case "CAPITAL AL FINAL (Linea de credito)":
+          this.capitalAlFinal();
+          break;
+
+        case "INSOLUTO (Cuotas Fijas)":
+          this.insolutoFijo();
+          break;
+
+        case "INSOLUTO":
+          this.insoluto();
+          break;
+
+        default:
+          break;
+      }
+    },
+    calcularInteres: function calcularInteres() {
+      //Calculo Mensual
+      if (this.modalidadPago == "Mensual") {
+        this.rango = "months";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100; // Interes mensual
+      } //Calculo Quincenal
+
+
+      if (this.modalidadPago == "Quincenal") {
+        this.rango = "days";
+        this.valor = 15;
+        this.interesMensual = this.tasa / 100 / 2; // Interes mensual
+      } //semanal
+
+
+      if (this.modalidadPago == "Semanal") {
+        this.rango = "days";
+        this.valor = 7;
+        this.interesMensual = this.tasa / 100 / 4; // Interes mensual
+      }
+
+      if (this.modalidadPago == "Diario") {
+        this.rango = "days";
+        this.valor = 1;
+        this.interesMensual = this.tasa / 100 / 30; // Interes mensual
+      }
+    },
+    absoluto: function absoluto() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseInt(this.monto) / parseInt(this.numeroCuota); // Cuota sin intereses mensual
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.interesMensual) * parseFloat(this.monto);
+      interesAnual = parseFloat(this.monto) * this.tasaAnual; // Interes anual
+
+      pagoTotal = parseFloat(pago) + parseFloat(inte); // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto) - pago; // capital restante
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        //add a la matrix
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        capitalRestante = capitalRestante - pago;
+        xs = this.valor;
+        this.sumaInteres += inte;
+        this.sumaCapital += pago;
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+      }
+
+      this.dataTable();
+    },
+    capitalAlFinal: function capitalAlFinal() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = 0; // Cuota sin intereses mensual
+
+      var interesMensual = 0;
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      var inte = parseFloat(this.monto) * parseFloat(this.interesMensual); // Interes anual
+
+      pagoTotal = inte; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto); // capital restante
+
+      var xs = 0;
+      this.sumaInteres = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        if (x == this.numeroCuota) {
+          pagoTotal = parseFloat(this.monto) + inte;
+          pago = parseFloat(this.monto);
+          capitalRestante = capitalRestante - pago;
+        } //add a la matrix
+
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pagoTotal.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        this.sumaInteres += inte;
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pagoTotal.toFixed());
+        xs = this.valor;
+      }
+
+      this.dataTable();
+    },
+    insolutoFijo: function insolutoFijo() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = this.interesMensual + 1;
+      pago = Math.pow(pago, this.numeroCuota);
+      pago = pago - 1;
+      pago = this.interesMensual / pago;
+      pago = this.interesMensual + pago;
+      pago = parseInt(this.monto) * pago;
+      var capitalRestante = parseFloat(this.monto);
+      var xs = 0;
+      this.sumaInteres = 0;
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        var inte = this.interesMensual * capitalRestante;
+        var capital = pago.toFixed(2) - inte;
+
+        if (x == this.numeroCuota) {
+          capitalRestante = capital;
+        }
+
+        var restante = capitalRestante.toFixed(2) - capital.toFixed(2); //add a la matrix
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(pago.toFixed()),
+          intereses: this.formatNumber(inte),
+          abonoCapital: this.formatNumber(capital),
+          capitalRestante: this.formatNumber(restante.toFixed(2))
+        });
+        capitalRestante = capitalRestante - capital;
+        this.sumaInteres += inte;
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(pago.toFixed());
+        xs = this.valor;
+      }
+
+      this.dataTable();
+    },
+    insoluto: function insoluto() {
+      this.calcularInteres();
+      var fechaP = moment(this.fechaPrimerPago); // fecha primer pago
+
+      var pago = parseFloat(this.monto) / this.numeroCuota; // Cuota sin intereses mensual
+
+      var interesAnual = 0;
+      var pagoTotal = 0;
+      var capitalRestante = 0;
+      this.sumaInteres = 0;
+      var inte = 0; // interesAnual =  this.monto * this.tasaAnual; // Interes anual
+      // pagoTotal = pago + interesMensual; // Cuota mensual con intereses
+
+      capitalRestante = parseFloat(this.monto); // capital restante
+
+      var xs = 0; //calculando la tabla
+
+      for (var x = 1; x <= this.numeroCuota; x++) {
+        inte = this.interesMensual * parseFloat(capitalRestante.toFixed(2));
+        var cuota = inte + pago;
+        capitalRestante = capitalRestante - pago; //add a la matrix
+
+        this.tablaAmortizada.push({
+          numero: x,
+          fecha: fechaP.add(xs, this.rango).format("YYYY-MM-DD"),
+          totalPagar: this.formatNumber(cuota.toFixed()),
+          capitalRestante: this.formatNumber(capitalRestante.toFixed(2)),
+          abonoCapital: this.formatNumber(pago.toFixed(2)),
+          intereses: this.formatNumber(inte.toFixed(2))
+        }); // resta el capital restante
+
+        xs = this.valor;
+        this.sumaInteres += parseFloat(inte);
+        this.sumaCapital += parseFloat(pago.toFixed(2));
+        this.totalPrestamo += parseFloat(cuota.toFixed());
+      }
+
+      this.dataTable();
+    },
+    // FORMAT NUMBER
+    formatNumber: function formatNumber(num) {
+      if (!num || num == "NaN") return "-";
+      if (num == "Infinity") return "&#x221e;";
+      num = num.toString().replace(/\$|\,/g, "");
+      if (isNaN(num)) num = "0";
+      var sign = num == (num = Math.abs(num));
+      num = Math.floor(num * 100 + 0.50000000001);
+      var cents = num % 100;
+      num = Math.floor(num / 100).toString();
+      if (cents < 10) cents = "0" + cents;
+
+      for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+        num = num.substring(0, num.length - (4 * i + 3)) + "," + num.substring(num.length - (4 * i + 3));
+      }
+
+      return (sign ? "" : "-") + num + "." + cents;
     }
   }
 });
@@ -14259,7 +14968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14331,7 +15040,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\n.error[data-v-6938a525] {\r\n  color: #ff5b5c;\r\n  font-size: small;\r\n  border-color: #ff5b5c;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14427,7 +15136,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\r\n  color: white !important;\n}\n.v-toast__item--error {\r\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\r\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\r\n  margin-top: 42px;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n.bcPago {\r\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\r\n    padding-top: 12px !important;\r\n    padding-bottom: 12px !important;\n}\n#datallePrestamos hr{\r\n      margin-top:0;\r\n    margin-bottom: 0;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14475,7 +15184,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14547,7 +15256,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -79412,7 +80121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=template&id=033bb6d5& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&");
+/* harmony import */ var _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&");
 /* harmony import */ var _nuevoPrestamos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=script&lang=js& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=script&lang=js&");
 /* harmony import */ var _nuevoPrestamos_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nuevoPrestamos.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
@@ -79426,11 +80135,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _nuevoPrestamos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.render,
-  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "033bb6d5",
   null
   
 )
@@ -80073,19 +80782,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5& ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& ***!
+  \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./nuevoPrestamos.vue?vue&type=template&id=033bb6d5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoPrestamos_vue_vue_type_template_id_033bb6d5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&");
 
 
 /***/ }),
@@ -82570,10 +83279,10 @@ var render = function() {
                     staticClass: "form__input shadow",
                     attrs: {
                       options: [
-                        "Disminuir Cuotas (Metodo Aleman)",
-                        "Cuotas Fijas (Metodo Frances)",
-                        "Capital al Final (Metodo Americano)",
-                        "Interes Fijo"
+                        "INSOLUTO",
+                        "INSOLUTO (Cuotas Fijas)",
+                        "CAPITAL AL FINAL (Linea de credito)",
+                        "ABSOLUTO"
                       ],
                       placeholder: "Seleccione..."
                     },
@@ -89052,10 +89761,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&":
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5& ***!
-  \********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/modulos/prestamos/nuevoPrestamos.vue?vue&type=template&id=033bb6d5&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -89116,22 +89825,29 @@ var render = function() {
               { staticClass: "form-label-group has-icon-left shadow" },
               [
                 _c("v-select", {
+                  class: { error1: _vm.$v.clienteId.$error },
                   attrs: {
                     label: "nombre",
                     options: _vm.listCliente,
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.clienteId,
+                    value: _vm.clienteId,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "clienteId", $$v)
+                      _vm.clienteId = $$v
                     },
-                    expression: "prestamo.clienteId"
+                    expression: "clienteId"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.clienteId.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            Cliente es requerido!\n          ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89140,32 +89856,65 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "input-group form-label-group shadow" }, [
-              _vm._m(1),
+              _c("div", { staticClass: "input-group-prepend" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.monto.$error }
+                  },
+                  [_vm._v("$RD")]
+                )
+              ]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.monto,
-                    expression: "prestamo.monto"
+                    value: _vm.monto,
+                    expression: "monto"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.monto },
+                class: { error1: _vm.$v.monto.$error },
+                attrs: { type: "number", onclick: "select()" },
+                domProps: { value: _vm.monto },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "monto", $event.target.value)
+                    _vm.monto = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(2)
-            ])
+              _c("div", { staticClass: "input-group-append" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.monto.$error }
+                  },
+                  [_vm._v(".00")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.monto.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            Cuota es requerida!\n          ")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.monto.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            La Cuota debe ser mayor a 999 pesos!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89179,25 +89928,51 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.numeroCuota,
-                    expression: "prestamo.numeroCuota"
+                    value: _vm.numeroCuota,
+                    expression: "numeroCuota"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.numeroCuota },
+                class: { error1: _vm.$v.numeroCuota.$error },
+                attrs: { type: "number", onclick: "select()" },
+                domProps: { value: _vm.numeroCuota },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "numeroCuota", $event.target.value)
+                    _vm.numeroCuota = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(3)
-            ])
+              _c("div", { staticClass: "input-group-append" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.numeroCuota.$error }
+                  },
+                  [_vm._v("CUOTAS")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.numeroCuota.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            Numero de Cuota es requerida!\n          "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.numeroCuota.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El numero de Cuota debe ser mayor a 1!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89206,29 +89981,56 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "input-group form-label-group shadow" }, [
-              _vm._m(4),
+              _c("div", { staticClass: "input-group-prepend" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text",
+                    class: { error1: _vm.$v.tasa.$error }
+                  },
+                  [_vm._v("%")]
+                )
+              ]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.tasa,
-                    expression: "prestamo.tasa"
+                    value: _vm.tasa,
+                    expression: "tasa"
                   }
                 ],
                 staticClass: "form-control",
-                domProps: { value: _vm.prestamo.tasa },
+                class: { error1: _vm.$v.tasa.$error },
+                attrs: { onclick: "select()" },
+                domProps: { value: _vm.tasa },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "tasa", $event.target.value)
+                    _vm.tasa = $event.target.value
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            !_vm.$v.tasa.minValue
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El porsiento de la tasa debe ser igual o mayor a 0!.\n          "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.$v.tasa.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            El porsiento de la tasa es requerido!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89242,22 +90044,31 @@ var render = function() {
               [
                 _c("v-select", {
                   staticClass: "form__input",
+                  class: { error1: _vm.$v.modalidadPago.$error },
                   staticStyle: { color: "#475f7b !important" },
                   attrs: {
                     options: ["Mensual", "Semanal", "Quincenal", "Diario"],
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.modalidadPago,
+                    value: _vm.modalidadPago,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "modalidadPago", $$v)
+                      _vm.modalidadPago = $$v
                     },
-                    expression: "prestamo.modalidadPago"
+                    expression: "modalidadPago"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.modalidadPago.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            Modalidad de pago es requerido!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89271,18 +90082,25 @@ var render = function() {
               [
                 _c("datepicker", {
                   staticClass: "shadow",
+                  class: { error1: _vm.$v.fechaPrimerPago.$error },
                   attrs: { format: "YYYY-MM-DD", "value-type": "format" },
                   model: {
-                    value: _vm.prestamo.fechaPrimerPago,
+                    value: _vm.fechaPrimerPago,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "fechaPrimerPago", $$v)
+                      _vm.fechaPrimerPago = $$v
                     },
-                    expression: "prestamo.fechaPrimerPago"
+                    expression: "fechaPrimerPago"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.fechaPrimerPago.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v("\n            La fecha es requerida!.\n          ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89299,24 +90117,32 @@ var render = function() {
                   staticStyle: { color: "#475f7b !important" },
                   attrs: {
                     options: [
-                      "Disminuir Cuotas (Metodo Aleman)",
-                      "Cuotas Fijas (Metodo Frances)",
-                      "Capital al Final (Metodo Americano)",
-                      "Interes Fijo"
+                      "INSOLUTO",
+                      "INSOLUTO (Cuotas Fijas)",
+                      "CAPITAL AL FINAL (Linea de credito)",
+                      "ABSOLUTO"
                     ],
                     placeholder: "Seleccione..."
                   },
                   model: {
-                    value: _vm.prestamo.amortizacion,
+                    value: _vm.amortizacion,
                     callback: function($$v) {
-                      _vm.$set(_vm.prestamo, "amortizacion", $$v)
+                      _vm.amortizacion = $$v
                     },
-                    expression: "prestamo.amortizacion"
+                    expression: "amortizacion"
                   }
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            !_vm.$v.amortizacion.required
+              ? _c("div", { staticClass: "error" }, [
+                  _vm._v(
+                    "\n            La amortizacion es requerida!.\n          "
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89324,42 +90150,137 @@ var render = function() {
               _vm._v("MONTO DE CUOTA:")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group shadow" }, [
-              _vm._m(5),
+            _c("div", { staticClass: "input-group form-label-group shadow" }, [
+              _vm._m(1),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.prestamo.cuota,
-                    expression: "prestamo.cuota"
+                    value: _vm.cuota,
+                    expression: "cuota"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "number" },
-                domProps: { value: _vm.prestamo.cuota },
+                attrs: {
+                  type: "number",
+                  onclick: "select()",
+                  readonly: _vm.checkFijar == 0
+                },
+                domProps: { value: _vm.cuota },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.prestamo, "cuota", $event.target.value)
+                    _vm.cuota = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _vm._m(6)
+              _c("div", { staticClass: "input-group-append" }, [
+                _c("span", { staticClass: "input-group-text" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "checkbox checkbox-primary checkbox-glow bg-primar",
+                      on: {
+                        click: function($event) {
+                          return _vm.checkbox(1)
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.checkFijar,
+                            expression: "checkFijar"
+                          }
+                        ],
+                        staticClass: "bg-primar",
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.checkFijar)
+                            ? _vm._i(_vm.checkFijar, null) > -1
+                            : _vm.checkFijar
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.checkFijar,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.checkFijar = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.checkFijar = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.checkFijar = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticStyle: {
+                            "margin-left": "29px",
+                            "font-size": "0.8rem !important"
+                          },
+                          attrs: { for: "checkboxGlow1" }
+                        },
+                        [_vm._v("\n                    FIJAR CUOTA")]
+                      )
+                    ]
+                  )
+                ])
+              ])
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 col-12" }, [
+            _c("label", { attrs: { for: "first-name-icon" } }, [
+              _vm._v("RUTA:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "fieldset",
+              { staticClass: "form-label-group shadow" },
+              [
+                _c("v-select", {
+                  attrs: { options: _vm.listRutas, label: "nombre" },
+                  model: {
+                    value: _vm.ruta,
+                    callback: function($$v) {
+                      _vm.ruta = $$v
+                    },
+                    expression: "ruta"
+                  }
+                })
+              ],
+              1
+            )
           ])
         ]),
         _vm._v(" "),
         _vm.verOpcion
           ? _c("div", [
-              _vm._m(7),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-3 col-12" }, [
+                _c("div", { staticClass: "col-md-4 col-12" }, [
                   _c("label", { attrs: { for: "first-name-icon" } }, [
                     _vm._v("MORA LUEGO:")
                   ]),
@@ -89373,33 +90294,47 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.prestamo.moraLuego,
-                            expression: "prestamo.moraLuego"
+                            value: _vm.moraLuego,
+                            expression: "moraLuego"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "number" },
-                        domProps: { value: _vm.prestamo.moraLuego },
+                        class: { error1: _vm.$v.moraLuego.$error },
+                        attrs: { type: "number", onclick: "select()" },
+                        domProps: { value: _vm.moraLuego },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(
-                              _vm.prestamo,
-                              "moraLuego",
-                              $event.target.value
-                            )
+                            _vm.moraLuego = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm._m(8)
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "input-group-text",
+                            class: { error1: _vm.$v.moraLuego.$error }
+                          },
+                          [_vm._v("DIAS")]
+                        )
+                      ])
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  !_vm.$v.moraLuego.required
+                    ? _c("div", { staticClass: "error" }, [
+                        _vm._v(
+                          "\n              Este campo es requerido requerida!\n            "
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-3 col-12" }, [
+                _c("div", { staticClass: "col-md-4 col-12" }, [
                   _c("label", { attrs: { for: "first-name-icon" } }, [
                     _vm._v("MORA DIARIA:")
                   ]),
@@ -89413,30 +90348,44 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.prestamo.moraDiaria,
-                            expression: "prestamo.moraDiaria"
+                            value: _vm.moraDiara,
+                            expression: "moraDiara"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "number" },
-                        domProps: { value: _vm.prestamo.moraDiaria },
+                        class: { error1: _vm.$v.moraDiara.$error },
+                        attrs: { type: "number", onclick: "select()" },
+                        domProps: { value: _vm.moraDiara },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(
-                              _vm.prestamo,
-                              "moraDiaria",
-                              $event.target.value
-                            )
+                            _vm.moraDiara = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm._m(9)
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "input-group-text",
+                            class: { error1: _vm.$v.moraDiara.$error }
+                          },
+                          [_vm._v("%")]
+                        )
+                      ])
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  !_vm.$v.moraDiara.required
+                    ? _c("div", { staticClass: "error" }, [
+                        _vm._v(
+                          "\n              Este campo es requerido requerida!\n            "
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-4 col-12" }, [
@@ -89444,99 +90393,466 @@ var render = function() {
                     _vm._v("PRESTAMOS VIEJOS:")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "input-group shadow" }, [
-                    _c("div", { staticClass: "input-group-prepend" }, [
-                      _c("span", { staticClass: "input-group-text" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "checkbox checkbox-primary checkbox-glow bg-primar"
-                          },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.checkCuotas,
-                                  expression: "checkCuotas"
-                                }
-                              ],
-                              staticClass: "bg-primar",
-                              attrs: { type: "checkbox" },
-                              domProps: {
-                                checked: Array.isArray(_vm.checkCuotas)
-                                  ? _vm._i(_vm.checkCuotas, null) > -1
-                                  : _vm.checkCuotas
-                              },
+                  _c(
+                    "div",
+                    { staticClass: "input-group form-label-group shadow" },
+                    [
+                      _c("div", { staticClass: "input-group-prepend" }, [
+                        _c("span", { staticClass: "input-group-text" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "checkbox checkbox-primary checkbox-glow bg-primar",
                               on: {
-                                change: function($event) {
-                                  var $$a = _vm.checkCuotas,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        (_vm.checkCuotas = $$a.concat([$$v]))
-                                    } else {
-                                      $$i > -1 &&
-                                        (_vm.checkCuotas = $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1)))
-                                    }
-                                  } else {
-                                    _vm.checkCuotas = $$c
-                                  }
+                                click: function($event) {
+                                  return _vm.checkbox(2)
                                 }
                               }
-                            }),
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.checkCuotas,
+                                    expression: "checkCuotas"
+                                  }
+                                ],
+                                staticClass: "bg-primar",
+                                attrs: {
+                                  type: "checkbox",
+                                  id: "colorCheckbox2"
+                                },
+                                domProps: {
+                                  checked: Array.isArray(_vm.checkCuotas)
+                                    ? _vm._i(_vm.checkCuotas, null) > -1
+                                    : _vm.checkCuotas
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.checkCuotas,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          (_vm.checkCuotas = $$a.concat([$$v]))
+                                      } else {
+                                        $$i > -1 &&
+                                          (_vm.checkCuotas = $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1)))
+                                      }
+                                    } else {
+                                      _vm.checkCuotas = $$c
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "29px",
+                                    "font-size": "0.8rem !important"
+                                  },
+                                  attrs: { for: "checkboxGlow1" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                      CUOTAS COBRADAS"
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cuotasCobrada,
+                            expression: "cuotasCobrada"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          readonly: _vm.checkCuotas == 0,
+                          onclick: "select()"
+                        },
+                        domProps: { value: _vm.cuotasCobrada },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.cuotasCobrada = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("GARANTE:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group has-icon-left shadow" },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          label: "nombre",
+                          options: _vm.listCliente,
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.garante,
+                          callback: function($$v) {
+                            _vm.garante = $$v
+                          },
+                          expression: "garante"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("CARTERA:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group shadow" },
+                    [
+                      _c("v-select", {
+                        staticClass: "form__input",
+                        staticStyle: { color: "#475f7b !important" },
+                        attrs: {
+                          options: ["Sin cartera"],
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.cartera,
+                          callback: function($$v) {
+                            _vm.cartera = $$v
+                          },
+                          expression: "cartera"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { staticClass: "form__label" }, [
+                    _vm._v("TIPO DE GARANTIA:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-label-group shadow" },
+                    [
+                      _c("v-select", {
+                        staticClass: "form__input",
+                        staticStyle: { color: "#475f7b !important" },
+                        attrs: {
+                          options: [
+                            "CON GARANTIA",
+                            "SIN GARANTIA",
+                            "VEHICULO",
+                            "MOTOR"
+                          ],
+                          placeholder: "Seleccione..."
+                        },
+                        model: {
+                          value: _vm.garantia,
+                          callback: function($$v) {
+                            _vm.garantia = $$v
+                          },
+                          expression: "garantia"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("GASTO DE CIERRE:")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticStyle: { float: "right" } }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "checkbox checkbox-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.checkbox(3)
+                          }
+                        }
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.checkPorcentaje,
+                              expression: "checkPorcentaje"
+                            }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.checkPorcentaje)
+                              ? _vm._i(_vm.checkPorcentaje, null) > -1
+                              : _vm.checkPorcentaje
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.checkPorcentaje,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    (_vm.checkPorcentaje = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.checkPorcentaje = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.checkPorcentaje = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticStyle: { "font-size": "0.9rem !important" },
+                            attrs: { for: "colorCheckbox1" }
+                          },
+                          [_vm._v("Porcentaje?")]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-group form-label-group shadow" },
+                    [
+                      _c("div", { staticClass: "input-group-prepend" }, [
+                        _vm.checkPorcentaje == 0
+                          ? _c("span", { staticClass: "input-group-text" }, [
+                              _vm._v("$RD")
+                            ])
+                          : _c("span", { staticClass: "input-group-text" }, [
+                              _vm._v("%")
+                            ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.gastoCierre,
+                            expression: "gastoCierre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { onclick: "select()" },
+                        domProps: { value: _vm.gastoCierre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.gastoCierre = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2 col-12" }, [
+                  _c("label", { attrs: { for: "first-name-icon" } }, [
+                    _vm._v("PAGO MINIMO:")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-label-group shadow" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pagoMinimo,
+                            expression: "pagoMinimo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.pagoMinimo = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { domProps: { value: true } }, [
+                          _vm._v("SI")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { domProps: { value: false } }, [
+                          _vm._v("NO")
+                        ])
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.pagoMinimo == 1
+                  ? _c("div", { staticClass: "col-md-3 col-12" }, [
+                      _c("label", { attrs: { for: "first-name-icon" } }, [
+                        _vm._v("TIPO DE PAGO MINIMO:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-label-group shadow" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipoPagoMinimo,
+                                expression: "tipoPagoMinimo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.tipoPagoMinimo = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "Pago al Interes" } },
+                              [_vm._v("Pago al Interes")]
+                            ),
                             _vm._v(" "),
                             _c(
-                              "label",
-                              {
-                                staticStyle: {
-                                  "margin-left": "29px",
-                                  "font-size": "0.8rem !important"
-                                },
-                                attrs: { for: "checkboxGlow1" }
-                              },
-                              [_vm._v("\n                     CUOTAS COBRADAS")]
+                              "option",
+                              { attrs: { value: "Pago al Capital" } },
+                              [_vm._v("Pago al Capital")]
                             )
                           ]
                         )
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.prestamo.cuotasCobrada,
-                          expression: "prestamo.cuotasCobrada"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number", readonly: _vm.checkCuotas == 0 },
-                      domProps: { value: _vm.prestamo.cuotasCobrada },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.pagoMinimo == 1
+                  ? _c("div", { staticClass: "col-md-3 col-12" }, [
+                      _c("label", { attrs: { for: "first-name-icon" } }, [
+                        _vm._v("PORCENTAJE DE PAGO MINIMO:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-label-group shadow" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.porcentajePagoMinimo,
+                              expression: "porcentajePagoMinimo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { error1: _vm.$v.porcentajePagoMinimo.$error },
+                          attrs: { id: "", onclick: "select()" },
+                          domProps: { value: _vm.porcentajePagoMinimo },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.porcentajePagoMinimo = $event.target.value
+                            }
                           }
-                          _vm.$set(
-                            _vm.prestamo,
-                            "cuotasCobrada",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ])
+                        })
+                      ]),
+                      _vm._v(" "),
+                      !_vm.$v.porcentajePagoMinimo.between
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v(
+                              "\n              Debe estar dentro de 1 y 100!.\n            "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.$v.porcentajePagoMinimo.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v(
+                              "\n              Este campo es requerido!.\n            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(3)
               ])
             ])
           : _vm._e()
@@ -89562,8 +90878,354 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(10)
-    ])
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-light-primary mr-1 mb-1 col-md-12",
+            attrs: { type: "button" },
+            on: { click: _vm.checkInput }
+          },
+          [
+            _c("i", { staticClass: "bx bxs-calculator" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "ml-25" }, [_vm._v("CALCULAR")])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm.verTablaPrestamo
+        ? _c(
+            "div",
+            {
+              staticClass: "col-md-12",
+              staticStyle: { "padding-bottom": "40px" },
+              attrs: { id: "tableDiv" }
+            },
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass: "table dataTable table-striped",
+                  staticStyle: { width: "98% !important" },
+                  attrs: { id: "prestamosTable" }
+                },
+                [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    { staticStyle: { "text-align": "center" } },
+                    _vm._l(_vm.tablaAmortizada, function(tabla) {
+                      return _c("tr", { key: tabla.numero }, [
+                        _c("td", {
+                          domProps: { textContent: _vm._s(tabla.numero) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          staticStyle: { width: "17%" },
+                          domProps: { textContent: _vm._s(tabla.fecha) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.intereses)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.abonoCapital)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          staticClass: "bcPago",
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.totalPagar)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s("$" + tabla.capitalRestante)
+                          }
+                        })
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("tfoot", [
+                    _c(
+                      "tr",
+                      {
+                        staticStyle: {
+                          "font-weight": "500",
+                          "text-align": "center"
+                        }
+                      },
+                      [
+                        _c("th"),
+                        _vm._v(" "),
+                        _c("th"),
+                        _vm._v(" "),
+                        _c("th", [
+                          _vm._v(
+                            "$" +
+                              _vm._s(
+                                _vm.formatNumber(_vm.sumaInteres.toFixed(2))
+                              )
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", [
+                          _vm._v(
+                            "$" + _vm._s(_vm.formatNumber(_vm.sumaCapital))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "bcPago" }, [
+                          _vm._v(
+                            "$" + _vm._s(_vm.formatNumber(_vm.totalPrestamo))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("$0.00")])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _vm.verTablaPrestamo
+      ? _c("div", { staticClass: "row", attrs: { id: "datallePrestamos" } }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal warning mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal warning mb-0"
+                          },
+                          [_vm._v("RD$" + _vm._s(_vm.formatNumber(_vm.monto)))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal primary mb-0"
+                          },
+                          [
+                            _vm._v(
+                              "RD$" +
+                                _vm._s(
+                                  _vm.formatNumber(_vm.sumaInteres.toFixed(2))
+                                )
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal primary mb-0"
+                          },
+                          [
+                            _vm._v(
+                              "RD$" +
+                                _vm._s(_vm.formatNumber(_vm.totalPrestamo))
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card",
+                staticStyle: { "padding-right": "18px", "padding-left": "18px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal success mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header d-flex align-items-center justify-content-between"
+                  },
+                  [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center widget-followers-heading-right"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "mr-2 font-weight-normal success mb-0"
+                          },
+                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -89593,70 +91255,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v(".00")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("CUOTAS")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("%")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("$RD")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [
-        _c(
-          "div",
-          { staticClass: "checkbox checkbox-primary checkbox-glow bg-primar" },
-          [
-            _c("input", {
-              staticClass: "bg-primar",
-              attrs: { type: "checkbox", id: "checkboxGlow1" }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticStyle: {
-                  "margin-left": "29px",
-                  "font-size": "0.8rem !important"
-                },
-                attrs: { for: "checkboxGlow1" }
-              },
-              [_vm._v("\n                    FIJAR CUOTA")]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "divider " }, [
+    return _c("div", { staticClass: "divider" }, [
       _c(
         "div",
         { staticClass: "divider-text", staticStyle: { color: "#5a8dee" } },
@@ -89668,35 +91267,116 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("DIAS")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("%")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-12" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-light-primary mr-1 mb-1 col-md-12",
-          attrs: { type: "button" }
-        },
-        [
-          _c("i", { staticClass: "bx bxs-calculator" }),
+      _c("label", { attrs: { for: "" } }, [_vm._v("COMENTARIOS:")]),
+      _vm._v(" "),
+      _c("textarea", {
+        staticClass: "form-control shadow",
+        staticStyle: { width: "100%" },
+        attrs: { name: "comment", id: "", cols: "10" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "divider" }, [
+      _c("div", { staticClass: "divider-text" }, [
+        _vm._v("Tabla de Amortizacion")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "thead",
+      { staticStyle: { background: "#5a8dee", "text-align": "center" } },
+      [
+        _c("tr", [
+          _c("th", [_vm._v("#Cuota")]),
           _vm._v(" "),
-          _c("span", { staticClass: "ml-25" }, [_vm._v("CALCULAR")])
-        ]
-      )
+          _c("th", { staticStyle: { width: "17%" } }, [_vm._v("Fecha")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Interes")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Capital")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Cuota a Pagar")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Capital Restante")])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Cuotas")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Cantidad de cuotas.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total Capital")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [_vm._v("Capital Prestado.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total Interes")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [_vm._v("Interes Generado.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total a Cobrar")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Total del Prestamo.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Gasto de Cierre")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Gasto de cieere de prestamo.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Total a Entregar")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Cantidad de dinero a entregar.")
+      ])
     ])
   }
 ]
