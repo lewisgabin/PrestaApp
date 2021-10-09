@@ -30,7 +30,7 @@ class CreateCliente extends Migration
             $table->text('direccion')->nullable();
             $table->unsignedBigInteger('id_provincia')->nullable();
             $table->unsignedBigInteger('id_municipio')->nullable();
-            $table->string('sector')->nullable();
+            $table->unsignedBigInteger('id_sector')->nullable();
             $table->unsignedBigInteger('id_ruta')->nullable();
             $table->string('direccion_trabajo')->nullable();
             $table->string('foto')->nullable();

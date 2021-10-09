@@ -5890,7 +5890,7 @@ __webpack_require__.r(__webpack_exports__);
         email: "",
         direccion: "",
         sector: "",
-        id_ruta: 1,
+        id_ruta: "",
         direccion_trabajo: "",
         foto: "",
         recomendado_por: "",
@@ -6218,6 +6218,12 @@ __webpack_require__.r(__webpack_exports__);
         this.form.append("id_municipio", this.municipio.id);
       } else {
         this.form.append("id_municipio", "");
+      }
+
+      if (!this.rutaa == "") {
+        this.form.append("id_ruta", this.rutaa);
+      } else {
+        this.form.append("id_ruta", "");
       }
 
       this.form.append("sector", this.sector);
