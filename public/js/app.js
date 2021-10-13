@@ -7928,6 +7928,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         default:
           break;
       }
+
+      this.dataTable();
     },
     calcularInteres: function calcularInteres() {
       //Calculo Mensual
@@ -7993,8 +7995,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.sumaCapital += pago;
         this.totalPrestamo += parseFloat(pagoTotal.toFixed());
       }
-
-      this.dataTable();
     },
     capitalAlFinal: function capitalAlFinal() {
       this.calcularInteres();
@@ -8037,8 +8037,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.totalPrestamo += parseFloat(pagoTotal.toFixed());
         xs = this.valor;
       }
-
-      this.dataTable();
     },
     insolutoFijo: function insolutoFijo() {
       this.calcularInteres();
@@ -8078,8 +8076,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.totalPrestamo += parseFloat(pago.toFixed());
         xs = this.valor;
       }
-
-      this.dataTable();
     },
     insoluto: function insoluto() {
       this.calcularInteres();
@@ -8117,8 +8113,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.sumaCapital += parseFloat(pago.toFixed(2));
         this.totalPrestamo += parseFloat(cuota.toFixed());
       }
-
-      this.dataTable();
     },
     // FORMAT NUMBER
     formatNumber: function formatNumber(num) {
@@ -15130,7 +15124,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\r\n  color: white !important;\n}\n.v-toast__item--error {\r\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\r\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\r\n  margin-top: 42px;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n.bcPago {\r\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\r\n    padding-top: 12px !important;\r\n    padding-bottom: 12px !important;\n}\n#datallePrestamos hr{\r\n      margin-top:0;\r\n    margin-bottom: 0;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\r\n  color: white !important;\n}\n.v-toast__item--error {\r\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\r\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\r\n  margin-top: 42px;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n.bcPago {\r\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\r\n    padding-top: 12px !important;\r\n    padding-bottom: 12px !important;\r\n    padding-right: 0 !important;\n}\n#datallePrestamos hr{\r\n      margin-top:0;\r\n    margin-bottom: 0;\n}\n#datallePrestamos .card .card-title {\r\n   \r\n    font-size: 1.2rem !important;\n}\n#datallePrestamos h5{\r\n    font-size: 1.6rem !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -91012,7 +91006,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(6),
@@ -91026,9 +91021,7 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal warning mb-0"
-                          },
+                          { staticClass: " font-weight-normal warning mb-0" },
                           [_vm._v(_vm._s(_vm.numeroCuota))]
                         )
                       ]
@@ -91042,7 +91035,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(7),
@@ -91056,9 +91050,7 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal warning mb-0"
-                          },
+                          { staticClass: " font-weight-normal warning mb-0" },
                           [_vm._v("RD$" + _vm._s(_vm.formatNumber(_vm.monto)))]
                         )
                       ]
@@ -91081,7 +91073,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(8),
@@ -91095,9 +91088,7 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal primary mb-0"
-                          },
+                          { staticClass: " font-weight-normal primary mb-0" },
                           [
                             _vm._v(
                               "RD$" +
@@ -91118,7 +91109,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(9),
@@ -91132,9 +91124,7 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal primary mb-0"
-                          },
+                          { staticClass: " font-weight-normal primary mb-0" },
                           [
                             _vm._v(
                               "RD$" +
@@ -91162,7 +91152,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(10),
@@ -91176,10 +91167,12 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal success mb-0"
-                          },
-                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                          { staticClass: " font-weight-normal success mb-0" },
+                          [
+                            _vm._v(
+                              "RD$" + _vm._s(_vm.formatNumber(_vm.gastoCierre))
+                            )
+                          ]
                         )
                       ]
                     )
@@ -91192,7 +91185,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "card-header d-flex align-items-center justify-content-between"
+                      "card-header d-flex align-items-center justify-content-between",
+                    staticStyle: { "padding-left": "0px" }
                   },
                   [
                     _vm._m(11),
@@ -91206,10 +91200,15 @@ var render = function() {
                       [
                         _c(
                           "h5",
-                          {
-                            staticClass: "mr-2 font-weight-normal success mb-0"
-                          },
-                          [_vm._v(_vm._s(_vm.numeroCuota))]
+                          { staticClass: " font-weight-normal success mb-0" },
+                          [
+                            _vm._v(
+                              "RD$" +
+                                _vm._s(
+                                  _vm.formatNumber(_vm.monto - _vm.gastoCierre)
+                                )
+                            )
+                          ]
                         )
                       ]
                     )
@@ -91310,7 +91309,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Cuotas")]),
+      _c("h6", { staticClass: "card-title" }, [_vm._v("Cuotas")]),
       _vm._v(" "),
       _c("small", { staticClass: "text-muted" }, [
         _vm._v("Cantidad de cuotas.")
