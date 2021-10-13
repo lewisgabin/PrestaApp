@@ -22,7 +22,6 @@ class CreateMunicipio extends Migration
             ->on("provincia")
             ->onDelete("cascade")
             ->onUpdate("cascade");
-            $table->timestamps();
         });
     }
 
@@ -33,6 +32,9 @@ class CreateMunicipio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('municipio');
+        // Schema::dropIfExist('municipio');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::drop('municipio');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

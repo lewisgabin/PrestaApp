@@ -23,10 +23,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $cliente= Cliente::get();
-      
+        $cliente = Cliente::get();
 
-        return ["data" => $cliente] ;
+        return ["data" => $cliente];
     }
 
     // /**
@@ -76,7 +75,7 @@ class ClienteController extends Controller
                 $cliente->direccion = $request->direccion;
                 $cliente->id_provincia = $request->id_provincia;
                 $cliente->id_municipio = $request->id_municipio;
-                $cliente->sector = $request->sector;
+                $cliente->id_sector = $request->id_sector;
                 $cliente->id_ruta = $request->id_ruta;
                 $cliente->direccion_trabajo = $request->direccion_trabajo;
                 $cliente->recomendado_por = $request->recomendado_por;
@@ -166,15 +165,14 @@ class ClienteController extends Controller
     {
         $estado = false;
         $idCliente = 0;
-   
+        
         try{
             if($request->estado =="true" && $request->estado2 == "true"){
             DB::beginTransaction();
          
             $file = $request->file;
             $cliente = Cliente::findOrFail($request->id_cliente);
-         
-
+            
             $cliente->foto = 'sin.png';
             $cliente->nombre = $request->nombre;
             $cliente->apellidos = $request->apellidos;
@@ -191,7 +189,7 @@ class ClienteController extends Controller
             $cliente->direccion = $request->direccion;
             $cliente->id_provincia = $request->id_provincia;
             $cliente->id_municipio = $request->id_municipio;
-            $cliente->sector = $request->sector;
+            $cliente->id_sector = $request->id_sector;
             $cliente->id_ruta = $request->id_ruta;
             $cliente->direccion_trabajo = $request->direccion_trabajo;
             $cliente->recomendado_por = $request->recomendado_por;
@@ -211,8 +209,7 @@ class ClienteController extends Controller
             $idCliente = $cliente->id;
         
             if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
-                
-          
+                          
                 if($request->fiador_id !== "undefined"){
                    
                     $fiador = Fiador::findOrfail($request->fiador_id);
@@ -229,10 +226,10 @@ class ClienteController extends Controller
                 $fiador->direccion = $request->F_direccion;
                 $fiador->id_cliente =  $idCliente;
                 $fiador->updated_at = now();
+
                 if($request->fiador_id !== "undefined"){
                     $fiador->update();
                 }else{
-
                     $fiador->save(); 
                 }
             
@@ -290,8 +287,8 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente =  Cliente::find($id);
-        
-        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'ruta' => $cliente->ruta, 'fiador' => $cliente->fiador, 'referencias' => $cliente->referencia];
+
+        return ['cliente' => $cliente, 'provincia' => $cliente->provincia, 'municipio' => $cliente->municipio, 'sector' => $cliente->sector, 'rutaa' => $cliente->ruta, 'fiador' => $cliente->fiador, 'referencias' => $cliente->referencia];
     }
 
     /**
@@ -314,7 +311,6 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
    

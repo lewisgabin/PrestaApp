@@ -16,7 +16,6 @@ class CreateRuta extends Migration
         Schema::create('ruta', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->timestamps();
         });
     }
 

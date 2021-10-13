@@ -36,7 +36,6 @@ class CreateCliente extends Migration
             $table->string('foto')->nullable();
             $table->string('recomendado_por')->nullable();
             $table->text('comentario')->nullable();
-            $table->timestamps();
             $table->boolean('estado');
 
             $table->foreign("id_provincia")
@@ -48,6 +47,12 @@ class CreateCliente extends Migration
             $table->foreign("id_municipio")
             ->references("id")
             ->on("municipio")
+            ->onDelete("cascade")
+            ->onUpdate("cascade");
+
+            $table->foreign("id_sector")
+            ->references("id")
+            ->on("sector")
             ->onDelete("cascade")
             ->onUpdate("cascade");
 

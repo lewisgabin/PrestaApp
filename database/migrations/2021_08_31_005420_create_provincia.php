@@ -16,7 +16,6 @@ class CreateProvincia extends Migration
         Schema::create('provincia', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->timestamps();
         });
     }
 
@@ -27,6 +26,9 @@ class CreateProvincia extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provincia');
+        // Schema::dropIfExists('provincia');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::drop('provincia');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
