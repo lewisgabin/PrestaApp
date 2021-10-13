@@ -4444,7 +4444,6 @@ __webpack_require__.r(__webpack_exports__);
         email: "",
         direccion: "",
         sector: "",
-        id_ruta: 1,
         direccion_trabajo: "",
         foto: "",
         recomendado_por: "",
@@ -4764,12 +4763,17 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (!this.sector.nombre == "") {
-        this.form.append("sector", this.sectorSeleccionado.nombre);
+        this.form.append("id_sector", this.sector.id);
       } else {
-        this.form.append("sector", "");
+        this.form.append("id_sector", "");
       }
 
-      this.form.append("id_ruta", this.cliente.id_ruta);
+      if (!this.rutaa.nombre == "") {
+        this.form.append("id_ruta", this.rutaa.id);
+      } else {
+        this.form.append("id_ruta", "");
+      }
+
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
@@ -4844,7 +4848,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Limpia campo
     limpiaCampos: function limpiaCampos() {
-      this.cliente.nombre = "", this.cliente.apellidos = "", this.cliente.apodo = "", this.cliente.cedula = "", this.cliente.fecha_nacimiento = "2017-06-15", this.cliente.ocupacion = "", this.cliente.nacionalidad = "", this.cliente.sexo = "1", this.cliente.whatsapp = "", this.cliente.tel_principal = "", this.cliente.tel_otro = "", this.cliente.email = "", this.cliente.direccion = "", this.cliente.id_provincia = 1, this.cliente.id_municipio = 1, this.cliente.sector = "", this.cliente.id_ruta = 1, this.cliente.direccion_trabajo = "", this.cliente.foto = "", this.cliente.recomendado_por = "", this.cliente.comentario = "", this.errorArray = [];
+      this.cliente.nombre = "", this.cliente.apellidos = "", this.cliente.apodo = "", this.cliente.cedula = "", this.cliente.fecha_nacimiento = "2017-06-15", this.cliente.ocupacion = "", this.cliente.nacionalidad = "", this.cliente.sexo = "1", this.cliente.whatsapp = "", this.cliente.tel_principal = "", this.cliente.tel_otro = "", this.cliente.email = "", this.cliente.direccion = "", this.cliente.id_provincia = 1, this.cliente.id_municipio = 1, this.cliente.id_sector = "", this.cliente.id_ruta = 1, this.cliente.direccion_trabajo = "", this.cliente.foto = "", this.cliente.recomendado_por = "", this.cliente.comentario = "", this.errorArray = [];
     }
   }
 });
@@ -4866,6 +4870,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5857,7 +5863,9 @@ __webpack_require__.r(__webpack_exports__);
     vueDropzone: (vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       dropzoneOptions: {
         url: "https://httpbin.org/post4",
         thumbnailWidth: 200,
@@ -5875,83 +5883,65 @@ __webpack_require__.r(__webpack_exports__);
       nombreSector: "",
       nombreRuta: "",
       idCliente: 0,
-      cliente: {
-        nombre: "",
-        apellidos: "",
-        apodo: "",
-        cedula: "",
-        fecha_nacimiento: "",
-        ocupacion: "",
-        nacionalidad: "",
-        sexo: "",
-        whatsapp: "",
-        tel_principal: "",
-        tel_otro: "",
-        email: "",
-        direccion: "",
-        sector: "",
-        id_ruta: 1,
-        direccion_trabajo: "",
-        foto: "",
-        recomendado_por: "",
-        comentario: ""
-      },
-      fiador: {
-        nombre: "",
-        apellidos: "",
-        apodo: "",
-        cedula: "",
-        direccion: "",
-        telefono: "",
-        celular: ""
-      },
-      refPersonal: {
-        informacion: []
-      },
-      mensajeError: {},
-      mensajeErrorR: [{
-        nombre: "",
-        apellido: "",
-        parentesco: ""
-      }],
-      errorArray: [],
-      isLoading: false,
-      fullPage: true,
-      mostrarModal: {
-        display: "block",
-        background: "#0000006b"
-      },
-      ocultarModal: {
-        display: "none"
-      },
-      mostrarModalRuta: {
-        display: "block",
-        background: "#0000006b"
-      },
-      ocultarModalRuta: {
-        display: "none"
-      },
-      form: new FormData(),
-      metodo: "crear",
-      listProvincias: [],
-      listMunicipios: [],
-      listSectores: [],
-      listRutas: [],
-      erroresEnFiador: false,
-      estado: true,
-      estado2: true,
-      inputs: [{
-        nombre: "",
-        apellidos: "",
-        telefono: "",
-        direccion: "",
-        parentesco: ""
-      }],
       sector: {
+        id: 0,
         idMunicipio: 0,
         nombre: ""
       }
-    };
+    }, _defineProperty(_ref, "rutaa", {
+      id: 0,
+      nombre: ""
+    }), _defineProperty(_ref, "cliente", {
+      nombre: "",
+      apellidos: "",
+      apodo: "",
+      cedula: "",
+      fecha_nacimiento: "",
+      ocupacion: "",
+      nacionalidad: "",
+      sexo: "",
+      whatsapp: "",
+      tel_principal: "",
+      tel_otro: "",
+      email: "",
+      direccion: "",
+      sector: "",
+      id_ruta: "",
+      direccion_trabajo: "",
+      foto: "",
+      recomendado_por: "",
+      comentario: ""
+    }), _defineProperty(_ref, "fiador", {
+      nombre: "",
+      apellidos: "",
+      apodo: "",
+      cedula: "",
+      direccion: "",
+      telefono: "",
+      celular: ""
+    }), _defineProperty(_ref, "refPersonal", {
+      informacion: []
+    }), _defineProperty(_ref, "mensajeError", {}), _defineProperty(_ref, "mensajeErrorR", [{
+      nombre: "",
+      apellido: "",
+      parentesco: ""
+    }]), _defineProperty(_ref, "errorArray", []), _defineProperty(_ref, "isLoading", false), _defineProperty(_ref, "fullPage", true), _defineProperty(_ref, "mostrarModal", {
+      display: "block",
+      background: "#0000006b"
+    }), _defineProperty(_ref, "ocultarModal", {
+      display: "none"
+    }), _defineProperty(_ref, "mostrarModalRuta", {
+      display: "block",
+      background: "#0000006b"
+    }), _defineProperty(_ref, "ocultarModalRuta", {
+      display: "none"
+    }), _defineProperty(_ref, "form", new FormData()), _defineProperty(_ref, "metodo", "crear"), _defineProperty(_ref, "listProvincias", []), _defineProperty(_ref, "listMunicipios", []), _defineProperty(_ref, "listSectores", []), _defineProperty(_ref, "listRutas", []), _defineProperty(_ref, "erroresEnFiador", false), _defineProperty(_ref, "estado", true), _defineProperty(_ref, "estado2", true), _defineProperty(_ref, "inputs", [{
+      nombre: "",
+      apellidos: "",
+      telefono: "",
+      direccion: "",
+      parentesco: ""
+    }]), _ref;
   },
   mounted: function mounted() {
     this.getProvincias();
@@ -6220,8 +6210,18 @@ __webpack_require__.r(__webpack_exports__);
         this.form.append("id_municipio", "");
       }
 
-      this.form.append("sector", this.sector);
-      this.form.append("id_ruta", this.cliente.id_ruta);
+      if (!this.sector.nombre == "") {
+        this.form.append("id_sector", this.sector.id);
+      } else {
+        this.form.append("id_sector", "");
+      }
+
+      if (!this.rutaa.nombre == "") {
+        this.form.append("id_ruta", this.rutaa.id);
+      } else {
+        this.form.append("id_ruta", "");
+      }
+
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
@@ -6314,7 +6314,7 @@ __webpack_require__.r(__webpack_exports__);
         }).value();
         me.provincia = response.data.provincia;
         me.getRuta();
-        me.rutaa = response.data.ruta.nombre;
+        me.rutaa = response.data.rutaa;
 
         if (response.data.fiador) {
           me.fiador = _(response.data.fiador).mapValues(function (value) {
@@ -6328,7 +6328,6 @@ __webpack_require__.r(__webpack_exports__);
 
           me.getSector(response.data.municipio);
           me.sector = me.cliente.sector;
-          me.nombreSector = me.cliente.sector;
         }
 
         if (response.data.referencias.length >= 1) {
@@ -14956,7 +14955,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15172,7 +15171,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15244,7 +15243,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

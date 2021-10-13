@@ -30,13 +30,12 @@ class CreateCliente extends Migration
             $table->text('direccion')->nullable();
             $table->unsignedBigInteger('id_provincia')->nullable();
             $table->unsignedBigInteger('id_municipio')->nullable();
-            $table->string('sector')->nullable();
+            $table->unsignedBigInteger('id_sector')->nullable();
             $table->unsignedBigInteger('id_ruta')->nullable();
             $table->string('direccion_trabajo')->nullable();
             $table->string('foto')->nullable();
             $table->string('recomendado_por')->nullable();
             $table->text('comentario')->nullable();
-            $table->timestamps();
             $table->boolean('estado');
 
             $table->foreign("id_provincia")
@@ -48,6 +47,12 @@ class CreateCliente extends Migration
             $table->foreign("id_municipio")
             ->references("id")
             ->on("municipio")
+            ->onDelete("cascade")
+            ->onUpdate("cascade");
+
+            $table->foreign("id_sector")
+            ->references("id")
+            ->on("sector")
             ->onDelete("cascade")
             ->onUpdate("cascade");
 

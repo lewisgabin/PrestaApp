@@ -1007,6 +1007,15 @@ export default {
       nombreSector: "",
       nombreRuta: "",
       idCliente: 0,
+      sector: {
+        id: 0,
+        idMunicipio: 0,
+        nombre: "",
+      },
+      rutaa: {
+        id: 0,
+        nombre: "",
+      },
       cliente: {
         nombre: "",
         apellidos: "",
@@ -1022,7 +1031,7 @@ export default {
         email: "",
         direccion: "",
         sector: "",
-        id_ruta: 1,
+        id_ruta: "",
         direccion_trabajo: "",
         foto: "",
         recomendado_por: "",
@@ -1077,10 +1086,6 @@ export default {
           parentesco: "",
         },
       ],
-      sector: {
-        idMunicipio: 0,
-        nombre: "",
-      }
     };
   },
   mounted() {
@@ -1345,8 +1350,17 @@ export default {
         this.form.append("id_municipio", "");
       }
 
-      this.form.append("sector", this.sector);
-      this.form.append("id_ruta", this.cliente.id_ruta);
+      if (!this.sector.nombre == "") {
+        this.form.append("id_sector", this.sector.id);
+      } else {
+        this.form.append("id_sector", "");
+      }
+      if (!this.rutaa.nombre == "") {
+        this.form.append("id_ruta", this.rutaa.id);
+      } else {
+        this.form.append("id_ruta", "");
+      }
+
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
@@ -1462,7 +1476,7 @@ export default {
           me.provincia = response.data.provincia;
 
           me.getRuta();
-          me.rutaa = response.data.ruta.nombre;
+          me.rutaa = response.data.rutaa;
 
           if (response.data.fiador) {
             me.fiador = _(response.data.fiador)
@@ -1476,7 +1490,6 @@ export default {
             
             me.getSector(response.data.municipio);
             me.sector = me.cliente.sector;
-            me.nombreSector = me.cliente.sector;
           }
 
           if (response.data.referencias.length >= 1) {

@@ -1032,7 +1032,6 @@ export default {
         email: "",
         direccion: "",
         sector: "",
-        id_ruta: 1,
         direccion_trabajo: "",
         foto: "",
         recomendado_por: "",
@@ -1309,7 +1308,6 @@ export default {
     },
     guardarCliente() {
       //validando  referencias
-
       this.errorArray = [];
       this.$loading(true);
       //DATOS VALIDAR
@@ -1342,12 +1340,16 @@ export default {
         this.form.append("id_municipio", "");
       }
       if (!this.sector.nombre == "") {
-        this.form.append("sector", this.sectorSeleccionado.nombre);
+        this.form.append("id_sector", this.sector.id);
       } else {
-        this.form.append("sector", "");
+        this.form.append("id_sector", "");
       }
-
-      this.form.append("id_ruta", this.cliente.id_ruta);
+      if (!this.rutaa.nombre == "") {
+        this.form.append("id_ruta", this.rutaa.id);
+      } else {
+        this.form.append("id_ruta", "");
+      }
+      
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);
@@ -1420,7 +1422,7 @@ export default {
     },
     //Limpia campo
     limpiaCampos() {
-      (this.cliente.nombre = ""),
+        (this.cliente.nombre = ""),
         (this.cliente.apellidos = ""),
         (this.cliente.apodo = ""),
         (this.cliente.cedula = ""),
@@ -1435,7 +1437,7 @@ export default {
         (this.cliente.direccion = ""),
         (this.cliente.id_provincia = 1),
         (this.cliente.id_municipio = 1),
-        (this.cliente.sector = ""),
+        (this.cliente.id_sector = ""),
         (this.cliente.id_ruta = 1),
         (this.cliente.direccion_trabajo = ""),
         (this.cliente.foto = ""),

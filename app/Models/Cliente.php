@@ -26,7 +26,7 @@ class Cliente extends Model
         'direccion',
         'id_provincia',
         'id_municipio',
-        'sector',
+        'id_sector',
         'id_ruta',
         'direccion_trabajo',
         'foto',
@@ -43,6 +43,11 @@ class Cliente extends Model
     public function municipio()
     {
         return $this->belongsTo(Municipio::class, 'id_municipio');
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'id_sector');
     }
 
     public function ruta()
