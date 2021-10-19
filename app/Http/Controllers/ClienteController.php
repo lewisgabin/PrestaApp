@@ -342,6 +342,16 @@ class ClienteController extends Controller
         return ['rutas' => $rutas];
     }
 
+    
+    public function addRuta($cliente)
+    {
+        $rutas = Cliente::find($cliente)->ruta;
+     
+   
+        return ['rutas' => $rutas];
+    }
+
+
     public function destroy($id)
     {
         $usuario =  Cliente::findOrFail($id);

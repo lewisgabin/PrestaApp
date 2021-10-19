@@ -48,6 +48,7 @@ Route::get('/GetProvincias', [ClienteController::class,'getProvincias']);
 Route::get('/GetMunicipios/{id}', [ClienteController::class,'getMunicipios']);
 Route::get('/GetSectores/{id}', [ClienteController::class,'getSectores']);
 Route::get('/GetRutas', [ClienteController::class,'getRutas']);
+Route::get('/AddRuta/{id}', [ClienteController::class,'addRuta']);
 Route::post('/C-clientes/editar', [ClienteController::class, 'editar']);
 Route::post('/C-clienteReferencia', [ClienteController::class, 'guardarReferencia']);
 Route::post('/C-clienteSector', [ClienteController::class, 'guardarSector']);
@@ -56,6 +57,7 @@ Route::post('/C-clienteEditarReferencia', [ClienteController::class, 'editarRefe
 
 //prestamos
 Route::get('C-prestamo/getClientes',[PrestamosCrontroller::class, 'listClientes']);
+Route::post('C-prestamo/Guardar',[PrestamosCrontroller::class, 'guardar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');

@@ -37,6 +37,7 @@
                 v-model="clienteId"
                 label="nombre"
                 :options="listCliente"
+                @input="addRuta()"
                 placeholder="Seleccione..."
               ></v-select>
             </div>
@@ -59,6 +60,7 @@
                 class="form-control"
                 v-model="monto"
                 onclick="select()"
+                v-on:keyup="calcularAutomatico()"
                 :class="{ error1: $v.monto.$error }"
               />
 
@@ -86,6 +88,7 @@
                 class="form-control"
                 onclick="select()"
                 v-model="numeroCuota"
+                v-on:keyup="calcularAutomatico()"
                 :class="{ error1: $v.numeroCuota.$error }"
               />
               <div class="input-group-append">
@@ -117,6 +120,7 @@
                 v-model="tasa"
                 class="form-control"
                 onclick="select()"
+                v-on:keyup="calcularAutomatico()"
                 :class="{ error1: $v.tasa.$error }"
               />
             </div>
@@ -135,6 +139,7 @@
                 v-model="modalidadPago"
                 :class="{ error1: $v.modalidadPago.$error }"
                 class="form__input"
+                @input="calcularAutomatico()"
                 style="color: #475f7b !important"
                 :options="['Mensual', 'Semanal', 'Quincenal', 'Diario']"
                 placeholder="Seleccione..."
@@ -152,6 +157,7 @@
                 class="shadow"
                 :class="{ error1: $v.fechaPrimerPago.$error }"
                 v-model="fechaPrimerPago"
+                @change="calcularAutomatico()"
                 :format="'YYYY-MM-DD'"
                 :value-type="'format'"
               ></datepicker>
@@ -166,6 +172,7 @@
               <v-select
                 v-model="amortizacion"
                 class="form__input"
+                @input="calcularAutomatico()"
                 style="color: #475f7b !important"
                 :options="[
                   'INSOLUTO',
@@ -426,12 +433,13 @@
                 id=""
                 cols="10"
                 style="width: 100%"
+                v-model="comentario"
               ></textarea>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 btn-12">
         <button
           v-on:click="verOpciones()"
           type="button"
@@ -440,7 +448,7 @@
           <i class="bx bx-plus"></i> <span class="ml-25">MAS OPCIONES</span>
         </button>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 btn-12">
         <button
           type="button"
           v-on:click="checkInput"
@@ -475,7 +483,7 @@
           </thead>
           <tbody style="text-align: center">
             <tr v-for="tabla in tablaAmortizada" :key="tabla.numero">
-              <td v-text="tabla.numero"></td>
+              <td>{{ tabla.numero }}/{{ numeroCuota }}</td>
               <td style="width: 17%" v-text="tabla.fecha"></td>
               <td v-text="'$' + tabla.intereses"></td>
               <td v-text="'$' + tabla.abonoCapital"></td>
@@ -497,90 +505,158 @@
         </table>
       </div>
     </div>
-    <div class="row" id="datallePrestamos"  v-if="verTablaPrestamo">
+    <div class="row" id="datallePrestamos" v-if="verTablaPrestamo">
       <div class="col-md-4">
-        <div class="card" style="padding-right: 18px;padding-left: 18px;">
-          <div class="card-header d-flex align-items-center justify-content-between" style="    padding-left: 0px;">
-          <div>
-            <h6 class="card-title">Cuotas</h6>
-            <small class="text-muted">Cantidad de cuotas.</small>
+        <div class="card" style="padding-right: 18px; padding-left: 18px">
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h6 class="card-title">Cuotas</h6>
+              <small class="text-muted">Cantidad de cuotas.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal warning mb-0">{{ numeroCuota }}</h5>
+            </div>
           </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal warning mb-0">{{numeroCuota}}</h5>
-            
+          <hr />
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h4 class="card-title">Total Capital</h4>
+              <small class="text-muted">Capital Prestado.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal warning mb-0">
+                RD${{ formatNumber(monto) }}
+              </h5>
+            </div>
           </div>
-          
-        </div>
-       <hr>
-         <div class="card-header d-flex align-items-center justify-content-between" style="    padding-left: 0px;">
-          <div>
-            <h4 class="card-title">Total Capital</h4>
-            <small class="text-muted">Capital Prestado.</small>
-          </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal warning mb-0">RD${{formatNumber(monto)}}</h5>
-            
-          </div>
-          
-        </div>
-        </div>
-      </div>
-       <div class="col-md-4">
-        <div class="card" style="padding-right: 18px;padding-left: 18px;">
-          <div class="card-header d-flex align-items-center justify-content-between" style=" padding-left: 0px;">
-          <div>
-            <h4 class="card-title">Total Interes</h4>
-            <small class="text-muted">Interes Generado.</small>
-          </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal primary mb-0">RD${{formatNumber(sumaInteres.toFixed(2))}}</h5>
-            
-          </div>
-          
-        </div>
-       <hr>
-         <div class="card-header d-flex align-items-center justify-content-between" style="    padding-left: 0px;">
-          <div>
-            <h4 class="card-title">Total a Cobrar</h4>
-            <small class="text-muted">Total del Prestamo.</small>
-          </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal primary mb-0">RD${{formatNumber(totalPrestamo)}}</h5>
-            
-          </div>
-          
-        </div>
         </div>
       </div>
-       <div class="col-md-4">
-        <div class="card" style="padding-right: 18px;padding-left: 18px;">
-          <div class="card-header d-flex align-items-center justify-content-between" style="    padding-left: 0px;">
-          <div>
-            <h4 class="card-title">Gasto de Cierre</h4>
-            <small class="text-muted">Gasto de cieere de prestamo.</small>
+      <div class="col-md-4">
+        <div class="card" style="padding-right: 18px; padding-left: 18px">
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h4 class="card-title">Total Interes</h4>
+              <small class="text-muted">Interes Generado.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal primary mb-0">
+                RD${{ formatNumber(sumaInteres.toFixed(2)) }}
+              </h5>
+            </div>
           </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal success mb-0">RD${{formatNumber(gastoCierre) }}</h5>
-            
+          <hr />
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h4 class="card-title">Total a Cobrar</h4>
+              <small class="text-muted">Total del Prestamo.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal primary mb-0">
+                RD${{ formatNumber(totalPrestamo) }}
+              </h5>
+            </div>
           </div>
-          
-        </div>
-      <hr>
-         <div class="card-header d-flex align-items-center justify-content-between" style="    padding-left: 0px;">
-          <div>
-            <h4 class="card-title">Total a Entregar</h4>
-            <small class="text-muted">Cantidad de dinero a entregar.</small>
-          </div>
-          <div class="d-flex align-items-center widget-followers-heading-right">
-            <h5 class=" font-weight-normal success mb-0">RD${{formatNumber(monto - gastoCierre)}}</h5>
-            
-          </div>
-          
-        </div>
         </div>
       </div>
-      
-       
+      <div class="col-md-4">
+        <div class="card" style="padding-right: 18px; padding-left: 18px">
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h4 class="card-title">Gasto de Cierre</h4>
+              <small class="text-muted">Gasto de cieere de prestamo.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal success mb-0">
+                RD${{ formatNumber(gastoCierre) }}
+              </h5>
+            </div>
+          </div>
+          <hr />
+          <div
+            class="
+              card-header
+              d-flex
+              align-items-center
+              justify-content-between
+            "
+            style="padding-left: 0px"
+          >
+            <div>
+              <h4 class="card-title">Total a Entregar</h4>
+              <small class="text-muted">Cantidad de dinero a entregar.</small>
+            </div>
+            <div
+              class="d-flex align-items-center widget-followers-heading-right"
+            >
+              <h5 class="font-weight-normal success mb-0">
+                RD${{ formatNumber(monto - gastoCierre) }}
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 btn-12">
+        <button
+          type="button"
+          v-on:click="guardar()"
+          class="btn btn-success mr-1 mb-1 col-md-12 glow"
+          style="font-size: 19px; height: 44px"
+        >
+          <i class="bx bxs-save" style="font-size: 1.5rem !important"></i>
+          <span class="ml-25">GUARDAR</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -622,6 +698,7 @@ export default {
       checkFijar: false,
       verOpcion: 0,
       checkPorcentaje: 0,
+      comentario:'',
       listRutas: [],
       tablaAmortizada: new Array(),
       rango: "",
@@ -632,7 +709,6 @@ export default {
       sumaCapital: 0,
       totalPrestamo: 0,
       verTablaPrestamo: false,
-  
     };
   },
   components: {
@@ -681,6 +757,7 @@ export default {
   methods: {
     //obtener todos los clientes
     getClientes() {
+      this.$loading(true);
       axios.get("/C-prestamo/getClientes").then((response) => {
         this.listCliente = response.data.data;
       });
@@ -706,21 +783,26 @@ export default {
       var url = "/GetRutas";
       axios.get(url).then((response) => {
         this.listRutas = response.data.rutas;
+        this.$loading(false);
+      });
+    },
+    // buscar ruta del cliente
+    addRuta() {
+      var url = "/AddRuta/" + this.clienteId.id;
+      axios.get(url).then((response) => {
+        this.ruta = response.data.rutas;
       });
     },
     //activar validacion
     checkInput() {
-
       if (this.clienteId == 0) {
         this.clienteId = "";
       }
       this.$v.$touch();
       if (!this.$v.$error) {
-     
         this.calcularPrestamos();
         this.verTablaPrestamo = true;
         this.verOpcion = false;
-         
       } else {
         this.verTablaPrestamo = false;
         this.$toast.open({
@@ -731,6 +813,19 @@ export default {
           dismissible: true,
           position: "top",
         });
+      }
+    },
+    //calcular automatico
+    calcularAutomatico() {
+      if (
+        this.clienteId.id > 0 &&
+        this.monto > 999 &&
+        this.numeroCuota > 0 &&
+        this.tasa > 0
+      ) {
+        this.calcularPrestamos();
+        this.verTablaPrestamo = true;
+        this.verOpcion = false;
       }
     },
     //activar la dataTable
@@ -752,11 +847,8 @@ export default {
     },
     //determinar calculo del prestamos
     calcularPrestamos() {
-     
-        var table = $("#prestamosTable").DataTable();
-        table.destroy();
-      
-   
+      var table = $("#prestamosTable").DataTable();
+      table.destroy();
 
       this.sumaInteres = 0;
       this.sumaCapital = 0;
@@ -780,8 +872,7 @@ export default {
           break;
       }
 
-        this.dataTable();
-
+      this.dataTable();
     },
     calcularInteres() {
       //Calculo Mensual
@@ -846,7 +937,6 @@ export default {
         this.sumaCapital += pago;
         this.totalPrestamo += parseFloat(pagoTotal.toFixed());
       }
-    
     },
     capitalAlFinal() {
       this.calcularInteres();
@@ -884,7 +974,6 @@ export default {
         this.totalPrestamo += parseFloat(pagoTotal.toFixed());
         xs = this.valor;
       }
-    
     },
     insolutoFijo() {
       this.calcularInteres();
@@ -923,7 +1012,6 @@ export default {
         this.totalPrestamo += parseFloat(pago.toFixed());
         xs = this.valor;
       }
-    
     },
     insoluto() {
       this.calcularInteres();
@@ -959,7 +1047,6 @@ export default {
         this.sumaCapital += parseFloat(pago.toFixed(2));
         this.totalPrestamo += parseFloat(cuota.toFixed());
       }
-    
     }, // FORMAT NUMBER
     formatNumber(num) {
       if (!num || num == "NaN") return "-";
@@ -977,6 +1064,33 @@ export default {
           "," +
           num.substring(num.length - (4 * i + 3));
       return (sign ? "" : "-") + num + "." + cents;
+    },
+    guardar() {
+      axios
+        .post("/C-prestamo/Guardar", {
+          monto: this.monto,
+          cuota: this.cuota,
+          numeroCuota: this.numeroCuota,
+          porcentajeTasa:this.tasa,
+          frecuencia: this.frecuencia,
+          amortizacion : this.amortizacion,
+          moraLuego : this.moraLuego,
+          moraDiara :this.moraDiara,
+          prestamosViejos:this.checkCuotas,
+          tipoGarantia: this.garantia,
+          gastoCierre: this.gastoCierre,
+          pagoMinimo: this.pagoMinimo,
+          tipoPagoMinimo: this.tipoPagoMinimo,
+          porcentajePagoMinimo: this.porcentajePagoMinimo,
+          comentario: this.comentario,
+          idCliente: this.clienteId,
+          idGarante: this.garante,
+          idCartera: this.idCartera,
+          idRuta: this.ruta.id,
+          tablaAmortizada: this.tablaAmortizada
+
+        })
+        .then((response) => {});
     },
   },
 };
@@ -1027,25 +1141,26 @@ export default {
 }
 
 #datallePrestamos .card .card-header {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-    padding-right: 0 !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  padding-right: 0 !important;
+}
+.btn-12 {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
 }
 
-#datallePrestamos hr{
-      margin-top:0;
-    margin-bottom: 0;
+#datallePrestamos hr {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 #datallePrestamos .card .card-title {
-   
-    font-size: 1.2rem !important;
-   
+  font-size: 1.2rem !important;
 }
 
-#datallePrestamos h5{
-    font-size: 1.6rem !important;
+#datallePrestamos h5 {
+  font-size: 1.6rem !important;
 }
-
 </style>
 <style scoped>
 </style>

@@ -14,4 +14,8 @@ class PrestamosCrontroller extends Controller
 
         return ["data" => $cliente] ;
     }
+
+    public function guardar(Request $request){
+            dd($request->all());
+    }
 }
