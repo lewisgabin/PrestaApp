@@ -62,6 +62,7 @@ Route::post('C-prestamo/Guardar',[PrestamosCrontroller::class, 'guardar']);
 
 //Rutas
 Route::apiResource('/C-ruta', RutaController::class);
+Route::post('/C-ruta/editar', [RutaController::class,'editar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');

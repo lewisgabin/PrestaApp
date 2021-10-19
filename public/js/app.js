@@ -9342,12 +9342,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       ruta: {
         nombre: "",
-        id: 0,
-        estado: ""
+        id: 0
       },
       listRuta: [],
       metodo: "",
-      idPermiso: 0,
+      idRuta: 0,
       filtroBusquedad: "nombre",
       valorBusquedad: "",
       pagination: {
@@ -9416,60 +9415,107 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       this.$loading(true);
       var url = "/C-ruta";
-      axios.get(url).then(function (response) {
+      axios.get(url, {
+        params: {
+          filtro: this.filtroBusquedad,
+          busquedad: this.valorBusquedad,
+          per_page: this.pagination.per_page,
+          page: this.pagination.page
+        }
+      }).then(function (response) {
         me.listRuta = response.data.rutas;
         me.paginacion();
         me.$loading(false);
       });
     },
     //activar o desactivar
-    activarDesactivar: function activarDesactivar(id, metodo, metodo2) {// let me = this;
-      // this.$swal({
-      //   title: "Esta seguro?",
-      //   text: "Que desea '" + metodo + "' el permiso!",
-      //   icon: "warning",
-      //   showCancelButton: true,
-      //   cancelButtonColor: "#ff5b5c",
-      //   confirmButtonColor: "#5a8dee",
-      //   confirmButtonText: "Si, " + metodo + "!",
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     axios.delete("/C-permiso/" + id).then((response) => {
-      //       me.$swal(
-      //         "" + metodo2 + "!",
-      //         "El permiso a sido " + metodo2 + ".",
-      //         "success"
-      //       );
-      //       me.getListRuta();
-      //     });
-      //   }
-      // });
+    activarDesactivar: function activarDesactivar(id, metodo, metodo2) {
+      var me = this;
+      this.$swal({
+        title: "Esta seguro?",
+        text: "Que desea '" + metodo + "' la ruta!",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#ff5b5c",
+        confirmButtonColor: "#5a8dee",
+        confirmButtonText: "Si, " + metodo + "!"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios["delete"]("/C-ruta/" + id).then(function (response) {
+            me.$swal("" + metodo2 + "!", "La ruta a sido " + metodo2 + ".", "success");
+            me.getListRuta();
+          });
+        }
+      });
     },
     //abrir y cerrar modal
-    abrirCerrarModal: function abrirCerrarModal(titulo, metodo, idPermiso) {// let me = this; 
-      // this.errorArray = [];
-      // this.titleModal = titulo;
-      // this.metodo = metodo;
-      // this.idPermiso = idPermiso;
-      // this.modalShow = !this.modalShow;
-      // if (metodo == "primary") {
-      //   this.permiso.nombre = "";
-      //   this.permiso.slug = "";
-      //   this.permiso.modulo= "";
-      //   this.permiso.id = 0;
-      // }
-      // if (metodo == "warning") {
-      //   axios
-      //     .get("C-permiso/" + idPermiso)
-      //     .then((response) => {
-      //       me.permiso = response.data.permiso;
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
-      // }
+    abrirCerrarModal: function abrirCerrarModal(titulo, metodo, idRuta) {
+      var me = this;
+      this.errorArray = [];
+      this.titleModal = titulo;
+      this.metodo = metodo;
+      this.idRuta = idRuta;
+      this.modalShow = !this.modalShow;
+
+      if (metodo == "primary") {
+        this.ruta.nombre = "";
+        this.ruta.id = 0;
+      }
+
+      if (metodo == "warning") {
+        axios.get("C-ruta/" + idRuta).then(function (response) {
+          me.ruta = response.data.ruta;
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     },
-    guardarEditarRuta: function guardarEditarRuta() {}
+    guardarEditarRuta: function guardarEditarRuta() {
+      var _this = this;
+
+      var me = this;
+      this.errorArray = [];
+      this.form.append("nombre", this.ruta.nombre);
+      this.form.append("id", this.ruta.id);
+
+      if (this.metodo == "primary" && this.errorArray.length == 0) {
+        axios.post("C-ruta", this.form).then(function (response) {
+          me.modalShow = 0;
+          me.getListRuta();
+
+          _this.$toast.open({
+            message: "Ruta creada con exito!",
+            type: "success",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right"
+          });
+        })["catch"](function (error) {
+          if (error.response.data.errors) {
+            me.errorArray = error.response.data.errors;
+          }
+        });
+      }
+
+      if (this.metodo == "warning" && this.errorArray.length == 0) {
+        axios.post("C-ruta/editar", this.form).then(function (response) {
+          me.modalShow = 0;
+          me.getListRuta();
+
+          _this.$toast.open({
+            message: "Ruta editada con exito!",
+            type: "success",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right"
+          });
+        })["catch"](function (error) {
+          if (error.response.data.errors) {
+            me.errorArray = error.response.data.errors;
+          }
+        });
+      }
+    }
   }
 });
 
@@ -10868,9 +10914,6 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     component: __webpack_require__(/*! ./components/modulos/usuario/index.vue */ "./resources/js/components/modulos/usuario/index.vue").default,
     name: 'usuarioIndex'
   }, {
-    path: '/permiso',
-    component: __webpack_require__(/*! ./components/modulos/permisos/index.vue */ "./resources/js/components/modulos/permisos/index.vue").default
-  }, {
     path: '/crear/usuario',
     component: __webpack_require__(/*! ./components/modulos/usuario/crear.vue */ "./resources/js/components/modulos/usuario/crear.vue").default,
     name: 'usuarioCrear'
@@ -10878,6 +10921,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     path: '/editar/usuario',
     component: __webpack_require__(/*! ./components/modulos/usuario/editar.vue */ "./resources/js/components/modulos/usuario/editar.vue").default,
     name: 'usuarioEditar'
+  }, {
+    path: '/permiso',
+    component: __webpack_require__(/*! ./components/modulos/permisos/index.vue */ "./resources/js/components/modulos/permisos/index.vue").default
   }, {
     path: '/permiso',
     component: __webpack_require__(/*! ./components/modulos/permisos/index.vue */ "./resources/js/components/modulos/permisos/index.vue").default,
@@ -15527,7 +15573,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n  justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.flexbox-container[data-v-0e037eda] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100vh;\r\n  justify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15743,7 +15789,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-21915305] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15839,7 +15885,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\n  background-color: #f2f4f4;\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\n  height: 37px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-light-warning[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-danger[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n.btn-light-success[data-v-5cac87b8] {\r\n  background-color: #f2f4f4;\r\n  color: #9797a6;\n}\n#vs1__combobox[data-v-5cac87b8] {\r\n  height: 37px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -93238,7 +93284,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.listRuta, function(item, numero) {
+                _vm._l(_vm.listRuta.data, function(item, numero) {
                   return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(numero + 1))]),
                     _vm._v(" "),
@@ -93327,8 +93373,8 @@ var render = function() {
                                   {
                                     name: "tooltip",
                                     rawName: "v-tooltip.top",
-                                    value: "Activar Ruta.",
-                                    expression: "'Activar Ruta.'",
+                                    value: "Activar ruta.",
+                                    expression: "'Activar ruta.'",
                                     modifiers: { top: true }
                                   }
                                 ],
