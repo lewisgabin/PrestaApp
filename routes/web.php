@@ -8,6 +8,7 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PrestamosCrontroller;
+use App\Http\Controllers\RutaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,9 @@ Route::post('/C-clienteEditarReferencia', [ClienteController::class, 'editarRefe
 
 //prestamos
 Route::get('C-prestamo/getClientes',[PrestamosCrontroller::class, 'listClientes']);
+
+//Rutas
+Route::apiResource('/C-ruta', RutaController::class);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');

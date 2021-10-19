@@ -427,21 +427,25 @@
             </span>
             <span class="kt-menu__link-text"
               ><font style="vertical-align: inherit"
-                ><font style="vertical-align: inherit">Ruta</font></font
+                ><font style="vertical-align: inherit">Ruta y Sector</font></font
               ></span
             >
           </a>
 
           <ul class="menu-content">
             <li>
-              <a
-                class="d-flex align-items-center"
-                href="../../../starter-kit/ltr/vertical-menu-boxicons-template/sk-layout-1-column.html"
-                ><i class="bx bx-right-arrow-alt"></i
-                ><span class="menu-item text-truncate" data-i18n="1 column"
-                  >1 column</span
-                ></a
-              >
+                <router-link class="d-flex align-items-center" :to="'/ruta'"
+                  ><i class="bx bx-right-arrow-alt"></i
+                  ><span class="menu-item text-truncate"
+                    >Ruta</span
+                  ></router-link>         
+            </li>
+            <li>
+                <router-link class="d-flex align-items-center" :to="'/sector'"
+                  ><i class="bx bx-right-arrow-alt"></i
+                  ><span class="menu-item text-truncate"
+                    >Sector</span
+                  ></router-link>         
             </li>
           </ul>
         </li>
