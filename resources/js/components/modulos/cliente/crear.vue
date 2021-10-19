@@ -410,8 +410,9 @@
                     ></v-select>
                   </fieldset>
                 </div>
-                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModal"><i class="bx bx-plus"></i></button>
-                
+                <div class="col-md-1" style="padding-left: 0;">
+                <button class="btn btn-primary" style="padding: 26%; height: 38px; margin-top: 24px;" @click="abrirCerrarModal"><i class="bx bx-plus"></i></button>
+                </div>
                 <div class="col-md-5">
                   <label for="first-name-icon">RUTA:</label>
                   <fieldset class="form-group shadow">
@@ -422,7 +423,9 @@
                     ></v-select>
                   </fieldset>
                 </div>
-                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModalRuta"><i class="bx bx-plus"></i></button>
+                    <div class="col-md-1" style="padding-left: 0;">
+                <button class="btn btn-primary" style="padding: 26%; height: 38px; margin-top: 24px;" @click="abrirCerrarModalRuta"><i class="bx bx-plus"></i></button>
+                    </div>
               </div>
               <div class="row">
                 <div class="col-md-6">

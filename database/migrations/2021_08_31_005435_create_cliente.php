@@ -35,6 +35,7 @@ class CreateCliente extends Migration
             $table->string('direccion_trabajo')->nullable();
             $table->string('foto')->nullable();
             $table->string('recomendado_por')->nullable();
+            $table->timestamps();  
             $table->text('comentario')->nullable();
             $table->boolean('estado');
 
@@ -63,6 +64,7 @@ class CreateCliente extends Migration
             ->onUpdate("cascade");
 
         });
+        
     }
 
     /**
