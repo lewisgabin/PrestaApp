@@ -14,4 +14,9 @@ class Municipio extends Model
     {
         return $this->belongsTo(Provincia::class, 'id_provincia');
     }
+
+    public function sector()
+    {
+        return $this->hasMany(Sector::class, 'id');
+    }
 }

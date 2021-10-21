@@ -9,6 +9,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PrestamosCrontroller;
 use App\Http\Controllers\RutaController;
+use App\Http\Controllers\SectorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,6 @@ Route::get('/C-logout', [LoginController::class,'logout']);
 Route::apiResource('/C-usuarios', UsuarioController::class);
 Route::post('/C-usuarios/editar', [UsuarioController::class,'editar']);
 Route::post('/C-usuarios/getRol', [UsuarioController::class,'getRol']);
-
-
 
 //Rols
 Route::apiResource('/C-rols', RolController::class);
@@ -63,6 +62,10 @@ Route::post('C-prestamo/Guardar',[PrestamosCrontroller::class, 'guardar']);
 //Rutas
 Route::apiResource('/C-ruta', RutaController::class);
 Route::post('/C-ruta/editar', [RutaController::class,'editar']);
+
+//Sectores
+Route::apiResource('/C-sector', SectorController::class);
+Route::post('/C-sector/editar', [SectorController::class,'editar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
