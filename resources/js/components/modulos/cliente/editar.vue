@@ -1162,12 +1162,12 @@ export default {
       //   div.querySelector('.card-content').classList.toggle('show');
       div.classList.toggle("card-fullscreen");
     },
-    //abrir y cerrar modal
+    //abrir y cerrar modal Sector
     abrirCerrarModal() {
       this.modalShow = !this.modalShow;
       this.nombreSector = "";
     },
-    //abrir y cerrar modal
+    //abrir y cerrar modal Ruta
     abrirCerrarModalRuta() {
       this.modalShowRuta = !this.modalShowRuta;
       this.nombreRuta = "";

@@ -17,6 +17,7 @@ class CreateSectorTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->unsignedBigInteger('id_municipio');
+            $table->boolean('estado');
             $table->foreign("id_municipio")
             ->references("id")
             ->on("municipio")

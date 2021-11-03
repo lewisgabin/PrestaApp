@@ -24,7 +24,8 @@ export default new Router({
         { path: '/calculadora', component:require('./components/modulos/calculadora/calculadora.vue').default, name:'calculadora'},
         { path: '/nuevo/prestamo', component:require('./components/modulos/prestamos/nuevoPrestamos.vue').default, name:'nuevoPrestamo'},
         
-        { path: '/ruta', component:require('./components/modulos/ruta/index.vue').default, name:'rutaIndex'}
+        { path: '/ruta', component:require('./components/modulos/ruta/index.vue').default, name:'rutaIndex'},
+        { path: '/sector', component:require('./components/modulos/sector/index.vue').default, name:'sectorIndex'}
     ],
     mode:'history',
     linkActiveClass: 'active'

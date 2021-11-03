@@ -151,6 +151,7 @@ class ClienteController extends Controller
         $sector = new Sector();
         $sector->nombre = $request->nombre;
         $sector->id_municipio = $request->idMunicipio;
+        $sector->estado = 1;
         $sector->save();
     }
 

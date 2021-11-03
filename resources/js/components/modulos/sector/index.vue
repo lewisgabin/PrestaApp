@@ -3,7 +3,7 @@
     <div class="content-header row">
       <div class="content-header-left col-12 mb-2 mt-1">
         <div class="breadcrumbs-top">
-          <h5 class="content-header-title float-left pr-1 mb-0">Ruta</h5>
+          <h5 class="content-header-title float-left pr-1 mb-0">Sector</h5>
           <div class="breadcrumb-wrapper d-none d-sm-block">
             <ol class="breadcrumb p-0 mb-0 pl-1">
               <li class="breadcrumb-item">
@@ -17,7 +17,7 @@
     <div class="card collapse-icon accordion-icon-rotate">
       <div class="card-header">
         <div class="col-md-4">
-          <h2 class="card-title">Lista de rutas</h2>
+          <h2 class="card-title">Lista de sectores</h2>
         </div>
 
         <div class="col-md-3">         
@@ -25,8 +25,8 @@
           <fieldset class="form-group shadow">
             <v-select
               v-model="filtroBusquedad"
-              @input="getListRuta"
-              :options="['nombre', 'slug']"
+              @input="getListSector"
+              :options="['nombre', 'municipio']"
             ></v-select>
           </fieldset>
         </div>
@@ -44,7 +44,7 @@
                   @click="inicializarPage"
                   v-model="valorBusquedad"
                   placeholder="Buscar"
-                  v-on:keyup="getListRuta"
+                  v-on:keyup="getListSector"
                 />
               </fieldset>
             </form>
@@ -57,15 +57,19 @@
             <thead>
               <tr role="row" class="bg-primary">
                 <th>#</th>
-                <th>Ruta</th>
+                <th>Sector</th>
+                <th>Municipio</th>
+                <th>Provincia</th>
                 <th>Estado</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item,numero in listRuta.data" :key="item.id">
+              <tr v-for="item,numero in listSector.data" :key="item.id">
                 <td>{{numero+1}}</td>
                 <td>{{ item.nombre }}</td>
+                <td>{{ item.municipio.nombre }}</td>
+                <td>{{ item.municipio.provincia.nombre }}</td>
                 <td>
                   <div v-if="!item.estado" class="badge badge-light-danger">
                     Desact
@@ -76,10 +80,10 @@
                   <div style="display: flex">
                     <button
                       type="button"
-                      v-tooltip.top="'Editar ruta.'"
+                      v-tooltip.top="'Editar sector.'"
                       class="btn btn-icon btn-light-warning glow mr-1"
                       @click="
-                        abrirCerrarModal('Editar ruta', 'warning', item.id)
+                        abrirCerrarModal('Editar sector', 'warning', item.id)
                       "
                     >
                       <i class="bx bxs-edit-alt"></i>
@@ -94,7 +98,7 @@
                         )
                       "
                       type="button"
-                      v-tooltip.top="'Desactivar ruta.'"
+                      v-tooltip.top="'Desactivar sector.'"
                       class="btn btn-icon btn-light-danger glow"
                     >
                       <i class="bx bxs-trash"></i>
@@ -103,7 +107,7 @@
                       v-else
                       type="button"
                       @click="activarDesactivar(item.id, 'Activar', 'Activado')"
-                      v-tooltip.top="'Activar ruta.'"
+                      v-tooltip.top="'Activar sector.'"
                       class="btn btn-icon btn-light-success glow"
                     >
                       <i class="bx bx-power-off"></i>
@@ -122,8 +126,8 @@
               role="status"
               aria-live="polite"
             >
-              Mostrando {{ listRuta.from }} a {{ listRuta.to }} de
-              {{ listRuta.total }} rutas.
+              Mostrando {{ listSector.from }} a {{ listSector.to }} de
+              {{ listSector.total }} rutas.
             </div>
           </div>
           <div class="col-md-8">
@@ -140,7 +144,7 @@
                 color: #5a8dee;
               "
               placeholder=""
-              @change="getListRuta()"
+              @change="getListSector()"
             />
             <span for="" class="dataTables_info mr-1" style="float: right">
               Cant por pagina</span
@@ -157,7 +161,7 @@
                   href="javascript:void(0);"
                   @click="
                     pagination.page--;
-                    getListRuta();
+                    getListSector();
                   "
                 >
                   <i class="bx bx-chevron-left"></i>
@@ -175,21 +179,21 @@
                   href="javascript:void(0);"
                   @click="
                     pagination.page = n;
-                    getListRuta();
+                    getListSector();
                   "
                   >{{ n }}</a
                 >
               </li>
               <li
                 class="page-item next"
-                :class="{ disabled: pagination.page == listRuta.last_page }"
+                :class="{ disabled: pagination.page == listSector.last_page }"
               >
                 <a
                   class="page-link"
                   href="javascript:void(0);"
                   @click="
                     pagination.page++;
-                    getListRuta();
+                    getListSector();
                   "
                 >
                   <i class="bx bx-chevron-right"></i>
@@ -209,13 +213,13 @@
         glow
         tooltip-light
       "
-      @click="abrirCerrarModal('Crear ruta', 'primary', 0)"
-      v-tooltip.left="'Crear ruta.'"
+      @click="abrirCerrarModal('Crear sector', 'primary', 0)"
+      v-tooltip.left="'Crear sector.'"
     >
       <i class="bx bx-plus" style="font-size: 1.9rem"></i>
     </button>
 
-    <!-- modal de crear y editar -->
+    <!-- modal de crear y editar Sector -->
     <div
       class="modal fade text-left"
       id="danger "
@@ -233,7 +237,7 @@
         <div class="modal-content">
           <div :class="'modal-header bg-' + metodo">
             <h5 class="modal-title white" id="myModalLabel120">
-              {{ this.titleModal }}
+              Crear nuevo sector
             </h5>
             <button
               type="button"
@@ -247,21 +251,46 @@
           <div class="modal-body" id="form">
             <div class="row">
               <div class="col-md-12 col-12">
-                <label for="first-name-icon">NOMBRE</label>
+                <label for="first-name-icon">NOMBRE:</label>
                 <div class="form-label-group has-icon-left">
                   <input
-                    v-model="ruta.nombre"
+                    v-model="sector.nombre"
                     type="text"
-                    :class="{error:typeof errorArray.nombre !== 'undefined'}"
                     placeholder="Nombre"
                     class="form-control"
                   />
-                  <span class="error" v-if=" errorArray.nombre">{{ errorArray.nombre[0]}}</span>
                   <div class="form-control-position">
-                    <i class="bx bx-data"></i>
+                    <i class="bx bx-home"></i>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-12">
+                  <label for="first-name-icon">PROVINCIA:</label>
+                  <fieldset class="form-group">
+                    <v-select
+                      v-model="sector.provincia"
+                      :options="listProvincia"
+                      label="nombre"
+                      placeholder="Provincia"
+                      @input="getMunicipio"
+                    ></v-select>
+                  </fieldset>
+                </div>
+            </div>
+            <div class="row">              
+                <div class="col-md-12 col-12">
+                  <label for="first-name-icon">MUNICIPIO:</label>
+                  <fieldset class="form-group">
+                    <v-select
+                      v-model="sector.municipio"
+                      :options="listMunicipio"
+                      label="nombre"
+                      placeholder="Municipio"
+                    ></v-select>
+                  </fieldset>
+                </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -276,8 +305,8 @@
             </button>
             <button
               type="button"
-              :class="'btn btn-' + metodo + ' ml-1'"
-              @click="guardarEditarRuta()"
+              class="btn btn-primary ml-1"
+              @click="guardarEditarSector()"
             >
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Guardar</span>
@@ -293,13 +322,19 @@
 export default {
   data() {
     return {
-      ruta: {
-        nombre: "",
+      sector: {
         id: 0,
+        nombre: "",
+        municipio: "",
+        provincia: "",
       },
-      listRuta: [],
+      listSector: [],
+      listMunicipio: [],
+      listProvincia: [],
       metodo: "",
-      idRuta: 0,
+      idSector: 0,
+      provinciaSeleccionada: "",
+      municipioSeleccionado: "",
       filtroBusquedad: "nombre",
       valorBusquedad: "",
       pagination: {
@@ -325,7 +360,8 @@ export default {
     };
   },
   mounted() {
-    this.getListRuta();
+    this.getListSector();
+    this.getProvincias();
   },
   methods: {
     // metodo para paginar
@@ -339,8 +375,8 @@ export default {
       }
 
       let fin = this.pagination.page + n;
-      if (fin > this.listRuta.last_page) {
-        fin = this.listRuta.last_page;
+      if (fin > this.listSector.last_page) {
+        fin = this.listSector.last_page;
       }
 
       for (let i = ini; i <= fin; i++) {
@@ -359,10 +395,10 @@ export default {
       this.opcionesB = "";
     },
     //lista de permiso
-    getListRuta() {
+    getListSector() {
       let me = this;
       this.$loading(true);
-      var url = "/C-ruta";
+      var url = "/C-sector";
       axios
         .get(url, {
           params: {
@@ -373,7 +409,8 @@ export default {
           },
         })
         .then((response) => {
-          me.listRuta = response.data.rutas;
+          me.listSector = response.data.sectores;
+          me.listMunicipio = response.data.municipio_Sectores;
           me.paginacion();
           me.$loading(false);
         });
@@ -383,7 +420,7 @@ export default {
       let me = this;
       this.$swal({
         title: "Esta seguro?",
-        text: "Que desea '" + metodo + "' la ruta!",
+        text: "Que desea '" + metodo + "' el sector!",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#ff5b5c",
@@ -391,54 +428,60 @@ export default {
         confirmButtonText: "Si, " + metodo + "!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete("/C-ruta/" + id).then((response) => {
+          axios.delete("/C-sector/" + id).then((response) => {
             me.$swal(
               "" + metodo2 + "!",
-              "La ruta ha sido " + metodo2 + ".",
+              "El sector ha sido " + metodo2 + ".",
               "success"
             );
-            me.getListRuta();
+            me.getListSector();
           });
         }
       });
     },
     //abrir y cerrar modal
-    abrirCerrarModal(titulo, metodo, idRuta) {
+    abrirCerrarModal(titulo, metodo, idSector) {
       let me = this; 
       this.errorArray = [];
       this.titleModal = titulo;
       this.metodo = metodo;
-      this.idRuta = idRuta;
+      this.idSector = idSector;
       this.modalShow = !this.modalShow;
 
       if (metodo == "primary") {
-        this.ruta.nombre = "";
-        this.ruta.id = 0;
+        this.sector.nombre = "";
+        this.sector.id = 0;
+        this.sector.provincia = "";
+        this.sector.municipio = "";
       }
       if (metodo == "warning") {
         axios
-          .get("C-ruta/" + idRuta)
+          .get("C-sector/" + idSector)
           .then((response) => {
-            me.ruta = response.data.ruta;
+            me.sector = response.data.sector;
+            me.sector.provincia = response.data.provincia;
+            this.getMunicipio(this.sector.provincia);//Busco los municipios que pertenecen a la provincia seleccionada
+            me.sector.municipio = response.data.municipio;//Como el getMunicipio me borra el nombre del municipio, lo coloco despues de haber traido todo
           })
           .catch((error) => {
             console.log(error);
           });
       }
     },
-    guardarEditarRuta(){
+    guardarEditarSector(){
       let me = this;
       this.errorArray = [];
-      this.form.append("nombre", this.ruta.nombre);
-      this.form.append("id", this.ruta.id);
+      this.form.append("nombre", this.sector.nombre);
+      this.form.append("municipio", this.sector.municipio.id);
+      
       if (this.metodo == "primary" && this.errorArray.length == 0) {
         axios
-          .post("C-ruta", this.form)
+          .post("C-sector", this.form)
           .then((response) => {
             me.modalShow = 0;
-            me.getListRuta();
-             this.$toast.open({
-              message: "Ruta creada con exito!",
+            me.getListSector();
+            this.$toast.open({
+              message: "Sector creado con exito!",
               type: "success",
               duration: 2000,
               dismissible: true,
@@ -446,20 +489,20 @@ export default {
             });
           })
           .catch((error) => {
-        
               if(error.response.data.errors){
                 me.errorArray = error.response.data.errors; 
               }
           });
       }
       if (this.metodo == "warning" && this.errorArray.length == 0) {
+        this.form.append("id", this.idSector);
         axios
-          .post("C-ruta/editar", this.form)
+          .post("C-sector/editar", this.form)
           .then((response) => {
             me.modalShow = 0;
-            me.getListRuta();
+            me.getListSector();
             this.$toast.open({
-              message: "Ruta editada con exito!",
+              message: "Sector editado con exito!",
               type: "success",
               duration: 2000,
               dismissible: true,
@@ -471,6 +514,24 @@ export default {
                 me.errorArray = error.response.data.errors; 
               }
           });
+      }
+    },
+    getProvincias() {
+      this.$loading(true);
+      var url = "/GetProvincias";
+      axios.get(url).then((response) => {
+        this.listProvincia = response.data.provincias;
+        this.$loading(false);
+      });
+    },
+    getMunicipio(provinciaSeleccionada) {
+      if(this.sector.provincia != ""){
+        this.sector.municipio = "";
+
+        var url = "/GetMunicipios/" + provinciaSeleccionada.id;
+        axios.get(url).then((response) => {
+          this.listMunicipio = response.data.municipios;
+        });
       }
     },
   },
