@@ -62,4 +62,16 @@ class Cliente extends Model
     public function referencia() {
         return $this->hasMany(Referencias::class, 'idCliente');
     }
+
+    public function prestamos()
+    {
+        return $this->hasMany(Prestamos::class,'idCliente');
+    }
+
+    public function garantePrestamos()
+    {
+        return $this->hasMany(Prestamos::class, 'idGarante');
+    }
+
+
 }

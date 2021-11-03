@@ -15,4 +15,5 @@ class Sector extends Model
     {
         return $this->belongsTo(Municipio::class, 'id_municipio');
     }
+    
 }

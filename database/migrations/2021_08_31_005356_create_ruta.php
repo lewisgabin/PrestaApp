@@ -17,6 +17,7 @@ class CreateRuta extends Migration
             $table->id();
             $table->string('nombre');
             $table->boolean('estado');
+
         });
     }
 
