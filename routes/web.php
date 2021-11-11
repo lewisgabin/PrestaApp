@@ -9,6 +9,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PrestamosCrontroller;
 use App\Http\Controllers\RutaController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\SectorController;
 
 /*
@@ -66,6 +67,10 @@ Route::post('/C-ruta/editar', [RutaController::class,'editar']);
 //Sectores
 Route::apiResource('/C-sector', SectorController::class);
 Route::post('/C-sector/editar', [SectorController::class,'editar']);
+
+//Empresas
+Route::apiResource('/C-empresa', EmpresaController::class);
+Route::post('/C-empresa/editar', [EmpresaController::class,'editar']);
 
 Route::get('/{optional?}', function () {
     return view('pages.layout');
