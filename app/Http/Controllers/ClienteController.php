@@ -48,13 +48,13 @@ class ClienteController extends Controller
     {
         $idCliente = 0;
         $estado = false;
-    
+
         try{
-          
+
             if($request->estado == "true" && $request->estado2 == "true"){
                 $estado = true;
                 DB::beginTransaction();
-            
+
                 $file = $request->file;
                 $cliente = new Cliente();
                 $fiador = new Fiador();
@@ -80,8 +80,9 @@ class ClienteController extends Controller
                 $cliente->direccion_trabajo = $request->direccion_trabajo;
                 $cliente->recomendado_por = $request->recomendado_por;
                 $cliente->comentario = $request->comentario;
+                $cliente->prestaciones= $request->prestaciones;
                 $cliente->estado = 1;
-                
+
                 if ($file) {
                     $subNombre = Str::random(10);
                     $fileName = $file->getClientOriginalName();
@@ -93,7 +94,7 @@ class ClienteController extends Controller
                 $cliente->created_at = now();
                 $cliente->save();
                 $idCliente = $cliente->id;
-            
+
                 if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
                     $fiador->nombre = $request->F_nombre;
                     $fiador->apellidos = $request->F_apellidos;
@@ -106,13 +107,13 @@ class ClienteController extends Controller
                     $fiador->created_at = now();
                     $fiador->save();
                 }
-        
+
                 DB::commit();
             }
         }catch(\Exception $e){
             dd($e);
             DB::rollback();
-        
+
         }
 
         return['estado' => $estado, 'estado2' => $request->estado2, 'idCliente' => $idCliente];
@@ -166,14 +167,14 @@ class ClienteController extends Controller
     {
         $estado = false;
         $idCliente = 0;
-        
+
         try{
             if($request->estado =="true" && $request->estado2 == "true"){
             DB::beginTransaction();
-         
+
             $file = $request->file;
             $cliente = Cliente::findOrFail($request->id_cliente);
-            
+
             $cliente->foto = 'sin.png';
             $cliente->nombre = $request->nombre;
             $cliente->apellidos = $request->apellidos;
@@ -195,6 +196,8 @@ class ClienteController extends Controller
             $cliente->direccion_trabajo = $request->direccion_trabajo;
             $cliente->recomendado_por = $request->recomendado_por;
             $cliente->comentario = $request->comentario;
+            $cliente->prestaciones= $request->prestaciones;
+
             $cliente->estado = 1;
             //ESTE METODO VALIDA SI TIENE UN ARCHIVO O ES SIMPLEMENTE UN STRING -lewis
             if ($request->hasFile($request->file)) {
@@ -208,13 +211,13 @@ class ClienteController extends Controller
             $cliente->updated_at = now();
             $cliente->update();
             $idCliente = $cliente->id;
-        
+
             if($request->F_nombre && $request->F_apellidos && $request->F_cedula && $request->F_telefono){
-                          
+
                 if($request->fiador_id !== "undefined"){
-                   
+
                     $fiador = Fiador::findOrfail($request->fiador_id);
-                  
+
                 }else{
                     $fiador = new Fiador();
                 }
@@ -231,21 +234,21 @@ class ClienteController extends Controller
                 if($request->fiador_id !== "undefined"){
                     $fiador->update();
                 }else{
-                    $fiador->save(); 
+                    $fiador->save();
                 }
-            
+
             }
             $estado = true;
             DB::commit();
-        } 
+        }
 
         }catch(\Exception $e){
           dd($e);
             DB::rollback();
-        
+
         }
 
- 
+
         return['estado' => $estado, 'estado2' => $request->estado2, 'idCliente' => $idCliente];
     }
 
@@ -314,11 +317,11 @@ class ClienteController extends Controller
     {
     }
 
-   
+
     public function getProvincias()
     {
         $provincias = DB::table('provincia')->get();
-        
+
         return ['provincias' => $provincias];
     }
 
@@ -343,12 +346,12 @@ class ClienteController extends Controller
         return ['rutas' => $rutas];
     }
 
-    
+
     public function addRuta($cliente)
     {
         $rutas = Cliente::find($cliente)->ruta;
-     
-   
+
+
         return ['rutas' => $rutas];
     }
 

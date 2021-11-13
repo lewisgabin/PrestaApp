@@ -246,6 +246,20 @@
                     </li>
                   </ul>
                 </div>
+                <div class="col-md-12">
+                  <label for="first-name-icon">PRESTACIONES LABORALES:</label>
+                  <fieldset class="form-group position-relative has-icon-left">
+                    <input
+                      type="text"
+                      v-model="cliente.prestaciones"
+                      class="form-control shadow pickadate-months-year"
+                      placeholder="Ahorro mensual"
+                    />
+                    <div class="form-control-position">
+                      <i class="bx bx-money"></i>
+                    </div>
+                  </fieldset>
+                </div>
               </div>
             </div>
           </div>
@@ -407,8 +421,14 @@
                     ></v-select>
                   </fieldset>
                 </div>
-                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModal()"><i class="bx bx-plus"></i></button>
-                
+                <button
+                  class="btn btn-primary"
+                  style="padding: 5px; height: 35px; margin-top: 22px"
+                  @click="abrirCerrarModal()"
+                >
+                  <i class="bx bx-plus"></i>
+                </button>
+
                 <div class="col-md-5">
                   <label for="first-name-icon">RUTA:</label>
                   <fieldset class="form-group shadow">
@@ -419,7 +439,13 @@
                     ></v-select>
                   </fieldset>
                 </div>
-                <button class="btn btn-primary" style="padding: 5px; height: 35px; margin-top: 22px;" @click="abrirCerrarModalRuta"><i class="bx bx-plus"></i></button>
+                <button
+                  class="btn btn-primary"
+                  style="padding: 5px; height: 35px; margin-top: 22px"
+                  @click="abrirCerrarModalRuta"
+                >
+                  <i class="bx bx-plus"></i>
+                </button>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -860,29 +886,29 @@
             </div>
             <div class="row">
               <div class="col-md-12 col-12">
-                  <label for="first-name-icon">PROVINCIA:</label>
-                  <fieldset class="form-group">
-                    <v-select
-                      v-model="provincia"
-                      :options="listProvincias"
-                      label="nombre"
-                      @input="getMunicipio"
-                    ></v-select>
-                  </fieldset>
-                </div>
+                <label for="first-name-icon">PROVINCIA:</label>
+                <fieldset class="form-group">
+                  <v-select
+                    v-model="provincia"
+                    :options="listProvincias"
+                    label="nombre"
+                    @input="getMunicipio"
+                  ></v-select>
+                </fieldset>
+              </div>
             </div>
-            <div class="row">              
-                <div class="col-md-12 col-12">
-                  <label for="first-name-icon">MUNICIPIO:</label>
-                  <fieldset class="form-group">
-                    <v-select
-                      v-model="municipio"
-                      :options="listMunicipios"
-                      label="nombre"
-                      @input="getSector"
-                    ></v-select>
-                  </fieldset>
-                </div>
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <label for="first-name-icon">MUNICIPIO:</label>
+                <fieldset class="form-group">
+                  <v-select
+                    v-model="municipio"
+                    :options="listMunicipios"
+                    label="nombre"
+                    @input="getSector"
+                  ></v-select>
+                </fieldset>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -953,34 +979,34 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-light-secondary"
+                data-dismiss="modal"
+                @click="modalShowRuta = 0"
+              >
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Cerrar</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary ml-1"
+                @click="guardarRuta()"
+              >
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Guardar</span>
+              </button>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-light-secondary"
-              data-dismiss="modal"
-              @click="modalShowRuta = 0"
-            >
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cerrar</span>
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary ml-1"
-              @click="guardarRuta()"
-            >
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Guardar</span>
-            </button>
-          </div>
-        </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-    
+
 <script>
 import vue2Dropzone from "vue2-dropzone";
 
@@ -1003,7 +1029,6 @@ export default {
       modalShow: false,
       municipio: "",
       provincia: "",
-      rutaa: "",
       nombreSector: "",
       nombreRuta: "",
       idCliente: 0,
@@ -1032,6 +1057,7 @@ export default {
         direccion: "",
         sector: "",
         id_ruta: "",
+        prestaciones: "",
         direccion_trabajo: "",
         foto: "",
         recomendado_por: "",
@@ -1172,43 +1198,43 @@ export default {
       this.modalShowRuta = !this.modalShowRuta;
       this.nombreRuta = "";
     },
-    guardarSector(){
+    guardarSector() {
       this.sector.idMunicipio = this.municipio.id;
       this.sector.nombre = this.nombreSector;
       axios
-          .post("/C-clienteSector", this.sector)
-          .then((response) => {
-            this.getSector(this.municipio, "guardarSector");
-            this.modalShow = 0;
-            this.$toast.open({
-              message: "Sector creado con exito!",
-              type: "success",
-              duration: 2000,
-              dismissible: true,
-              position: "top-right",
-            });
-          })
-          .catch((error) => {
-              console.log(error);
+        .post("/C-clienteSector", this.sector)
+        .then((response) => {
+          this.getSector(this.municipio, "guardarSector");
+          this.modalShow = 0;
+          this.$toast.open({
+            message: "Sector creado con exito!",
+            type: "success",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right",
           });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    guardarRuta(){
+    guardarRuta() {
       axios
-          .post("/C-clienteRuta", {ruta: this.nombreRuta})
-          .then((response) => {
-            this.getRutas(this.nombreRuta, "guardarRuta");
-            this.modalShowRuta = 0;
-            this.$toast.open({
-              message: "Ruta creada con exito!",
-              type: "success",
-              duration: 2000,
-              dismissible: true,
-              position: "top-right",
-            });
-          })
-          .catch((error) => {
-              console.log(error);
+        .post("/C-clienteRuta", { ruta: this.nombreRuta })
+        .then((response) => {
+          this.getRutas(this.nombreRuta, "guardarRuta");
+          this.modalShowRuta = 0;
+          this.$toast.open({
+            message: "Ruta creada con exito!",
+            type: "success",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right",
           });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getProvincias() {
       this.$loading(true);
@@ -1231,13 +1257,13 @@ export default {
         });
       }
     },
-    getSector(municipioSeleccionado){
+    getSector(municipioSeleccionado) {
       var url = "/GetSectores/" + municipioSeleccionado.id;
       axios.get(url).then((response) => {
         this.listSectores = response.data.sectores;
       });
     },
-    getRuta(){
+    getRuta() {
       var url = "/GetRutas";
       axios.get(url).then((response) => {
         this.listRutas = response.data.rutas;
@@ -1337,6 +1363,7 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
+      this.form.append("prestaciones", this.cliente.prestaciones);
 
       //por que si no se selecionan no de error --lewis
       if (!this.provincia == "") {
@@ -1395,7 +1422,6 @@ export default {
           ) {
             me.$loading(false);
           } else {
-         
             if (response.data.idCliente > 0 && me.comprobarReferencia()) {
               this.editarReferencias(response.data.idCliente);
             } else {
@@ -1416,9 +1442,9 @@ export default {
     comprobarReferencia() {
       var saber = false;
       for (var i = 0; i < this.inputs.length; i++) {
-         if(this.inputs[i].nombre){
+        if (this.inputs[i].nombre) {
           saber = true;
-         }
+        }
       }
 
       return saber;
@@ -1476,7 +1502,11 @@ export default {
           me.provincia = response.data.provincia;
 
           me.getRuta();
-          me.rutaa = response.data.rutaa;
+          if (response.data.rutaa == null) {
+            me.rutaa = { id: 0, nombre: "" };
+          } else {
+            me.rutaa = response.data.rutaa;
+          }
 
           if (response.data.fiador) {
             me.fiador = _(response.data.fiador)
@@ -1487,7 +1517,7 @@ export default {
           if (response.data.provincia) {
             me.getMunicipio(response.data.provincia.id, "obtenerCliente");
             me.municipio = me.cliente.municipio; //--lewis
-            
+
             me.getSector(response.data.municipio);
             me.sector = me.cliente.sector;
           }

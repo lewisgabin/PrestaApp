@@ -250,6 +250,20 @@
                     </li>
                   </ul>
                 </div>
+                  <div class="col-md-12">
+                  <label for="first-name-icon">PRESTACIONES LABORALES:</label>
+                  <fieldset class="form-group position-relative has-icon-left">
+                    <input
+                      type="text"
+                      v-model="cliente.prestaciones"
+                      class="form-control shadow pickadate-months-year"
+                      placeholder="Ahorro mensual"
+                    />
+                    <div class="form-control-position">
+                      <i class="bx bx-money"></i>
+                    </div>
+                  </fieldset>
+                </div>
               </div>
             </div>
           </div>
@@ -877,7 +891,7 @@
                   </fieldset>
                 </div>
             </div>
-            <div class="row">              
+            <div class="row">
                 <div class="col-md-12 col-12">
                   <label for="first-name-icon">MUNICIPIO:</label>
                   <fieldset class="form-group">
@@ -986,7 +1000,7 @@
   </div>
 </template>
 
-    
+
 <script>
 import vue2Dropzone from "vue2-dropzone";
 
@@ -1031,6 +1045,7 @@ export default {
         sexo: "1",
         whatsapp: "",
         tel_principal: "",
+        prestaciones:0,
         tel_otro: "",
         email: "",
         direccion: "",
@@ -1330,6 +1345,7 @@ export default {
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
       this.form.append("direccion", this.cliente.direccion);
+      this.form.append("prestaciones", this.cliente.prestaciones);
 
       //por que si no se selecionan no de error --lewis
       if (!this.provincia == "") {
@@ -1352,7 +1368,7 @@ export default {
       } else {
         this.form.append("id_ruta", "");
       }
-      
+
       this.form.append("direccion_trabajo", this.cliente.direccion_trabajo);
       this.form.append("recomendado_por", this.cliente.recomendado_por);
       this.form.append("comentario", this.cliente.comentario);

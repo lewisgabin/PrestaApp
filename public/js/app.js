@@ -4403,6 +4403,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4447,6 +4461,7 @@ __webpack_require__.r(__webpack_exports__);
         sexo: "1",
         whatsapp: "",
         tel_principal: "",
+        prestaciones: 0,
         tel_otro: "",
         email: "",
         direccion: "",
@@ -4755,7 +4770,8 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("tel_principal", this.cliente.tel_principal);
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
-      this.form.append("direccion", this.cliente.direccion); //por que si no se selecionan no de error --lewis
+      this.form.append("direccion", this.cliente.direccion);
+      this.form.append("prestaciones", this.cliente.prestaciones); //por que si no se selecionan no de error --lewis
 
       if (!this.provincia == "") {
         this.form.append("id_provincia", this.provincia.id);
@@ -4877,8 +4893,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5870,9 +5910,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     vueDropzone: (vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return {
       dropzoneOptions: {
         url: "https://httpbin.org/post4",
         thumbnailWidth: 200,
@@ -5886,7 +5924,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       modalShow: false,
       municipio: "",
       provincia: "",
-      rutaa: "",
       nombreSector: "",
       nombreRuta: "",
       idCliente: 0,
@@ -5894,61 +5931,85 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: 0,
         idMunicipio: 0,
         nombre: ""
-      }
-    }, _defineProperty(_ref, "rutaa", {
-      id: 0,
-      nombre: ""
-    }), _defineProperty(_ref, "cliente", {
-      nombre: "",
-      apellidos: "",
-      apodo: "",
-      cedula: "",
-      fecha_nacimiento: "",
-      ocupacion: "",
-      nacionalidad: "",
-      sexo: "",
-      whatsapp: "",
-      tel_principal: "",
-      tel_otro: "",
-      email: "",
-      direccion: "",
-      sector: "",
-      id_ruta: "",
-      direccion_trabajo: "",
-      foto: "",
-      recomendado_por: "",
-      comentario: ""
-    }), _defineProperty(_ref, "fiador", {
-      nombre: "",
-      apellidos: "",
-      apodo: "",
-      cedula: "",
-      direccion: "",
-      telefono: "",
-      celular: ""
-    }), _defineProperty(_ref, "refPersonal", {
-      informacion: []
-    }), _defineProperty(_ref, "mensajeError", {}), _defineProperty(_ref, "mensajeErrorR", [{
-      nombre: "",
-      apellido: "",
-      parentesco: ""
-    }]), _defineProperty(_ref, "errorArray", []), _defineProperty(_ref, "isLoading", false), _defineProperty(_ref, "fullPage", true), _defineProperty(_ref, "mostrarModal", {
-      display: "block",
-      background: "#0000006b"
-    }), _defineProperty(_ref, "ocultarModal", {
-      display: "none"
-    }), _defineProperty(_ref, "mostrarModalRuta", {
-      display: "block",
-      background: "#0000006b"
-    }), _defineProperty(_ref, "ocultarModalRuta", {
-      display: "none"
-    }), _defineProperty(_ref, "form", new FormData()), _defineProperty(_ref, "metodo", "crear"), _defineProperty(_ref, "listProvincias", []), _defineProperty(_ref, "listMunicipios", []), _defineProperty(_ref, "listSectores", []), _defineProperty(_ref, "listRutas", []), _defineProperty(_ref, "erroresEnFiador", false), _defineProperty(_ref, "estado", true), _defineProperty(_ref, "estado2", true), _defineProperty(_ref, "inputs", [{
-      nombre: "",
-      apellidos: "",
-      telefono: "",
-      direccion: "",
-      parentesco: ""
-    }]), _ref;
+      },
+      rutaa: {
+        id: 0,
+        nombre: ""
+      },
+      cliente: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        cedula: "",
+        fecha_nacimiento: "",
+        ocupacion: "",
+        nacionalidad: "",
+        sexo: "",
+        whatsapp: "",
+        tel_principal: "",
+        tel_otro: "",
+        email: "",
+        direccion: "",
+        sector: "",
+        id_ruta: "",
+        prestaciones: "",
+        direccion_trabajo: "",
+        foto: "",
+        recomendado_por: "",
+        comentario: ""
+      },
+      fiador: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        cedula: "",
+        direccion: "",
+        telefono: "",
+        celular: ""
+      },
+      refPersonal: {
+        informacion: []
+      },
+      mensajeError: {},
+      mensajeErrorR: [{
+        nombre: "",
+        apellido: "",
+        parentesco: ""
+      }],
+      errorArray: [],
+      isLoading: false,
+      fullPage: true,
+      mostrarModal: {
+        display: "block",
+        background: "#0000006b"
+      },
+      ocultarModal: {
+        display: "none"
+      },
+      mostrarModalRuta: {
+        display: "block",
+        background: "#0000006b"
+      },
+      ocultarModalRuta: {
+        display: "none"
+      },
+      form: new FormData(),
+      metodo: "crear",
+      listProvincias: [],
+      listMunicipios: [],
+      listSectores: [],
+      listRutas: [],
+      erroresEnFiador: false,
+      estado: true,
+      estado2: true,
+      inputs: [{
+        nombre: "",
+        apellidos: "",
+        telefono: "",
+        direccion: "",
+        parentesco: ""
+      }]
+    };
   },
   mounted: function mounted() {
     this.getProvincias();
@@ -6203,7 +6264,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.append("tel_principal", this.cliente.tel_principal);
       this.form.append("tel_otro", this.cliente.tel_otro);
       this.form.append("email", this.cliente.email);
-      this.form.append("direccion", this.cliente.direccion); //por que si no se selecionan no de error --lewis
+      this.form.append("direccion", this.cliente.direccion);
+      this.form.append("prestaciones", this.cliente.prestaciones); //por que si no se selecionan no de error --lewis
 
       if (!this.provincia == "") {
         this.form.append("id_provincia", this.provincia.id);
@@ -6321,7 +6383,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).value();
         me.provincia = response.data.provincia;
         me.getRuta();
-        me.rutaa = response.data.rutaa;
+
+        if (response.data.rutaa == null) {
+          me.rutaa = {
+            id: 0,
+            nombre: ""
+          };
+        } else {
+          me.rutaa = response.data.rutaa;
+        }
 
         if (response.data.fiador) {
           me.fiador = _(response.data.fiador).mapValues(function (value) {
@@ -6548,7 +6618,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         $("#userDatatable1").DataTable((_$$DataTable = {
           language: {
-            url: "http://prestaapp.test/css/es.json"
+            url: "http://prestaapp.lewissoftwares.com/css/es.json"
           },
           processing: true,
           scrollY: false,
@@ -7987,7 +8057,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$nextTick(function () {
         $("#prestamosTable").DataTable({
           language: {
-            url: "http://prestaapp.test/css/es.json"
+            url: "http://prestaapp.lewissoftwares.com/css/es.json"
           },
           scrollY: false,
           order: [1, "asc"],
@@ -16205,7 +16275,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\n  text-align: center;\n  background: white;\n  padding: 21px;\n  border-radius: 0.267rem;\n\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\n  background-image: linear-gradient(\n    to right,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\n  background-image: linear-gradient(\n    to right top,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n}\n.btn-2[data-v-6938a525] {\n  padding: 0.567rem 1.6rem !important;\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\n  font-size: 1.5rem !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16229,7 +16299,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-0431dfe6] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-0431dfe6] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-0431dfe6] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-0431dfe6] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-0431dfe6] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-0431dfe6] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-0431dfe6] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-0431dfe6] {\r\n  font-size: 1.5rem !important;\n}\n.error[data-v-0431dfe6] {\r\n  color: #ff5b5c;\r\n  font-size: small;\r\n  border-color: #ff5b5c;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-0431dfe6] {\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-0431dfe6] {\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-0431dfe6] {\n  text-align: center;\n  background: white;\n  padding: 21px;\n  border-radius: 0.267rem;\n\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-0431dfe6] {\n  background-image: linear-gradient(\n    to right,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n  color: white !important;\n}\n.card-title[data-v-0431dfe6] {\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-0431dfe6] {\n  background-image: linear-gradient(\n    to right top,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n}\n.btn-2[data-v-0431dfe6] {\n  padding: 0.567rem 1.6rem !important;\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-0431dfe6] {\n  font-size: 1.5rem !important;\n}\n.error[data-v-0431dfe6] {\n  color: #ff5b5c;\n  font-size: small;\n  border-color: #ff5b5c;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16253,7 +16323,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#vs1__combobox[data-v-15903ff0] {\r\n  height: 37px;\n}\n.table thead th[data-v-15903ff0] {\r\n  color: #475f7b;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#vs1__combobox[data-v-15903ff0] {\n  height: 37px;\n}\n.table thead th[data-v-15903ff0] {\n  color: #475f7b;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16301,7 +16371,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\r\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\r\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\r\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\r\n  color: white !important;\n}\n.v-toast__item--error {\r\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\r\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\r\n  margin-top: 42px;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\r\n#tableDiv .table tfoot th {\r\n  padding: 0.6rem 1rem;\n}\n.bcPago {\r\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\r\n  padding-top: 12px !important;\r\n  padding-bottom: 12px !important;\r\n  padding-right: 0 !important;\n}\n.btn-12 {\r\n  padding-left: 40px !important;\r\n  padding-right: 40px !important;\n}\n#datallePrestamos hr {\r\n  margin-top: 0;\r\n  margin-bottom: 0;\n}\n#datallePrestamos .card .card-title {\r\n  font-size: 1.2rem !important;\n}\n#datallePrestamos h5 {\r\n  font-size: 1.6rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search {\n  color: #475f7b !important;\n}\n#tableDiv .dt-buttons {\n  top: 46px !important;\n}\n#tableDiv .table.dataTable thead .sorting:after {\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting:before {\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:before {\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:after {\n  color: white !important;\n}\n#tableDiv .table.dataTable thead .sorting_desc:before {\n  color: white !important;\n}\n.v-toast__item--error {\n  background-color: #fb5b5b !important;\n}\n#tableDiv .table.dataTable thead .sorting_asc:after {\n  color: white !important;\n}\n#tableDiv #prestamosTable_wrapper {\n  margin-top: 42px;\n}\n#tableDiv .table td,\n#tableDiv .table tfoot th {\n  padding: 0.6rem 1rem;\n}\n#tableDiv .table td,\n#tableDiv .table tfoot th {\n  padding: 0.6rem 1rem;\n}\n.bcPago {\n  background-color: #fef1df;\n}\n#datallePrestamos .card .card-header {\n  padding-top: 12px !important;\n  padding-bottom: 12px !important;\n  padding-right: 0 !important;\n}\n.btn-12 {\n  padding-left: 40px !important;\n  padding-right: 40px !important;\n}\n#datallePrestamos hr {\n  margin-top: 0;\n  margin-bottom: 0;\n}\n#datallePrestamos .card .card-title {\n  font-size: 1.2rem !important;\n}\n#datallePrestamos h5 {\n  font-size: 1.6rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -85556,6 +85626,53 @@ var render = function() {
                         ])
                       ]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("label", { attrs: { for: "first-name-icon" } }, [
+                      _vm._v("PRESTACIONES LABORALES:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        staticClass:
+                          "form-group position-relative has-icon-left"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.prestaciones,
+                              expression: "cliente.prestaciones"
+                            }
+                          ],
+                          staticClass:
+                            "form-control shadow pickadate-months-year",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Ahorro mensual"
+                          },
+                          domProps: { value: _vm.cliente.prestaciones },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cliente,
+                                "prestaciones",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(10)
+                      ]
+                    )
                   ])
                 ])
               ]
@@ -85573,7 +85690,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(10),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -85670,7 +85787,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(11)
+                        _vm._m(12)
                       ]
                     )
                   ]),
@@ -85713,7 +85830,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(12)
+                        _vm._m(13)
                       ]
                     )
                   ])
@@ -85749,7 +85866,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(13)
+                    _vm._m(14)
                   ])
                 ]),
                 _vm._v(" "),
@@ -85794,7 +85911,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(15)
                   ])
                 ])
               ]),
@@ -85832,7 +85949,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(16)
                   ])
                 ])
               ]),
@@ -86022,7 +86139,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(16)
+                    _vm._m(17)
                   ])
                 ]),
                 _vm._v(" "),
@@ -86058,7 +86175,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(17)
+                    _vm._m(18)
                   ])
                 ])
               ]),
@@ -86116,7 +86233,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(18),
+              _vm._m(19),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -86210,7 +86327,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(19)
+                        _vm._m(20)
                       ]
                     )
                   ]),
@@ -86264,7 +86381,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(20)
+                        _vm._m(21)
                       ]
                     )
                   ]),
@@ -86300,7 +86417,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(21)
+                        _vm._m(22)
                       ]
                     )
                   ]),
@@ -86354,7 +86471,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(22)
+                        _vm._m(23)
                       ]
                     )
                   ])
@@ -86403,7 +86520,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(23)
+                    _vm._m(24)
                   ])
                 ]),
                 _vm._v(" "),
@@ -86435,7 +86552,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(24)
+                    _vm._m(25)
                   ])
                 ]),
                 _vm._v(" "),
@@ -86467,7 +86584,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(25)
+                    _vm._m(26)
                   ])
                 ])
               ])
@@ -86485,7 +86602,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(26),
+              _vm._m(27),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -86805,7 +86922,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(27, true),
+                      _vm._m(28, true),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -86906,7 +87023,7 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(28)
+              _vm._m(29)
             ]
           )
         ]
@@ -86995,7 +87112,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(29)
+                        _vm._m(30)
                       ]
                     )
                   ])
@@ -87191,7 +87308,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(30)
+                        _vm._m(31)
                       ]
                     )
                   ])
@@ -87343,6 +87460,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-control-position" }, [
       _c("i", { staticClass: "bx bx-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-control-position" }, [
+      _c("i", { staticClass: "bx bx-money" })
     ])
   },
   function() {
@@ -88137,6 +88262,53 @@ var render = function() {
                         ])
                       ]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("label", { attrs: { for: "first-name-icon" } }, [
+                      _vm._v("PRESTACIONES LABORALES:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        staticClass:
+                          "form-group position-relative has-icon-left"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.prestaciones,
+                              expression: "cliente.prestaciones"
+                            }
+                          ],
+                          staticClass:
+                            "form-control shadow pickadate-months-year",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Ahorro mensual"
+                          },
+                          domProps: { value: _vm.cliente.prestaciones },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cliente,
+                                "prestaciones",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(10)
+                      ]
+                    )
                   ])
                 ])
               ]
@@ -88154,7 +88326,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(10),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -88251,7 +88423,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(11)
+                        _vm._m(12)
                       ]
                     )
                   ]),
@@ -88294,7 +88466,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(12)
+                        _vm._m(13)
                       ]
                     )
                   ])
@@ -88330,7 +88502,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(13)
+                    _vm._m(14)
                   ])
                 ]),
                 _vm._v(" "),
@@ -88375,7 +88547,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(15)
                   ])
                 ])
               ]),
@@ -88413,7 +88585,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(16)
                   ])
                 ])
               ]),
@@ -88589,7 +88761,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(16)
+                    _vm._m(17)
                   ])
                 ]),
                 _vm._v(" "),
@@ -88625,7 +88797,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(17)
+                    _vm._m(18)
                   ])
                 ])
               ]),
@@ -88683,7 +88855,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(18),
+              _vm._m(19),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -88783,7 +88955,7 @@ var render = function() {
                               ])
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm._m(19)
+                          _vm._m(20)
                         ]
                       )
                     ]),
@@ -88838,7 +89010,7 @@ var render = function() {
                               ])
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm._m(20)
+                          _vm._m(21)
                         ]
                       )
                     ]),
@@ -88878,7 +89050,7 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _vm._m(21)
+                          _vm._m(22)
                         ]
                       )
                     ]),
@@ -88932,7 +89104,7 @@ var render = function() {
                               ])
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm._m(22)
+                          _vm._m(23)
                         ]
                       )
                     ])
@@ -88992,7 +89164,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(23)
+                        _vm._m(24)
                       ]
                     )
                   ]),
@@ -89035,7 +89207,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(24)
+                        _vm._m(25)
                       ]
                     )
                   ]),
@@ -89075,7 +89247,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(25)
+                        _vm._m(26)
                       ]
                     )
                   ])
@@ -89095,7 +89267,7 @@ var render = function() {
               staticStyle: { "padding-bottom": "15px", "padding-top": "15px" }
             },
             [
-              _vm._m(26),
+              _vm._m(27),
               _vm._v(" "),
               _c("div", { staticClass: "heading-elements" }, [
                 _c("ul", { staticClass: "list-inline mb-0" }, [
@@ -89419,7 +89591,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(27, true),
+                      _vm._m(28, true),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -89498,9 +89670,9 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(28),
+              _vm._m(29),
               _vm._v(" "),
-              _vm._m(29)
+              _vm._m(30)
             ]
           )
         ]
@@ -89589,7 +89761,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(30)
+                        _vm._m(31)
                       ]
                     )
                   ])
@@ -89785,7 +89957,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(31)
+                        _vm._m(32)
                       ]
                     )
                   ])
@@ -89937,6 +90109,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-control-position" }, [
       _c("i", { staticClass: "bx bx-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-control-position" }, [
+      _c("i", { staticClass: "bx bx-money" })
     ])
   },
   function() {
