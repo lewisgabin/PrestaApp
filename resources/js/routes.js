@@ -25,7 +25,9 @@ export default new Router({
         { path: '/nuevo/prestamo', component:require('./components/modulos/prestamos/nuevoPrestamos.vue').default, name:'nuevoPrestamo'},
         
         { path: '/ruta', component:require('./components/modulos/ruta/index.vue').default, name:'rutaIndex'},
-        { path: '/sector', component:require('./components/modulos/sector/index.vue').default, name:'sectorIndex'}
+        { path: '/sector', component:require('./components/modulos/sector/index.vue').default, name:'sectorIndex'},
+
+        { path: '/empresa', component:require('./components/modulos/empresas/index.vue').default, name:'empresaIndex'}
     ],
     mode:'history',
     linkActiveClass: 'active'

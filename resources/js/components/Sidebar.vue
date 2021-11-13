@@ -156,7 +156,7 @@
                 <router-link class="d-flex align-items-center" :to="'/permiso'"
                   ><i class="bx bx-right-arrow-alt"></i
                   ><span class="menu-item text-truncate"
-                    >Pedientes</span
+                    >Pendientes</span
                   ></router-link
                 >
          
@@ -450,7 +450,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="kt-menu__link">
+          <router-link class="kt-menu__link" :to="'/empresa'">
             <span class="svg-icon svg-icon-primary svg-icon-5x">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -492,20 +492,7 @@
                 ><font style="vertical-align: inherit">Empresa</font></font
               ></span
             >
-          </a>
-
-          <ul class="menu-content">
-            <li>
-              <a
-                class="d-flex align-items-center"
-                href="../../../starter-kit/ltr/vertical-menu-boxicons-template/sk-layout-1-column.html"
-                ><i class="bx bx-right-arrow-alt"></i
-                ><span class="menu-item text-truncate" data-i18n="1 column"
-                  >1 column</span
-                ></a
-              >
-            </li>
-          </ul>
+          </router-link>
         </li>
         <li class="nav-item">
           <a href="#" class="kt-menu__link">
