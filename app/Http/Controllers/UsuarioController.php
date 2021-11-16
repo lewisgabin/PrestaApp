@@ -130,10 +130,6 @@ class UsuarioController extends Controller
             $usuario->image = $fileServer;
         }
 
-        //  $usuario->creado_por = 1;
-        //  $usuario->actualizado_por = 1;
-        //$usuario->created_at = now();
-
         $usuario->update();
      
     }
