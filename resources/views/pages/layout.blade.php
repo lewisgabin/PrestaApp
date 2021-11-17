@@ -1,14 +1,14 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page Title --}}
-@section('title','Dashboard E-commerce')
+@section('title','PrestaApp')
     {{-- vendor css --}}
 @section('vendor-styles')
- 
+
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/swiper.min.css')}}">
 @endsection
 
 @section('page-styles')
-   
+
 @endsection
 
 @section('login')
@@ -24,14 +24,14 @@
 
 <transition name="fade" mode="out-in">
     @if (Auth::check())
-    
-        <router-view></router-view> 
-       
+
+        <router-view></router-view>
+
     @endif
-           
+
 </transition>
 @endsection
-  
+
 
 
 

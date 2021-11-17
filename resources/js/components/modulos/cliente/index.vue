@@ -1,5 +1,7 @@
 <template>
+
   <div>
+
     <div class="content-header row">
       <div class="content-header-left col-12 mb-2 mt-1">
         <div class="breadcrumbs-top">
@@ -126,7 +128,9 @@ export default {
       ],
       inicial: 0,
     };
-  },
+  }, created () {
+            document.title = "Listado de clientes";
+        },
   mounted() {
     this.getListCliente();
 

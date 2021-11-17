@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
- 
+
 window.Vue = require('vue').default;
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
@@ -58,6 +58,7 @@ Vue.component('home', require('./components/Home.vue').default);
 Vue.component('Auth', require('./components/Auth.vue').default);
 Vue.component('sidebar', require('./components/Sidebar.vue').default);
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -65,8 +66,8 @@ Vue.component('sidebar', require('./components/Sidebar.vue').default);
  */
 import router from './routes'
 import 'vue-select/dist/vue-select.css';
-const app = new Vue({ 
+const app = new Vue({
     el: '#app',
     router,
-    
+
 });
