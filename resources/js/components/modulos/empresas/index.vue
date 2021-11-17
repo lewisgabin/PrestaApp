@@ -247,9 +247,34 @@
             </button>
           </div>
           <div class="modal-body" id="form">
-            <div class="row">
-              <div class="col-md-12 col-12 bg-danger">
-                <span style="color: black; font-style: bold;">FOTO</span>
+            <div class="row" style="justify-content: center">
+              <div class="col-sm-12 col-md-4 col-10" style="margin-top: 27px">
+                <div class="avatar-upload">
+                  <div class="avatar-edit">
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      name="profile_pic"
+                  
+                      accept=".png, .jpg, .jpeg"
+                      @change="getFile"
+                    />
+                    <label for="imageUpload">
+                      <i class="bx bxs-pencil"></i>
+                    </label>
+                  </div>
+                  <div class="avatar-preview">
+                    <div
+                      class="profile-user-img img-responsive img-circle"
+                      id="imagePreview"
+                      style="
+                        background-image: url('../images/sin.png');
+                        background-size: 100% 100%;
+                        height: 100%;
+                      "
+                    ></div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -391,9 +416,22 @@
 </template>
 
 <script>
+import vue2Dropzone from "vue2-dropzone";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
+
 export default {
-  data() {
+  components: {
+    vueDropzone: vue2Dropzone,
+  },
+  data: function() {
     return {
+      dropzoneOptions: {
+        url: "https://httpbin.org/post4",
+        thumbnailWidth: 200,
+        maxFilesize: 3,
+        headers: { "My-Awesome-Header": "header value" },
+        addRemoveLinks: true,
+      },
       empresa: {
         nombre: "",
         telefono: "",
@@ -401,6 +439,7 @@ export default {
         direccion: "",
         rnc: "",
         eslogan: "",
+        logo: "",
         id: 0,
       },
       listEmpresa: [],
@@ -523,19 +562,43 @@ export default {
         this.empresa.telefono2 = "";
         this.empresa.direccion = "";
         this.empresa.eslogan = "";
+        this.empresa.logo = "";
         this.empresa.rnc = "";
         this.empresa.id = 0;
+         $("#imagePreview").css(
+            "background-image",
+            "url('img/user.png')"
+          );
       }
       if (metodo == "warning") {
         axios
           .get("C-empresa/" + idEmpresa)
           .then((response) => {
             me.empresa = _(response.data.empresa).mapValues((value) => (_.isNull(value) ? "" : value)).value();
+            $("#imagePreview").css(
+            "background-image",
+            "url('" + "../storage/img/users/" + me.empresa.logo + "')"
+          );
+         // me.empresa.logo = false;
           })
           .catch((error) => {
             console.log(error);
           });
       }
+    },
+    getFile(e) {
+      this.empresa.logo = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        
+        $("#imagePreview").css(
+          "background-image",
+          "url(" + reader.result + ")"
+        );
+        $("#imagePreview").show();
+        $("#imagePreview").fadeIn(650);
+      };
+      reader.readAsDataURL(e.target.files[0]);
     },
     guardarEditarEmpresa(){
       let me = this;
@@ -546,11 +609,14 @@ export default {
       this.form.append("telefono2", this.empresa.telefono2);
       this.form.append("eslogan", this.empresa.eslogan);
       this.form.append("direccion", this.empresa.direccion);
+      this.form.append("logo", this.empresa.logo);
       this.form.append("id_empresa", this.idEmpresa);
+
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
 
       if (this.metodo == "primary" && this.errorArray.length == 0) {
         axios
-          .post("C-empresa", this.form)
+          .post("C-empresa", this.form, config)
           .then((response) => {
             me.modalShow = 0;
             me.getListEmpresa();
@@ -572,7 +638,7 @@ export default {
 
       if (this.metodo == "warning" && this.errorArray.length == 0) {
         axios
-          .post("C-empresa/editar", this.form)
+          .post("C-empresa/editar", this.form, config)
           .then((response) => {
             me.modalShow = 0;
             me.getListEmpresa();

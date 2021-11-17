@@ -6782,6 +6782,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
+/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
+/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -7174,9 +7178,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    vueDropzone: (vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default())
+  },
   data: function data() {
     return {
+      dropzoneOptions: {
+        url: "https://httpbin.org/post4",
+        thumbnailWidth: 200,
+        maxFilesize: 3,
+        headers: {
+          "My-Awesome-Header": "header value"
+        },
+        addRemoveLinks: true
+      },
       empresa: {
         nombre: "",
         telefono: "",
@@ -7184,6 +7227,7 @@ __webpack_require__.r(__webpack_exports__);
         direccion: "",
         rnc: "",
         eslogan: "",
+        logo: "",
         id: 0
       },
       listEmpresa: [],
@@ -7305,8 +7349,10 @@ __webpack_require__.r(__webpack_exports__);
         this.empresa.telefono2 = "";
         this.empresa.direccion = "";
         this.empresa.eslogan = "";
+        this.empresa.logo = "";
         this.empresa.rnc = "";
         this.empresa.id = 0;
+        $("#imagePreview").css("background-image", "url('img/user.png')");
       }
 
       if (metodo == "warning") {
@@ -7314,10 +7360,23 @@ __webpack_require__.r(__webpack_exports__);
           me.empresa = _(response.data.empresa).mapValues(function (value) {
             return _.isNull(value) ? "" : value;
           }).value();
+          $("#imagePreview").css("background-image", "url('" + "../storage/img/users/" + me.empresa.logo + "')"); // me.empresa.logo = false;
         })["catch"](function (error) {
           console.log(error);
         });
       }
+    },
+    getFile: function getFile(e) {
+      this.empresa.logo = e.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $("#imagePreview").css("background-image", "url(" + reader.result + ")");
+        $("#imagePreview").show();
+        $("#imagePreview").fadeIn(650);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
     },
     guardarEditarEmpresa: function guardarEditarEmpresa() {
       var _this = this;
@@ -7330,10 +7389,16 @@ __webpack_require__.r(__webpack_exports__);
       this.form.append("telefono2", this.empresa.telefono2);
       this.form.append("eslogan", this.empresa.eslogan);
       this.form.append("direccion", this.empresa.direccion);
+      this.form.append("logo", this.empresa.logo);
       this.form.append("id_empresa", this.idEmpresa);
+      var config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
 
       if (this.metodo == "primary" && this.errorArray.length == 0) {
-        axios.post("C-empresa", this.form).then(function (response) {
+        axios.post("C-empresa", this.form, config).then(function (response) {
           me.modalShow = 0;
           me.getListEmpresa();
 
@@ -7352,7 +7417,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.metodo == "warning" && this.errorArray.length == 0) {
-        axios.post("C-empresa/editar", this.form).then(function (response) {
+        axios.post("C-empresa/editar", this.form, config).then(function (response) {
           me.modalShow = 0;
           me.getListEmpresa();
 
@@ -16979,7 +17044,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\n  text-align: center;\n  background: white;\n  padding: 21px;\n  border-radius: 0.267rem;\n\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\n  background-image: linear-gradient(\n    to right,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\n  background-image: linear-gradient(\n    to right top,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n}\n.btn-2[data-v-6938a525] {\n  padding: 0.567rem 1.6rem !important;\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\n  font-size: 1.5rem !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-6938a525] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-6938a525] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-6938a525] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-6938a525] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-6938a525] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-6938a525] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-6938a525] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-6938a525] {\r\n  font-size: 1.5rem !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17003,7 +17068,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-0431dfe6] {\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-0431dfe6] {\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-0431dfe6] {\n  text-align: center;\n  background: white;\n  padding: 21px;\n  border-radius: 0.267rem;\n\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-0431dfe6] {\n  background-image: linear-gradient(\n    to right,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n  color: white !important;\n}\n.card-title[data-v-0431dfe6] {\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-0431dfe6] {\n  background-image: linear-gradient(\n    to right top,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5a8dee,\n    #5687f0,\n    #5481f2,\n    #537bf4,\n    #586bf6,\n    #6359f5,\n    #7342f1,\n    #8518e9\n  );\n}\n.btn-2[data-v-0431dfe6] {\n  padding: 0.567rem 1.6rem !important;\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-0431dfe6] {\n  font-size: 1.5rem !important;\n}\n.error[data-v-0431dfe6] {\n  color: #ff5b5c;\n  font-size: small;\n  border-color: #ff5b5c;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vs__search[data-v-0431dfe6] {\r\n  padding: 2px 7px !important;\n}\n.vs__dropdown-toggle[data-v-0431dfe6] {\r\n  border: 1px solid #dfe3e7 !important;\n}\n@media (max-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\r\n    padding-bottom: 61px !important;\n}\n}\n@media (min-width: 1563px) {\n#card-body-1[data-v-0431dfe6] {\r\n    padding-bottom: 85px !important;\n}\n}\n.envio[data-v-0431dfe6] {\r\n  text-align: center;\r\n  background: white;\r\n  padding: 21px;\r\n  border-radius: 0.267rem;\r\n\r\n  border: 0px solid #dfe3e7;\n}\n.card-header[data-v-0431dfe6] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\r\n  color: white !important;\n}\n.card-title[data-v-0431dfe6] {\r\n  color: white !important;\n}\n.avatar-upload .avatar-edit input + label[data-v-0431dfe6] {\r\n  background-image: linear-gradient(\r\n    to right top,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5a8dee,\r\n    #5687f0,\r\n    #5481f2,\r\n    #537bf4,\r\n    #586bf6,\r\n    #6359f5,\r\n    #7342f1,\r\n    #8518e9\r\n  );\n}\n.btn-2[data-v-0431dfe6] {\r\n  padding: 0.567rem 1.6rem !important;\r\n  font-size: 1.3rem !important;\n}\n.bx-2[data-v-0431dfe6] {\r\n  font-size: 1.5rem !important;\n}\n.error[data-v-0431dfe6] {\r\n  color: #ff5b5c;\r\n  font-size: small;\r\n  border-color: #ff5b5c;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17027,7 +17092,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#vs1__combobox[data-v-15903ff0] {\n  height: 37px;\n}\n.table thead th[data-v-15903ff0] {\n  color: #475f7b;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#vs1__combobox[data-v-15903ff0] {\r\n  height: 37px;\n}\n.table thead th[data-v-15903ff0] {\r\n  color: #475f7b;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -92131,7 +92196,41 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body", attrs: { id: "form" } }, [
-                _vm._m(3),
+                _c(
+                  "div",
+                  {
+                    staticClass: "row",
+                    staticStyle: { "justify-content": "center" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-sm-12 col-md-4 col-10",
+                        staticStyle: { "margin-top": "27px" }
+                      },
+                      [
+                        _c("div", { staticClass: "avatar-upload" }, [
+                          _c("div", { staticClass: "avatar-edit" }, [
+                            _c("input", {
+                              attrs: {
+                                type: "file",
+                                id: "imageUpload",
+                                name: "profile_pic",
+                                accept: ".png, .jpg, .jpeg"
+                              },
+                              on: { change: _vm.getFile }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(3)
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(4)
+                        ])
+                      ]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-12 col-12" }, [
@@ -92178,7 +92277,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _vm._m(5)
                       ]
                     )
                   ])
@@ -92225,7 +92324,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(5)
+                        _vm._m(6)
                       ]
                     )
                   ])
@@ -92277,7 +92376,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(6)
+                        _vm._m(7)
                       ]
                     )
                   ]),
@@ -92327,7 +92426,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(8)
                       ]
                     )
                   ])
@@ -92378,7 +92477,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(8)
+                        _vm._m(9)
                       ]
                     )
                   ])
@@ -92430,7 +92529,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._m(9)
+                        _vm._m(10)
                       ]
                     )
                   ])
@@ -92542,12 +92641,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 col-12 bg-danger" }, [
-        _c("span", { staticStyle: { color: "black", "font-style": "bold" } }, [
-          _vm._v("FOTO")
-        ])
-      ])
+    return _c("label", { attrs: { for: "imageUpload" } }, [
+      _c("i", { staticClass: "bx bxs-pencil" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "avatar-preview" }, [
+      _c("div", {
+        staticClass: "profile-user-img img-responsive img-circle",
+        staticStyle: {
+          "background-image": "url('../images/sin.png')",
+          "background-size": "100% 100%",
+          height: "100%"
+        },
+        attrs: { id: "imagePreview" }
+      })
     ])
   },
   function() {

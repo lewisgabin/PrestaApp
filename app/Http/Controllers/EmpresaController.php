@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Empresa;
 use App\Http\Requests\EmpresaRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
@@ -50,6 +52,7 @@ class EmpresaController extends Controller
         try {
 
             DB::beginTransaction();
+            $file = $request->logo;
 
             $empresa = new Empresa();
             $empresa->nombre = $request->nombre;
@@ -58,13 +61,22 @@ class EmpresaController extends Controller
             $empresa->telefono2 = $request->telefono2;
             $empresa->direccion = $request->direccion;
             $empresa->eslogan = $request->eslogan;
+            $empresa->logo = $request->logo; 
             $empresa->estado = 1;
             $empresa->created_at = now();
             
+            if ($file) {
+                $subNombre = Str::random(10);
+                $fileName = $file->getClientOriginalName();
+                $fileServer = $subNombre . '_' . $fileName;
+                Storage::putFileAs('public/img/users', $file, $fileServer);
+                $empresa->logo = $fileServer;
+            }
+
             $empresa->save();
             DB::commit();
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             dd($e);
             DB::rollback();
         }
@@ -91,6 +103,7 @@ class EmpresaController extends Controller
      */
     public function editar(EmpresaRequest $request)
     {
+        $file = $request->logo;
         $empresa = Empresa::findOrFail($request->id_empresa);
         
         $empresa->nombre = $request->nombre;
@@ -101,6 +114,14 @@ class EmpresaController extends Controller
         $empresa->eslogan = $request->eslogan;
         $empresa->updated_at = now();
         
+        if ($file != "false") {
+            $subNombre = Str::random(10);
+            $fileName = $file->getClientOriginalName();
+            $fileServer = $subNombre . '_' . $fileName;
+            Storage::putFileAs('public/img/users', $file, $fileServer);
+            $empresa->logo = $fileServer;
+        }
+
         $empresa->update();
     }
 
